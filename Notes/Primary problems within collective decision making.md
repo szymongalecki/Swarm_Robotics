@@ -1,3 +1,4 @@
+## Primary problems within collective decision making
 - Consensus achievement - agents need to form a singular opinion.
 - Task allocation - agents need to be allocated to different tasks.
 

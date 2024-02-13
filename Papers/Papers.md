@@ -1,7 +1,0 @@
-- [Collective Decision Making in Swarm Robotics with Distributed Bayesian Hypothesis Testing](Collective%20Decision%20Making%20in%20Swarm%20Robotics%20with%20Distributed%20Bayesian%20Hypothesis%20Testing.pdf)
-- [Collective Perception in a Swarm of Autonomous Robots](Collective%20Perception%20in%20a%20Swarm%20of%20Autonomous%20Robots.pdf)
-- [Past, Present, and Future of Swarm Robotics](Past,%20Present,%20and%20Future%20of%20Swarm%20Robotics.pdf)
-- [Property-driven design for swarm robotics](Property-driven%20design%20for%20swarm%20robotics.pdf)
-- [Sophisticated collective foraging with minimalist agents, a swarm robotics test](Sophisticated%20collective%20foraging%20with%20minimalist%20agents,%20a%20swarm%20robotics%20test.pdf)
-- [Swarm Robotic Behaviors and Current Applications](Swarm%20Robotic%20Behaviors%20and%20Current%20Applications.pdf)
-- [Swarm Robotics, A Perspective on the Latest Reviewed Concepts and Applications](Swarm%20Robotics,%20A%20Perspective%20on%20the%20Latest%20Reviewed%20Concepts%20and%20Applications.pdf)

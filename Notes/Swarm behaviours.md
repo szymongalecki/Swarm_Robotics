@@ -1,4 +1,5 @@
-## Spatial Organisation
+## Swarm behaviours
+### Spatial Organisation
 These behaviors allow the movement of the robots in a swarm in the environment in order to spatially organise themselves or objects.
 ##### Aggregation 
 moves the individual robots to congregate spatially in a specific region of the environment. This allows individuals of the swarm to get spatially close to each other for further interaction.
@@ -9,7 +10,7 @@ connects the robots in order to establish structures. They can either be connect
 ##### Object clustering and assembly
 lets the swarm of robots manipulate spatially distributed objects. Clustering and assembling of objects is essential for construction processes.
 
-## Navigation
+### Navigation
 These behaviors allow the coordinated movement of a swarm of robots in the environment.
 ##### Collective exploration 
 navigates the swarm of robots cooperatively through the environment in order to explore it. It can be used to get a situational overview, search for objects, monitor the environment, or establish a communication network.
@@ -20,7 +21,7 @@ by the swarm of robots enables to collectively move objects which are too heavy 
 ##### Collective localisation 
 allows the robots in the swarm to find their position and orientation relative to each other via establishment of a local coordinate system throughout the swarm.
 
-## Decision making
+### Decision making
 These behaviors allow the robots in a swarm to take a common choice on a given issue.
 ##### Consensus 
 allows the individual robots in the swarm to agree on or converge toward a single common choice from several alternatives.
@@ -35,7 +36,7 @@ aligns frequency and phase of oscillators of the robots in the swarm. Thereby, t
 ##### Group size regulation 
 allows the robots in the swarm to form groups of desired size. If the size of the swarm exceeds the desired group size, it splits into multiple groups.
 
-## Miscellaneous
+### Miscellaneous
 There are further behaviors of swarm robots that fit neither of the categories above.
 ##### Self-healing
 allows the swarm to recover from faults caused by deficiencies of individual robots. The goal is thus to minimize the impact of robot failure on the rest of the swarm to increase its reliability, robustness, and performance.

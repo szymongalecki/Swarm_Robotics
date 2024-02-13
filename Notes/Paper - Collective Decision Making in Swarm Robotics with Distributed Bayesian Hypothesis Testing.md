@@ -1,3 +1,4 @@
+## Paper - Collective Decision Making in Swarm Robotics with Distributed Bayesian Hypothesis Testing
 Note on [Collective Decision Making in Swarm Robotics with Distributed Bayesian Hypothesis Testing](../Papers/Collective%20Decision%20Making%20in%20Swarm%20Robotics%20with%20Distributed%20Bayesian%20Hypothesis%20Testing.pdf)
 
 [Primary problems within collective decision making](Primary%20problems%20within%20collective%20decision%20making.md)

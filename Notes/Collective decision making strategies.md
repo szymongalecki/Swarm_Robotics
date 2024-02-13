@@ -1,3 +1,4 @@
+## Collective decision making strategies
 ### Direct Modulation of Voter-based Decisions (DMVD)
 [DMVD](../Papers/Collective%20Decision%20Making%20in%20Swarm%20Robotics%20with%20Distributed%20Bayesian%20Hypothesis%20Testing.pdf#page=2&annotation=19R|Collective%20Decision%20Making%20in%20Swarm%20Robotics%20with%20Distributed%20Bayesian%20Hypothesis%20Testing,%20page%202)
  
