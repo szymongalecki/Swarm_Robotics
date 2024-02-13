@@ -1,4 +1,5 @@
 ## Swarm behaviours
+
 ### Spatial Organisation
 These behaviors allow the movement of the robots in a swarm in the environment in order to spatially organise themselves or objects.
 ##### Aggregation 
