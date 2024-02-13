@@ -4,6 +4,7 @@ Swarm behaviours can be divided into 4 aggregate categories:
 - Navigation
 - Decision making
 - Miscellaneous
+
 ### Spatial organisation
 These behaviors allow the movement of the robots in a swarm in the environment in order to spatially organise themselves or objects.
 ##### Aggregation 
