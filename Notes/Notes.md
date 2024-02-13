@@ -1,0 +1,7 @@
+[[Collective decision making strategies]]
+[[Paper - Collective Decision Making in Swarm Robotics with Distributed Bayesian Hypothesis Testing]]
+[[Paper - Swarm Robotic Behaviors and Current Applications]]
+[[Papers - overview]]
+[[Primary problems within collective decision making]]
+[[Swarm]]
+[[Swarm behaviours]]
