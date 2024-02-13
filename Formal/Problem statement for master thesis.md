@@ -1,0 +1,6 @@
+### Problem Statement for Master Thesis
+Swarm robotics is a field in robotics in which a large number of simple robots form a swarm capable of completing complex tasks through intercommunication and interaction with the environment ("Swarm Robotic Behaviors and Current Applications", 2020). Many of the approaches to swarm behaviours are inspired by natural organisms such as ants, termites, etc. 
+
+Estimating all the possible desired and undesired behaviors of the swarm as a system, based solely on the behavior defined for a single robot, is challenging. Consequently, analysing the correctness and safety of the system becomes even more difficult.
+
+I propose conducting a review of recent research on application of testing techniques for swarm robotic systems. Additionally, investigate modelling and testing properties of described swarm behaviours in an integrated environment for modelling such as $\bigcup_{PPAAL}$, to understand the implications of mutual interactions of unit robots on the behaviour of the whole system. Finally, designing experiments and evaluations for a set of case studies.
