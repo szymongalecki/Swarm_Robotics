@@ -1,9 +1,9 @@
-### [Sophisticated collective foraging with minimalist agents, a swarm robotics test](Sophisticated%20collective%20foraging%20with%20minimalist%20agents,%20a%20swarm%20robotics%20test.pdf)
+### [Sophisticated collective foraging with minimalist agents, a swarm robotics test](Papers/Sophisticated%20collective%20foraging%20with%20minimalist%20agents,%20a%20swarm%20robotics%20test.pdf)
 Search term: "testing swarm robotics"
 
 Paper explores how groups of cooperative forager robots can achieve efficient and robust collective foraging. Individual behaviour of the robot is represented by probabilistic finite state automaton. Overall performance of collective foraging is tested against a theoretical model representing optimal resource allocation for the given task. Simulation is performed using [ARGoS](https://www.argos-sim.info/) simulator.
 
-### [Swarm Robotics, A Perspective on the Latest Reviewed Concepts and Applications](Swarm%20Robotics,%20A%20Perspective%20on%20the%20Latest%20Reviewed%20Concepts%20and%20Applications.pdf)
+### [Swarm Robotics, A Perspective on the Latest Reviewed Concepts and Applications](Papers/Swarm%20Robotics,%20A%20Perspective%20on%20the%20Latest%20Reviewed%20Concepts%20and%20Applications.pdf)
 Search term: "testing swarm robotics"
 
 This paper is an overview and doesn't contain any specific informations on testing.
@@ -22,21 +22,21 @@ Mentions most relevant and recent robotic simulators:
 11. JBotEvolveris a platform to enhance research and education in evolutionary robotics. This platform is based in Java, with easy installation and use. 
 12. CoppeliaSim, which was previously named V-Rep, is a mobile robots simulation framework. This platform allows the simulation of several aspects of multiple robots inside a defined environment.
 
-### [Past, Present, and Future of Swarm Robotics](Past,%20Present,%20and%20Future%20of%20Swarm%20Robotics.pdf)
+### [Past, Present, and Future of Swarm Robotics](Papers/Past,%20Present,%20and%20Future%20of%20Swarm%20Robotics.pdf)
 Search term: "testing swarm robotics"
 
 Overview paper which mentions using simulators as a testing approach. 
 
-### [Collective Decision Making in Swarm Robotics with Distributed Bayesian Hypothesis Testing](Collective%20Decision%20Making%20in%20Swarm%20Robotics%20with%20Distributed%20Bayesian%20Hypothesis%20Testing.pdf)
+### [Collective Decision Making in Swarm Robotics with Distributed Bayesian Hypothesis Testing](Papers/Collective%20Decision%20Making%20in%20Swarm%20Robotics%20with%20Distributed%20Bayesian%20Hypothesis%20Testing.pdf)
 Search term: "testing swarm robotics"
 
 This paper assumes that agents have distributed perception but have to reach a consensus in order to adjust the collective strategy when solving a task.
 
-Author mentions [Collective decision making strategies](Collective%20decision%20making%20strategies.md) as a starting point for presenting his idea - Distributed Bayesian Hypothesis Testing (DBHT).
+Author mentions [Collective decision making strategies](Notes/Collective%20decision%20making%20strategies.md) as a starting point for presenting his idea - Distributed Bayesian Hypothesis Testing (DBHT).
 
 All of the indexed papers are older than 4 years and most are older than 10 years.
 
-### [Property-driven design for swarm robotics](Property-driven%20design%20for%20swarm%20robotics.pdf)
+### [Property-driven design for swarm robotics](Papers/Property-driven%20design%20for%20swarm%20robotics.pdf)
 Search term: "design control and modeling swarm robotics"
 
 Quite old: published in 2012
