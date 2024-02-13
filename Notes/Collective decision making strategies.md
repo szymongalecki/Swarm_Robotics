@@ -1,11 +1,10 @@
 ### Direct Modulation of Voter-based Decisions (DMVD)
-[[Collective Decision Making in Swarm Robotics with Distributed Bayesian Hypothesis Testing.pdf#page=2&annotation=19R|Collective Decision Making in Swarm Robotics with Distributed Bayesian Hypothesis Testing, page 2]]
+[DMVD](Collective%20Decision%20Making%20in%20Swarm%20Robotics%20with%20Distributed%20Bayesian%20Hypothesis%20Testing.pdf#page=2&annotation=19R|Collective%20Decision%20Making%20in%20Swarm%20Robotics%20with%20Distributed%20Bayesian%20Hypothesis%20Testing,%20page%202)
  
 ### Direct Modulation of Majority-based Decisions (DMMD)
-[[Collective Decision Making in Swarm Robotics with Distributed Bayesian Hypothesis Testing.pdf#page=2&annotation=20R|Collective Decision Making in Swarm Robotics with Distributed Bayesian Hypothesis Testing, page 2]]
-[[Collective Decision Making in Swarm Robotics with Distributed Bayesian Hypothesis Testing.pdf#page=2&annotation=21R|Collective Decision Making in Swarm Robotics with Distributed Bayesian Hypothesis Testing, page 2]]
+[DMMD](Collective%20Decision%20Making%20in%20Swarm%20Robotics%20with%20Distributed%20Bayesian%20Hypothesis%20Testing.pdf#page=2&annotation=21R|Collective%20Decision%20Making%20in%20Swarm%20Robotics%20with%20Distributed%20Bayesian%20Hypothesis%20Testing,%20page%202)
 
 ### Direct Comparison (DC)
-[[Collective Decision Making in Swarm Robotics with Distributed Bayesian Hypothesis Testing.pdf#page=2&annotation=22R|Collective Decision Making in Swarm Robotics with Distributed Bayesian Hypothesis Testing, page 2]]
+[DC](Collective%20Decision%20Making%20in%20Swarm%20Robotics%20with%20Distributed%20Bayesian%20Hypothesis%20Testing.pdf#page=2&annotation=22R|Collective%20Decision%20Making%20in%20Swarm%20Robotics%20with%20Distributed%20Bayesian%20Hypothesis%20Testing,%20page%202)
 
-From [[Paper - Collective Decision Making in Swarm Robotics with Distributed Bayesian Hypothesis Testing]]
+From [Paper - Collective Decision Making in Swarm Robotics with Distributed Bayesian Hypothesis Testing](Paper%20-%20Collective%20Decision%20Making%20in%20Swarm%20Robotics%20with%20Distributed%20Bayesian%20Hypothesis%20Testing.md)
