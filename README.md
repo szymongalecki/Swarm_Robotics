@@ -10,6 +10,10 @@
 - [Paper - Swarm Robotic Behaviors and Current Applications](Notes/Paper%20-%20Swarm%20Robotic%20Behaviors%20and%20Current%20Applications.md)
 - [Paper - Collective Decision Making in Swarm Robotics with Distributed Bayesian Hypothesis Testing](Notes/Paper%20-%20Collective%20Decision%20Making%20in%20Swarm%20Robotics%20with%20Distributed%20Bayesian%20Hypothesis%20Testing.md)  
 
+### Others
+- [Presentation - How to Research](Notes/Presentation%20-%20How%20to%20Research.md)
+- [Obsidian notes on GitHub Pages](Notes/Obsidian%20notes%20on%20GitHub%20Pages.md)
+
 ### Papers
 - [Collective Decision Making in Swarm Robotics with Distributed Bayesian Hypothesis Testing](Papers/Collective%20Decision%20Making%20in%20Swarm%20Robotics%20with%20Distributed%20Bayesian%20Hypothesis%20Testing.pdf)
 - [Collective Perception in a Swarm of Autonomous Robots](Papers/Collective%20Perception%20in%20a%20Swarm%20of%20Autonomous%20Robots.pdf)
