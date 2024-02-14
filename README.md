@@ -5,11 +5,14 @@
 - [Primary problems within collective decision making](Notes/Primary%20problems%20within%20collective%20decision%20making.md)  
 - [Model checking](Notes/Model%20checking.md)
 - [Program analysis](Notes/Program%20analysis.md)
+- [Temporal verification](Notes/Temporal%20verification.md)
+- [Concurrency within swarm](Notes/Concurrency%20within%20swarm.md)
 
 ### Summaries and overviews
-- [Papers - overview](Notes/Papers%20-%20overview.md)
+- [Papers - overview, w6](Notes/Papers%20-%20overview,%20w6.md)
 - [Paper - Swarm Robotic Behaviors and Current Applications](Notes/Paper%20-%20Swarm%20Robotic%20Behaviors%20and%20Current%20Applications.md)
 - [Paper - Collective Decision Making in Swarm Robotics with Distributed Bayesian Hypothesis Testing](Notes/Paper%20-%20Collective%20Decision%20Making%20in%20Swarm%20Robotics%20with%20Distributed%20Bayesian%20Hypothesis%20Testing.md)  
+- [Papers - overview, w7](Notes/Papers%20-%20overview,%20w7.md)
 
 ### Others
 - [Presentation - How to Research](Notes/Presentation%20-%20How%20to%20Research.md)
