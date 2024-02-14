@@ -7,6 +7,7 @@
 - [Program analysis](Notes/Program%20analysis.md)
 - [Temporal verification](Notes/Temporal%20verification.md)
 - [Concurrency within swarm](Notes/Concurrency%20within%20swarm.md)
+- [State explosion problem](Notes/State%20explosion%20problem.md)
 
 ### Summaries and overviews
 - [Papers - overview, w6](Notes/Papers%20-%20overview,%20w6.md)
@@ -26,3 +27,8 @@
 - [Sophisticated collective foraging with minimalist agents, a swarm robotics test](Papers/Sophisticated%20collective%20foraging%20with%20minimalist%20agents,%20a%20swarm%20robotics%20test.pdf)
 - [Swarm Robotic Behaviors and Current Applications](Papers/Swarm%20Robotic%20Behaviors%20and%20Current%20Applications.pdf)
 - [Swarm Robotics, A Perspective on the Latest Reviewed Concepts and Applications](Papers/Swarm%20Robotics,%20A%20Perspective%20on%20the%20Latest%20Reviewed%20Concepts%20and%20Applications.pdf)
+- [Model Checking and the State Explosion Problem](Papers/Model%20Checking%20and%20the%20State%20Explosion%20Problem.pdf)
+
+### Books
+[Towards Autonomous Robotic Systems](Books/Towards%20Autonomous%20Robotic%20Systems.pdf)
+

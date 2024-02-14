@@ -4,7 +4,7 @@
 From: [Towards Autonomous Robotic Systems](../Books/Towards%20Autonomous%20Robotic%20Systems.pdf)
 Referenced in: [Property-driven design for swarm robotics](../Papers/Property-driven%20design%20for%20swarm%20robotics.pdf)
 
-This paper focuses on formal verification, particularly on model-checking. Model of all possible behaviors of the system is constructed and assessed against a logical formula which in this case is temporal.
+This paper focuses on formal verification, particularly on [Model checking](Model%20checking.md) . Model of all possible behaviors of the system is constructed and assessed against a logical formula which in this case is temporal. [Temporal verification](Temporal%20verification.md)
 
 The logic considered is propositional linear-time temporal logic, called PTL.
 Only two temporal operators are used:
@@ -21,4 +21,4 @@ The basic alpha algorithm:
 - If the number of a robot’s neighbours should fall below the threshold alpha then it assumes it is moving out of the swarm and will execute a 180 degrees turn
 - When the number of neighbours rises above alpha (when the swarm is regained) the robot then executes a random turn. This is to avoid the swarm simply collapsing in on itself.
 
-Model checking approach limited the state-space by using small grid (5x5 to 8x8) and small swarm sizes (2 to 3).
+Model checking approach limited the state-space by using small grid (5x5 to 8x8) and small swarm sizes (2 to 3). Obviously we would like to consider larger number of robots and, even with the above observation, may need to consider larger grid sizes but we are faced by the well known [State explosion problem](State%20explosion%20problem.md). Even with the simplifications we use here, the state space explored is huge. Modelling a robot’s position on an n × n grid, with 4 directions, and two motion modes for r robots requires of the order of (n × n × 4 × 2)^r states to be explored.
