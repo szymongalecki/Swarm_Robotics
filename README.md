@@ -30,5 +30,5 @@
 - [Model Checking and the State Explosion Problem](Papers/Model%20Checking%20and%20the%20State%20Explosion%20Problem.pdf)
 
 ### Books
-[Towards Autonomous Robotic Systems](Books/Towards%20Autonomous%20Robotic%20Systems.pdf)
+- [Towards Autonomous Robotic Systems](Books/Towards%20Autonomous%20Robotic%20Systems.pdf)
 
