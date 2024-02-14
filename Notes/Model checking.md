@@ -1,5 +1,5 @@
 ## Model checking
-Model checking is an approach for verifying the temporal behavior of a system. Model is a representation of the system with the right level of granularity. Specification is a high-level desired property of the system.
+Model checking is an approach for verifying the temporal behavior of a system. Model is a representation of the system with the right level of granularity. Specification is a high-level desired property of the system. Model checking involves exhaustively exploring all possible states of a finite-state model of the system to check if certain properties hold.
 
 From: [Model checking - Stanford lecture](../PDFs/Model%20checking%20-%20Stanford%20lecture.pdf)
 
