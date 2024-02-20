@@ -35,7 +35,7 @@ jobs:
         uses: jacobtomlinson/gha-find-replace@v3
         with:
           find: ".md"
-          replace: ""
+          replace: ".html"
           regex: false
       - name: Setup Pages
         uses: actions/configure-pages@v4
