@@ -28,6 +28,7 @@
 - [Swarm Robotic Behaviors and Current Applications](Papers/Swarm%20Robotic%20Behaviors%20and%20Current%20Applications.pdf)
 - [Swarm Robotics, A Perspective on the Latest Reviewed Concepts and Applications](Papers/Swarm%20Robotics,%20A%20Perspective%20on%20the%20Latest%20Reviewed%20Concepts%20and%20Applications.pdf)
 - [Model Checking and the State Explosion Problem](Papers/Model%20Checking%20and%20the%20State%20Explosion%20Problem.pdf)
+- [Towards Temporal Verification of Emergent Behaviours in Swarm Robotic Systems](Papers/Towards%20Temporal%20Verification%20of%20Emergent%20Behaviours%20in%20Swarm%20Robotic%20Systems.pdf)
 
 ### Books
 - [Towards Autonomous Robotic Systems](Books/Towards%20Autonomous%20Robotic%20Systems.pdf)
