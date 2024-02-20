@@ -37,7 +37,7 @@ Author mentions [Collective decision making strategies](Collective%20decision%20
 
 All of the indexed papers are older than 4 years and most are older than 10 years.
 
-### [Property-driven design for swarm robotics](../Relevant%20Papers/Property-driven%20design%20for%20swarm%20robotics.pdf)
+### [Property-driven design for swarm robotics](../Relevant%20Papers/Property-Driven%20Design%20for%20Swarm%20Robotics.pdf)
 Search term: "design control and modeling swarm robotics"
 
 Quite old: published in 2012
