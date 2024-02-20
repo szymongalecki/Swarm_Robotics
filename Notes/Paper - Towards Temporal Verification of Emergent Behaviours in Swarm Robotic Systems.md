@@ -1,8 +1,8 @@
 ### Paper - Towards Temporal Verification of Emergent Behaviours in Swarm Robotic Systems
 From: [Towards Temporal Verification of Emergent Behaviours in Swarm Robotic Systems](../Relevant%20Papers/Towards%20Temporal%20Verification%20of%20Emergent%20Behaviours%20in%20Swarm%20Robotic%20Systems.pdf)
 Appears in: [Towards Autonomous Robotic Systems](../Books/Towards%20Autonomous%20Robotic%20Systems.pdf)
-Referenced in: [Property-driven design for swarm robotics](../Relevant%20Papers/Property-driven%20design%20for%20swarm%20robotics.pdf)
-Year: 2011
+Referenced in: [Property-driven design for swarm robotics](../Relevant%20Papers/Property-Driven%20Design%20for%20Swarm%20Robotics.pdf)
+Year: **2011**
 
 This paper focuses on formal verification, particularly on [Model checking](Model%20checking.md) . Model of all possible behaviors of the system is constructed and assessed against a logical formula which in this case is temporal. [Temporal verification](Temporal%20verification.md)
 
@@ -18,7 +18,7 @@ Essentially, we construct a set of finite-state transition systems, correspond- 
 The basic alpha algorithm:
 - The default behaviour of a robot is forward motion.
 - While moving each robot periodically sends an “Are you there?” message. It will receive “Yes, I am here” messages only from those robots that are in range, namely its neighbours.
-- If the number of a robot’s neighbours should fall below the threshold alpha then it assumes it is moving out of the swarm and will execute a 180 degrees turn
+- If the number of a robot’s neighbours should fall below the threshold alpha then it assumes it is moving out of the swarm and will execute a $180\degree$ turn
 - When the number of neighbours rises above alpha (when the swarm is regained) the robot then executes a random turn. This is to avoid the swarm simply collapsing in on itself.
 
-Model checking approach limited the state-space by using small grid (5x5 to 8x8) and small swarm sizes (2 to 3). Obviously we would like to consider larger number of robots and, even with the above observation, may need to consider larger grid sizes but we are faced by the well known [State explosion problem](State%20explosion%20problem.md). Even with the simplifications we use here, the state space explored is huge. Modelling a robot’s position on an n × n grid, with 4 directions, and two motion modes for r robots requires of the order of (n × n × 4 × 2)^r states to be explored.
+Model checking approach limited the state-space by using small grid (5x5 to 8x8) and small swarm sizes (2 to 3). Obviously we would like to consider larger number of robots and, even with the above observation, may need to consider larger grid sizes but we are faced by the well known [State explosion problem](State%20explosion%20problem.md). Even with the simplifications we use here, the state space explored is huge. Modelling a robot’s position on an $n × n$ grid, with 4 directions, and two motion modes for r robots requires of the order of $(n × n × 4 × 2)^r$ states to be explored.
