@@ -1,8 +1,8 @@
-## Papers - overview, w7
-
-### "Towards Temporal Verification of Emergent Behaviours in Swarm Robotic Systems" - C. Dixon, A. Winfield, and M. Fisher
-From: [Towards Autonomous Robotic Systems](../Books/Towards%20Autonomous%20Robotic%20Systems.pdf)
-Referenced in: [Property-driven design for swarm robotics](../Papers/Property-driven%20design%20for%20swarm%20robotics.pdf)
+### Paper - Towards Temporal Verification of Emergent Behaviours in Swarm Robotic Systems
+From: [Towards Temporal Verification of Emergent Behaviours in Swarm Robotic Systems](../Relevant%20Papers/Towards%20Temporal%20Verification%20of%20Emergent%20Behaviours%20in%20Swarm%20Robotic%20Systems.pdf)
+Appears in: [Towards Autonomous Robotic Systems](../Books/Towards%20Autonomous%20Robotic%20Systems.pdf)
+Referenced in: [Property-driven design for swarm robotics](../Relevant%20Papers/Property-driven%20design%20for%20swarm%20robotics.pdf)
+Year: 2011
 
 This paper focuses on formal verification, particularly on [Model checking](Model%20checking.md) . Model of all possible behaviors of the system is constructed and assessed against a logical formula which in this case is temporal. [Temporal verification](Temporal%20verification.md)
 
