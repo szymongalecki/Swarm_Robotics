@@ -1,8 +1,7 @@
 ### Definitions
-- [Swarm](Notes/Swarm)
-- [Swarm behaviours](Notes/Swarm%20behaviours)
-- [Collective decision making strategies](Notes/Collective%20decision%20making%20strategies)
-- [Primary problems within collective decision making](Notes/Primary%20problems%20within%20collective%20decision%20making.md)  
+- [Swarm](Notes/Swarm.md)
+- [Swarm behaviours](Notes/Swarm%20behaviours.md)
+- [Primary problems within collective decision making](Notes/Primary%20problems%20within%20collective%20decision%20making.md)
 - [Model checking](Notes/Model%20checking.md)
 - [Program analysis](Notes/Program%20analysis.md)
 - [Temporal verification](Notes/Temporal%20verification.md)
