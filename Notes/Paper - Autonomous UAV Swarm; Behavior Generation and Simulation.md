@@ -1,5 +1,6 @@
 ## Paper - Autonomous UAV Swarm: Behavior Generation and Simulation
 Note on: [Autonomous UAV Swarm; Behavior Generation and Simulation](../Papers/Autonomous%20UAV%20Swarm;%20Behavior%20Generation%20and%20Simulation.pdf)
+Year: **2018**
 
 This paper presents a software framework to produce and simulate autonomous behaviors of UAV swarm tasked with search and reconnaissance missions.  The main challenge is the **generation of the desired autonomous behaviors** of the UAV swarm, with minimum centralised control and human intervention.
 
