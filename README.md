@@ -24,6 +24,7 @@
 - [Papers - overview, w6](Notes/Papers%20-%20overview,%20w6.md)
 - [Paper - Swarm Robotic Behaviors and Current Applications](Notes/Paper%20-%20Swarm%20Robotic%20Behaviors%20and%20Current%20Applications.md)
 - [Paper - Collective Decision Making in Swarm Robotics with Distributed Bayesian Hypothesis Testing](Notes/Paper%20-%20Collective%20Decision%20Making%20in%20Swarm%20Robotics%20with%20Distributed%20Bayesian%20Hypothesis%20Testing.md)  
+- [Paper - Autonomous UAV Swarm; Behavior Generation and Simulation](Notes/Paper%20-%20Autonomous%20UAV%20Swarm;%20Behavior%20Generation%20and%20Simulation.md)
 
 ### Other Papers
 - [Collective Decision Making in Swarm Robotics with Distributed Bayesian Hypothesis Testing](Papers/Collective%20Decision%20Making%20in%20Swarm%20Robotics%20with%20Distributed%20Bayesian%20Hypothesis%20Testing.pdf)
@@ -33,6 +34,11 @@
 - [Swarm Robotic Behaviors and Current Applications](Papers/Swarm%20Robotic%20Behaviors%20and%20Current%20Applications.pdf)
 - [Swarm Robotics, A Perspective on the Latest Reviewed Concepts and Applications](Papers/Swarm%20Robotics,%20A%20Perspective%20on%20the%20Latest%20Reviewed%20Concepts%20and%20Applications.pdf)
 - [Model Checking and the State Explosion Problem](Papers/Model%20Checking%20and%20the%20State%20Explosion%20Problem.pdf)
+- [A Logic for Reasoning about Time and Reliability](Papers/A%20Logic%20for%20Reasoning%20about%20Time%20and%20Reliability.pdf)
+- [A Review of Probabilistic Macroscopic Models for Swarm Robotic Systems](Papers/A%20Review%20of%20Probabilistic%20Macroscopic%20Models%20for%20Swarm%20Robotic%20Systems.pdf)
+- [Autonomous UAV Swarm; Behavior Generation and Simulation](Papers/Autonomous%20UAV%20Swarm;%20Behavior%20Generation%20and%20Simulation.pdf)
+- [Engineering Safety in Swarm Robotics](Papers/Engineering%20Safety%20in%20Swarm%20Robotics.pdf)
+- [On Probabilistic Computation Tree Logic](Papers/On%20Probabilistic%20Computation%20Tree%20Logic.pdf)
 
 ### Other Notes
 - [Presentation - How to Research](Notes/Presentation%20-%20How%20to%20Research.md)
