@@ -12,11 +12,13 @@
 1. [Paper - Property-Driven Design for Swarm Robotics](Notes/Paper%20-%20Property-Driven%20Design%20for%20Swarm%20Robotics.md)
 2. [Paper - Towards Temporal Verification of Emergent Behaviours in Swarm Robotic Systems](Notes/Paper%20-%20Towards%20Temporal%20Verification%20of%20Emergent%20Behaviours%20in%20Swarm%20Robotic%20Systems.md)
 3. [Paper - Formal Verification of Probabilistic Swarm Behaviours](Notes/Paper%20-%20Formal%20Verification%20of%20Probabilistic%20Swarm%20Behaviours.md)
+4. [Paper - On Formal Specification of Emergent Behaviours in Swarm Robotic Systems](Notes/Paper%20-%20On%20Formal%20Specification%20of%20Emergent%20Behaviours%20in%20Swarm%20Robotic%20Systems.md)
 
 ### Papers
 1. [Property-Driven Design for Swarm Robotics](Relevant%20Papers/Property-Driven%20Design%20for%20Swarm%20Robotics.pdf)
 2. [Towards Temporal Verification of Emergent Behaviours in Swarm Robotic Systems](Relevant%20Papers/Towards%20Temporal%20Verification%20of%20Emergent%20Behaviours%20in%20Swarm%20Robotic%20Systems.pdf)
 3. [Formal Verification of Probabilistic Swarm Behaviours](Relevant%20Papers/Formal%20Verification%20of%20Probabilistic%20Swarm%20Behaviours.pdf)
+4. [On Formal Specification of Emergent Behaviours in Swarm Robotic Systems](Relevant%20Papers/On%20Formal%20Specification%20of%20Emergent%20Behaviours%20in%20Swarm%20Robotic%20Systems.pdf)
 
 ### Other Summaries
 - [Papers - overview, w6](Notes/Papers%20-%20overview,%20w6.md)
