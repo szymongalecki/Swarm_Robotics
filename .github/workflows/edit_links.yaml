@@ -14,10 +14,23 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
       
-      - name: Change link endings from '.md' to '.html'
+      - name: Change link endings from '.md' to '.html' in all Markdown files
         run: |
           find . -name "*.md" -type f -print0 | while IFS= read -r -d $'\0' file; do
             sed -i 's/\.md)/.html)/g' "$file"
+          done
+          
+      - name: Append HTML script to use MathJax in all Markdown files
+        run: |
+          for file in $(find . -name "*.md"); do
+            echo '<script>' >> "$file"
+            echo 'MathJax = {' >> "$file"
+            echo '  tex: {' >> "$file"
+            echo '    inlineMath: [["$", "$"], ["\\(", "\\)"]]' >> "$file"
+            echo '  }' >> "$file"
+            echo '};' >> "$file"
+            echo '</script>' >> "$file"
+            echo '<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>' >> "$file"
           done
 
       - name: Commit changes
