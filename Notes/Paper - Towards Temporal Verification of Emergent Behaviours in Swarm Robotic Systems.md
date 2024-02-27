@@ -1,4 +1,14 @@
 ### Paper - Towards Temporal Verification of Emergent Behaviours in Swarm Robotic Systems
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']]
+  }
+};
+</script>
+<script id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+</script>
 From: [Towards Temporal Verification of Emergent Behaviours in Swarm Robotic Systems](../Relevant%20Papers/Towards%20Temporal%20Verification%20of%20Emergent%20Behaviours%20in%20Swarm%20Robotic%20Systems.pdf)
 Referenced in: [Property-driven design for swarm robotics](../Relevant%20Papers/Property-Driven%20Design%20for%20Swarm%20Robotics.pdf)
 Year: **2011**
