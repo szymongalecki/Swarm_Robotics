@@ -1,7 +1,7 @@
 ## Paper - Formal Verification of Probabilistic Swarm Behaviours
-Note on [Formal Verification of Probabilistic Swarm Behaviours](../Relevant%20Papers/Formal%20Verification%20of%20Probabilistic%20Swarm%20Behaviours.pdf)
-Year: **2010**
-Model checker: **PRISM**
+Note on: [Formal Verification of Probabilistic Swarm Behaviours](../Relevant%20Papers/Formal%20Verification%20of%20Probabilistic%20Swarm%20Behaviours.pdf)  
+Year: **2010**  
+Model checker: **PRISM**  
 
 "Whilst the behaviour of each individual robot is fairly easy to understand, it is considerably harder to predict and guarantee the emergent behaviours of the overall swarm. Consequently, it is very difficult to design an individual robot control procedure that, when replicated across all the robots, will guarantee the required swarm behaviour."
 

@@ -13,7 +13,7 @@ PRISM is a probabilistic model checker which supports DTMC and PCTL* among many 
 P=? [F<=1000 (a=N_total)|(b=N_total)]
 ```
 
-"In less formal terms, we compute the probability  **(P=?)**  that, in the first thousand seconds **(F<=1000)**, the number of robots in area A or in area B is equal to the total number of robots in the swarm **((a=N_total)|(b=N_total))**. Since we want to maximize this probability, we do not specify a value for it."
+"In less formal terms, we compute the probability  $(P=?)$ that, in the first thousand seconds $(F<=1000)$, the number of robots in area A or in area B is equal to the total number of robots in the swarm $((a=N_{total})|(b=N_{total}))$. Since we want to maximize this probability, we do not specify a value for it."
 
 ### Property: Formed aggregate is stable for a certain period
 "Another property we want for the system is that the aggregate, once formed, is stable for a certain period. In this example we set such period to 10 seconds. We verify this property with probability greater or equal to 2/3."
@@ -23,10 +23,10 @@ P=? [F<=1000 (a=N_total)|(b=N_total)]
       P>=0.67 [G>=10 (a=N_total)|(b=N_total)]
 ```
 
-"In natural language, Property 2 can be expressed in this way: from the aggregate state **((a=N_total)|(b=N_total))** is it true with probability greater or equal to 0.67 **(=> P>=0.67)** that the system stays for at least 10 seconds **(G>=10)** in the aggregate state?"
+"In natural language, Property 2 can be expressed in this way: from the aggregate state $((a=N_total)|(b=N_total))$ is it true with probability greater or equal to 0.67 $(=> P>=0.67)$ that the system stays for at least 10 seconds $(G>=10)$ in the aggregate state?"
 
 ### Building the model
 "Once the above desired properties have been specified we need to build the model. We start by setting the total number of robots in the system. In order to perform a scalability test, we selected three different group sizes: $N_t = 10, 20, 50.$ Then, we specify three states: state $S_a$, $S_b$ and $S_c$. A robot in area $A$ or $B$ is in state $S_a$ or $S_b$, respectively. Robots outside area $A$ or $B$ are in state $S_c$. Moreover, three counters $a$, $b$ and $c$ are associated to the respective states. These counters are used to keep track of the number of robots that are in state $S_a$, $S_b$ and $S_c$, respectively. Note that $a+b+c=N_t$"
 
 ### Videos of simulation and hardware test
-https://iridia.ulb.ac.be/supp/IridiaSupp2011-018/
+[videos](https://iridia.ulb.ac.be/supp/IridiaSupp2011-018/)
