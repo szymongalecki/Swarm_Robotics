@@ -1,0 +1,33 @@
+name: Change Link in Markdown Files
+
+# Triggers the workflow on push to the "main" branch
+on:
+  push:
+    branches: [ "main" ]
+# Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  change_links:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      
+      - name: Change link endings from '.md' to '.html'
+        run: |
+          find . -name "*.md" -type f -print0 | while IFS= read -r -d $'\0' file; do
+            sed -i 's/\.md)/.html)/g' "$file"
+          done
+
+      - name: Commit changes
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add .
+          git diff-index --quiet HEAD || git commit -m "Change Markdown links from .md to .html [skip ci]"
+      
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
