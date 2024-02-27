@@ -20,3 +20,11 @@ Observing the behaviour of the system during execution.
 - Control flow analysis
 - Runtime verification
 
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [["$", "$"], ["\\(", "\\)"]]
+  }
+};
+</script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>

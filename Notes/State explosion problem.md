@@ -4,3 +4,11 @@ As the number of state variables in the system increases, the size of the system
 
 From: [Model Checking and the State Explosion Problem](../Papers/Model%20Checking%20and%20the%20State%20Explosion%20Problem.pdf)
 
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [["$", "$"], ["\\(", "\\)"]]
+  }
+};
+</script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>

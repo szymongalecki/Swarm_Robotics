@@ -17,3 +17,11 @@ Define links in README.md to all the resources that should be exposed to the vie
 
 ### MathJax is not supported
 MathJax is not supported natively by GitHub Pages. This means that math formulas constructed using single or double '$' signs will not be rendered but displayed as plain text.
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [["$", "$"], ["\\(", "\\)"]]
+  }
+};
+</script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
