@@ -1,6 +1,5 @@
 ### Paper - Towards Temporal Verification of Emergent Behaviours in Swarm Robotic Systems
 From: [Towards Temporal Verification of Emergent Behaviours in Swarm Robotic Systems](../Relevant%20Papers/Towards%20Temporal%20Verification%20of%20Emergent%20Behaviours%20in%20Swarm%20Robotic%20Systems.pdf)
-Appears in: [Towards Autonomous Robotic Systems](../Books/Towards%20Autonomous%20Robotic%20Systems.pdf)
 Referenced in: [Property-driven design for swarm robotics](../Relevant%20Papers/Property-Driven%20Design%20for%20Swarm%20Robotics.pdf)
 Year: **2011**
 
