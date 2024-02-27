@@ -1,18 +1,18 @@
 ### Definitions
-- [Swarm](Notes/Swarm.md)
-- [Swarm behaviours](Notes/Swarm%20behaviours.md)
-- [Primary problems within collective decision making](Notes/Primary%20problems%20within%20collective%20decision%20making.md)
-- [Model checking](Notes/Model%20checking.md)
-- [Program analysis](Notes/Program%20analysis.md)
-- [Temporal verification](Notes/Temporal%20verification.md)
-- [Concurrency within swarm](Notes/Concurrency%20within%20swarm.md)
-- [State explosion problem](Notes/State%20explosion%20problem.md)
+- [Swarm](Notes/Swarm.html)
+- [Swarm behaviours](Notes/Swarm%20behaviours.html)
+- [Primary problems within collective decision making](Notes/Primary%20problems%20within%20collective%20decision%20making.html)
+- [Model checking](Notes/Model%20checking.html)
+- [Program analysis](Notes/Program%20analysis.html)
+- [Temporal verification](Notes/Temporal%20verification.html)
+- [Concurrency within swarm](Notes/Concurrency%20within%20swarm.html)
+- [State explosion problem](Notes/State%20explosion%20problem.html)
 
 ### Summaries
-1. [Paper - Property-Driven Design for Swarm Robotics](Notes/Paper%20-%20Property-Driven%20Design%20for%20Swarm%20Robotics.md)
-2. [Paper - Towards Temporal Verification of Emergent Behaviours in Swarm Robotic Systems](Notes/Paper%20-%20Towards%20Temporal%20Verification%20of%20Emergent%20Behaviours%20in%20Swarm%20Robotic%20Systems.md)
-3. [Paper - Formal Verification of Probabilistic Swarm Behaviours](Notes/Paper%20-%20Formal%20Verification%20of%20Probabilistic%20Swarm%20Behaviours.md)
-4. [Paper - On Formal Specification of Emergent Behaviours in Swarm Robotic Systems](Notes/Paper%20-%20On%20Formal%20Specification%20of%20Emergent%20Behaviours%20in%20Swarm%20Robotic%20Systems.md)
+1. [Paper - Property-Driven Design for Swarm Robotics](Notes/Paper%20-%20Property-Driven%20Design%20for%20Swarm%20Robotics.html)
+2. [Paper - Towards Temporal Verification of Emergent Behaviours in Swarm Robotic Systems](Notes/Paper%20-%20Towards%20Temporal%20Verification%20of%20Emergent%20Behaviours%20in%20Swarm%20Robotic%20Systems.html)
+3. [Paper - Formal Verification of Probabilistic Swarm Behaviours](Notes/Paper%20-%20Formal%20Verification%20of%20Probabilistic%20Swarm%20Behaviours.html)
+4. [Paper - On Formal Specification of Emergent Behaviours in Swarm Robotic Systems](Notes/Paper%20-%20On%20Formal%20Specification%20of%20Emergent%20Behaviours%20in%20Swarm%20Robotic%20Systems.html)
 
 ### Papers
 1. [Property-Driven Design for Swarm Robotics](Relevant%20Papers/Property-Driven%20Design%20for%20Swarm%20Robotics.pdf)
@@ -21,10 +21,10 @@
 4. [On Formal Specification of Emergent Behaviours in Swarm Robotic Systems](Relevant%20Papers/On%20Formal%20Specification%20of%20Emergent%20Behaviours%20in%20Swarm%20Robotic%20Systems.pdf)
 
 ### Other Summaries
-- [Papers - overview, w6](Notes/Papers%20-%20overview,%20w6.md)
-- [Paper - Swarm Robotic Behaviors and Current Applications](Notes/Paper%20-%20Swarm%20Robotic%20Behaviors%20and%20Current%20Applications.md)
-- [Paper - Collective Decision Making in Swarm Robotics with Distributed Bayesian Hypothesis Testing](Notes/Paper%20-%20Collective%20Decision%20Making%20in%20Swarm%20Robotics%20with%20Distributed%20Bayesian%20Hypothesis%20Testing.md)  
-- [Paper - Autonomous UAV Swarm; Behavior Generation and Simulation](Notes/Paper%20-%20Autonomous%20UAV%20Swarm;%20Behavior%20Generation%20and%20Simulation.md)
+- [Papers - overview, w6](Notes/Papers%20-%20overview,%20w6.html)
+- [Paper - Swarm Robotic Behaviors and Current Applications](Notes/Paper%20-%20Swarm%20Robotic%20Behaviors%20and%20Current%20Applications.html)
+- [Paper - Collective Decision Making in Swarm Robotics with Distributed Bayesian Hypothesis Testing](Notes/Paper%20-%20Collective%20Decision%20Making%20in%20Swarm%20Robotics%20with%20Distributed%20Bayesian%20Hypothesis%20Testing.html)  
+- [Paper - Autonomous UAV Swarm; Behavior Generation and Simulation](Notes/Paper%20-%20Autonomous%20UAV%20Swarm;%20Behavior%20Generation%20and%20Simulation.html)
 
 ### Other Papers
 - [Collective Decision Making in Swarm Robotics with Distributed Bayesian Hypothesis Testing](Papers/Collective%20Decision%20Making%20in%20Swarm%20Robotics%20with%20Distributed%20Bayesian%20Hypothesis%20Testing.pdf)
@@ -41,8 +41,8 @@
 - [On Probabilistic Computation Tree Logic](Papers/On%20Probabilistic%20Computation%20Tree%20Logic.pdf)
 
 ### Other Notes
-- [Presentation - How to Research](Notes/Presentation%20-%20How%20to%20Research.md)
-- [Obsidian notes on GitHub Pages](Notes/Obsidian%20notes%20on%20GitHub%20Pages.md)
+- [Presentation - How to Research](Notes/Presentation%20-%20How%20to%20Research.html)
+- [Obsidian notes on GitHub Pages](Notes/Obsidian%20notes%20on%20GitHub%20Pages.html)
 
 
 
