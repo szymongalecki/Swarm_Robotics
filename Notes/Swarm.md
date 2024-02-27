@@ -7,4 +7,4 @@ Swarms can be considered as a kind of quasi-organism that can adapt to changes i
 - Communicating(direct, indirect)
 - Memorising(local states, morphologies)
 
-From [Paper - Swarm Robotic Behaviors and Current Applications](Paper%20-%20Swarm%20Robotic%20Behaviors%20and%20Current%20Applications.md)
+From [Paper - Swarm Robotic Behaviors and Current Applications](Paper%20-%20Swarm%20Robotic%20Behaviors%20and%20Current%20Applications.html)
