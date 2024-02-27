@@ -22,7 +22,7 @@ jobs:
           
       - name: Append HTML script to use MathJax in all Markdown files
         run: |
-          for file in $(find . -name "*.md"); do
+          find . -name "*.md" -type f -print0 | while IFS= read -r -d $'\0' file; do
             echo '<script>' >> "$file"
             echo 'MathJax = {' >> "$file"
             echo '  tex: {' >> "$file"
