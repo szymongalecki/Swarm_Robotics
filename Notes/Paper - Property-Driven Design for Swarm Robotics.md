@@ -1,5 +1,5 @@
 ## Paper - Property-Driven Design for Swarm Robotics
-Note on [Property-Driven Design for Swarm Robotics](../Relevant%20Papers/Property-Driven%20Design%20for%20Swarm%20Robotics.pdf)
+Note on [Property-Driven Design for Swarm Robotics](../Relevant%20Papers/Property-Driven%20Design%20for%20Swarm%20Robotics.pdf)  
 Year: **2012**
 
 Paper focuses on the property driven design but gives a good example on how to model rules around tested properties of swarm behaviors.
