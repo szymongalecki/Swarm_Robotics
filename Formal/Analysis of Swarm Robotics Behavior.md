@@ -1,11 +1,4 @@
 Swarm robotics is an emergent field in robotics which focuses on creating collective intelligence by forming a cooperative group of autonomous robotic units. There are a number of bio-inspired algorithms that robotic units implement to achieve a collective behavior. There are several factors that can affect the safety and correctness of the behavior of swarm robotics such as the environment that they operate in. In this project we aim at testing the behavior of these systems under different scenarios to discover possible undesirable behaviors of such systems.
 ### Supervisors
 - Mahsa Varshosaz - mahv@itu.dk
-- Payam Zahadat - paza@itu.dk<script>
-MathJax = {
-  tex: {
-    inlineMath: [["$", "$"], ["\\(", "\\)"]]
-  }
-};
-</script>
-<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+- Payam Zahadat - paza@itu.dk

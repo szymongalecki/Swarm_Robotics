@@ -8,11 +8,3 @@ Swarms can be considered as a kind of quasi-organism that can adapt to changes i
 - Memorising(local states, morphologies)
 
 From [Paper - Swarm Robotic Behaviors and Current Applications](Paper%20-%20Swarm%20Robotic%20Behaviors%20and%20Current%20Applications.html)
-<script>
-MathJax = {
-  tex: {
-    inlineMath: [["$", "$"], ["\\(", "\\)"]]
-  }
-};
-</script>
-<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>

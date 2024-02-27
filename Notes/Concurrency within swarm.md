@@ -15,11 +15,3 @@ Execution of the robots is again interleaved but for m robots in every cycle of 
 Robots execute at the same time, yet some robots are faster than others. However the fair aspect ensures that a robot can only take a finite number of steps before all other robots have finished their step.
 
 From: [Towards Autonomous Robotic Systems](../Books/Towards%20Autonomous%20Robotic%20Systems.pdf)
-<script>
-MathJax = {
-  tex: {
-    inlineMath: [["$", "$"], ["\\(", "\\)"]]
-  }
-};
-</script>
-<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>

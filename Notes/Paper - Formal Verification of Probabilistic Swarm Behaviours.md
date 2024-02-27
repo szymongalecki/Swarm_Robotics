@@ -59,11 +59,4 @@ We assume:
 - Result = 0.31
 
 ### Conclusions
-"In this paper we have taken a probabilistic state transition system for foraging swarm robots from and used it as the basis for verification of global swarm behaviour using the PRISM model-checker. Rather than instantiating such a transition system for each robot and performing local verification, we adopt a macroscopic approach and represent the whole swarm using one transition system calculating the number of robots in each state based on a combination of the number of robots in the previous state and the probability that robots change state. This allows us to simulate the global foraging robot scenario for a number of parameters. In particular we investigate the changes to swarm energy relating to changing the probability of finding food and differing resting timeouts"<script>
-MathJax = {
-  tex: {
-    inlineMath: [["$", "$"], ["\\(", "\\)"]]
-  }
-};
-</script>
-<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+"In this paper we have taken a probabilistic state transition system for foraging swarm robots from and used it as the basis for verification of global swarm behaviour using the PRISM model-checker. Rather than instantiating such a transition system for each robot and performing local verification, we adopt a macroscopic approach and represent the whole swarm using one transition system calculating the number of robots in each state based on a combination of the number of robots in the previous state and the probability that robots change state. This allows us to simulate the global foraging robot scenario for a number of parameters. In particular we investigate the changes to swarm energy relating to changing the probability of finding food and differing resting timeouts"

@@ -36,11 +36,3 @@ Duality between model and specification
 ### Fairness condition
 - Fair traces satisfy each of the fairness conditions infinitely often 
 - E.g. only fair if it doesn’t delay acknowledging a request forever
-<script>
-MathJax = {
-  tex: {
-    inlineMath: [["$", "$"], ["\\(", "\\)"]]
-  }
-};
-</script>
-<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>

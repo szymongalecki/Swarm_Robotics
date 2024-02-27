@@ -5,11 +5,3 @@ Estimating all the possible desired and undesired behaviors of the swarm as a sy
 
 I propose conducting a review of recent research on application of testing techniques for swarm robotic systems. Additionally, investigate modelling and testing properties of described swarm behaviours in an integrated environment for modelling such as $\bigcup_{PPAAL}$, to understand the implications of mutual interactions of unit robots on the behaviour of the whole system.
 
-<script>
-MathJax = {
-  tex: {
-    inlineMath: [["$", "$"], ["\\(", "\\)"]]
-  }
-};
-</script>
-<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
