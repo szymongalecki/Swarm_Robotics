@@ -1,4 +1,4 @@
-name: edit-links-in-markdown-files
+name: fix-links-and-enable-MathJax
 
 # Triggers the workflow on push to the "main" branch
 on:
@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  change_links:
+  links_MathJax:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -23,6 +23,7 @@ jobs:
       - name: Append HTML script to use MathJax in all Markdown files
         run: |
           find . -name "*.md" -type f -print0 | while IFS= read -r -d $'\0' file; do
+            echo >> "$file"
             echo '<script>' >> "$file"
             echo 'MathJax = {' >> "$file"
             echo '  tex: {' >> "$file"
