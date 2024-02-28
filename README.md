@@ -7,6 +7,8 @@
 - [Temporal verification](Notes/Temporal%20verification.md)
 - [Concurrency within swarm](Notes/Concurrency%20within%20swarm.md)
 - [State explosion problem](Notes/State%20explosion%20problem.md)
+- [Introduction to UPPAAL](Notes/Introduction%20to%20UPPAAL.md)
+- [Guarded commands](Notes/Guarded%20commands.md)
 
 ### Summaries
 1. [Paper - Property-Driven Design for Swarm Robotics](Notes/Paper%20-%20Property-Driven%20Design%20for%20Swarm%20Robotics.md)
