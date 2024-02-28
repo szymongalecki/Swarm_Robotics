@@ -9,6 +9,7 @@
 - [State explosion problem](Notes/State%20explosion%20problem.md)
 - [Introduction to UPPAAL](Notes/Introduction%20to%20UPPAAL.md)
 - [Guarded commands](Notes/Guarded%20commands.md)
+- [Finite-state machine](Notes/Finite-state%20machine.md)
 
 ### Summaries
 1. [Paper - Property-Driven Design for Swarm Robotics](Notes/Paper%20-%20Property-Driven%20Design%20for%20Swarm%20Robotics.md)
