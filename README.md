@@ -17,6 +17,7 @@
 2. [Paper - Towards Temporal Verification of Emergent Behaviours in Swarm Robotic Systems](Notes/Paper%20-%20Towards%20Temporal%20Verification%20of%20Emergent%20Behaviours%20in%20Swarm%20Robotic%20Systems.md)
 3. [Paper - Formal Verification of Probabilistic Swarm Behaviours](Notes/Paper%20-%20Formal%20Verification%20of%20Probabilistic%20Swarm%20Behaviours.md)
 4. [Paper - On Formal Specification of Emergent Behaviours in Swarm Robotic Systems](Notes/Paper%20-%20On%20Formal%20Specification%20of%20Emergent%20Behaviours%20in%20Swarm%20Robotic%20Systems.md)
+5. [Publications of Alessio Lomuscio](Notes/Publications%20of%20Alessio%20Lomuscio.md)
 
 ### Papers
 1. [Property-Driven Design for Swarm Robotics](Relevant%20Papers/Property-Driven%20Design%20for%20Swarm%20Robotics.pdf)
