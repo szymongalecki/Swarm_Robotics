@@ -11,6 +11,7 @@
 - [Guarded commands](Notes/Guarded%20commands.md)
 - [Finite-state machine](Notes/Finite-state%20machine.md)
 - [Timed automaton](Notes/Timed%20automaton.md)
+- [Timed automata in UPPAAL](Notes/Timed%20automata%20in%20UPPAAL.md)
 
 ### Summaries
 1. [Paper - Property-Driven Design for Swarm Robotics](Notes/Paper%20-%20Property-Driven%20Design%20for%20Swarm%20Robotics.md)
