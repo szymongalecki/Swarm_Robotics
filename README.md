@@ -24,6 +24,14 @@
 3. [Formal Verification of Probabilistic Swarm Behaviours](Relevant%20Papers/Formal%20Verification%20of%20Probabilistic%20Swarm%20Behaviours.pdf)
 4. [On Formal Specification of Emergent Behaviours in Swarm Robotic Systems](Relevant%20Papers/On%20Formal%20Specification%20of%20Emergent%20Behaviours%20in%20Swarm%20Robotic%20Systems.pdf)
 
+### Alessio Lomuscio
+1. [A Counter Abstraction Technique for the Verification of Probabilistic Swarm Systems](Alessio%20Lomuscio%20Papers/A%20Counter%20Abstraction%20Technique%20for%20the%20Verification%20of%20Probabilistic%20Swarm%20Systems.pdf)
+2. [A Counter Abstraction Technique for the Verification of Robot Swarms](Alessio%20Lomuscio%20Papers/A%20Counter%20Abstraction%20Technique%20for%20the%20Verification%20of%20Robot%20Swarms.pdf)
+3. [Formal Verification of Opinion Formation in Swarms](Alessio%20Lomuscio%20Papers/Formal%20Verification%20of%20Opinion%20Formation%20in%20Swarms.pdf)
+4. [Verifying Emergence of Bounded Time Properties in Probabilistic Swarm Systems](Alessio%20Lomuscio%20Papers/Verifying%20Emergence%20of%20Bounded%20Time%20Properties%20in%20Probabilistic%20Swarm%20Systems.pdf)
+5. [Verifying Emergent Properties of Swarms](Alessio%20Lomuscio%20Papers/Verifying%20Emergent%20Properties%20of%20Swarms.pdf)
+6. [Verifying Fault-Tolerance in Probabilistic Swarm Systems](Alessio%20Lomuscio%20Papers/Verifying%20Fault-Tolerance%20in%20Probabilistic%20Swarm%20Systems.pdf)
+
 ### Other Summaries
 - [Papers - overview, w6](Notes/Papers%20-%20overview,%20w6.md)
 - [Paper - Swarm Robotic Behaviors and Current Applications](Notes/Paper%20-%20Swarm%20Robotic%20Behaviors%20and%20Current%20Applications.md)
