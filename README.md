@@ -59,6 +59,10 @@
 - [Presentation - How to Research](Notes/Presentation%20-%20How%20to%20Research.md)
 - [Obsidian notes on GitHub Pages](Notes/Obsidian%20notes%20on%20GitHub%20Pages.md)
 
+### Other Documents
+- [A Small Tutorial on UPPAAL 4.0](PDFs/A%20Small%20Tutorial%20on%20UPPAAL%204.0.pdf)
+- [A Tutorial on UPPAAL 4.0](PDFs/A%20Tutorial%20on%20UPPAAL%204.0.pdf)
+- [How to Research](PDFs/How%20to%20Research.pdf)
 
 
 
