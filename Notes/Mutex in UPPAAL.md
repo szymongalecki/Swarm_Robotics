@@ -2,7 +2,7 @@
 Derive an automaton based on Peterson's mutual exclusion algorithm and check its properties using verification tools.
 
 The algorithm for two processes in C.
-```C
+```c
 // process 1				     // process 2
 req1 = 1;				         req2 = 1;
 turn = 2;				         turn = 1;
@@ -21,7 +21,8 @@ req1 = 0				         req2 = 0;
 - To specify the name of the template, edit the '**Name**' field just above the drawing area.
 - To specify parameters, write them in the '**Parameters**' field just above the drawing area. For this specific example it will be: 
 - `const int[1,2] me, int[0,1] &req_self, int[0,1] &req_other`
-![mutex_template](../Images/mutex_template.png)
+![mutex_template|600](../Images/mutex_template.png)
+
 ### Create the system
 Place the following code snippet into the **System declarations** section of the project. This will create two instances of mutex template and compose them into a system.
 ```C
@@ -43,9 +44,7 @@ Perform the syntax check and fix issues if any.
 
 ### Simple verification
 Click on the **Verifier** tab, click on the Insert button, click in the **Query** text area and write the mutual exclusion property: `A[] not (P1.CS and P2.CS)`. Press the **Check** button and you are done. There should be a green button lighted on, which means that the property was verified. 
-
- `A[] not (P1.CS and P2.CS)` - For all combinations, there is not a single one where process **P1** and **P2** are both in the critical section of the system.
-
-`E<> P1.CS` - There exist a combination where process **P1** reaches the critical section of the system.
+- `A[] not (P1.CS and P2.CS)` - For all combinations, there is not a single one where process **P1** and **P2** are both in the critical section of the system.
+- `E<> P1.CS` - There exist a combination where process **P1** reaches the critical section of the system.
 
 If a property fails in the verifier, choose **Options** $\rightarrow$ **Diagnostic Trace** and go back to the **Symbolic Simulator**. In the **Simulation Trace** section you will be able to replay scenario that broke the property defined in the **Verifier**.
