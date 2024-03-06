@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE nta PUBLIC '-//Uppaal Team//DTD Flat System 1.6//EN' 'http://www.it.uu.se/research/group/darts/uppaal/flat-1_6.dtd'>
+<nta>
+	<declaration>// Place global declarations here.
+clock x;
+chan reset;</declaration>
+	<template>
+		<name>observer</name>
+		<location id="id0" x="-382" y="-93">
+			<name x="-442" y="-110">idle</name>
+		</location>
+		<location id="id1" x="-195" y="-93">
+			<name x="-187" y="-127">taken</name>
+			<committed/>
+		</location>
+		<init ref="id0"/>
+		<transition id="id2">
+			<source ref="id1"/>
+			<target ref="id0"/>
+			<label kind="assignment" x="-314" y="-17">x := 2</label>
+			<nail x="-229" y="-25"/>
+			<nail x="-340" y="-25"/>
+		</transition>
+		<transition id="id3">
+			<source ref="id0"/>
+			<target ref="id1"/>
+			<label kind="synchronisation" x="-323" y="-204">reset?</label>
+			<nail x="-340" y="-170"/>
+			<nail x="-229" y="-170"/>
+		</transition>
+	</template>
+	<template>
+		<name x="5" y="5">automaton</name>
+		<declaration>// Place local declarations here.
+</declaration>
+		<location id="id4" x="-348" y="-136">
+			<name x="-408" y="-144">loop</name>
+			<label kind="invariant" x="-416" y="-119">x &lt;= 3</label>
+		</location>
+		<init ref="id4"/>
+		<transition id="id5">
+			<source ref="id4"/>
+			<target ref="id4"/>
+			<label kind="guard" x="-238" y="-161">x &gt;= 2</label>
+			<label kind="synchronisation" x="-238" y="-136">reset!</label>
+			<nail x="-256" y="-213"/>
+			<nail x="-256" y="-51"/>
+		</transition>
+	</template>
+	<system>// Place template instantiations here.
+P1 = automaton();
+Obs = observer();
+// List one or more processes to be composed into a system.
+system P1, Obs;
+</system>
+	<queries>
+		<option key="--diagnostic" value="1"/>
+		<query>
+			<formula>A[] Obs.taken imply x &gt;= 2 and x &lt;= 3</formula>
+			<comment/>
+			<result outcome="success" type="quality" timestamp="2024-03-06 15:13:55 +0100">
+				<option key="--diagnostic" value="1"/>
+			</result>
+		</query>
+		<query>
+			<formula>E&lt;&gt; Obs.idle and x &gt; 2</formula>
+			<comment/>
+			<result outcome="success" type="quality" timestamp="2024-03-06 15:13:57 +0100">
+				<option key="--diagnostic" value="1"/>
+			</result>
+		</query>
+		<query>
+			<formula>A[] Obs.idle imply x &lt;= 3</formula>
+			<comment/>
+			<result outcome="success" type="quality" timestamp="2024-03-06 15:13:57 +0100">
+				<option key="--diagnostic" value="1"/>
+			</result>
+		</query>
+	</queries>
+</nta>
