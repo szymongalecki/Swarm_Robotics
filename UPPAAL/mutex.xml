@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE nta PUBLIC '-//Uppaal Team//DTD Flat System 1.6//EN' 'http://www.it.uu.se/research/group/darts/uppaal/flat-1_6.dtd'>
+<nta>
+	<declaration>// Place global declarations here.
+int[0,1] req1, req2;
+int[1,2] turn;</declaration>
+	<template>
+		<name x="5" y="5">mutex</name>
+		<parameter>const int[1,2] me, int[0,1] &amp;req_self, int[0,1] &amp;req_other</parameter>
+		<declaration>// Place local declarations here.</declaration>
+		<location id="id0" x="-306" y="-195">
+			<name x="-316" y="-229">idle</name>
+		</location>
+		<location id="id1" x="-136" y="-195">
+			<name x="-146" y="-229">want</name>
+		</location>
+		<location id="id2" x="-306" y="-25">
+			<name x="-316" y="-59">CS</name>
+		</location>
+		<location id="id3" x="-136" y="-25">
+			<name x="-146" y="-59">wait</name>
+		</location>
+		<init ref="id0"/>
+		<transition id="id4">
+			<source ref="id3"/>
+			<target ref="id2"/>
+			<label kind="guard" x="-272" y="-110">turn == me</label>
+			<nail x="-178" y="-76"/>
+			<nail x="-263" y="-76"/>
+		</transition>
+		<transition id="id5">
+			<source ref="id3"/>
+			<target ref="id2"/>
+			<label kind="guard" x="-280" y="51">req_other == 0</label>
+			<nail x="-178" y="34"/>
+			<nail x="-263" y="34"/>
+		</transition>
+		<transition id="id6">
+			<source ref="id2"/>
+			<target ref="id0"/>
+			<label kind="assignment" x="-425" y="-119">req_self := 0</label>
+		</transition>
+		<transition id="id7">
+			<source ref="id1"/>
+			<target ref="id3"/>
+			<label kind="assignment" x="-127" y="-127">turn := (me == 1 ? 2 : 1)</label>
+		</transition>
+		<transition id="id8">
+			<source ref="id0"/>
+			<target ref="id1"/>
+			<label kind="assignment" x="-272" y="-178">req_self := 1</label>
+		</transition>
+	</template>
+	<system>// Place template instantiations here.
+P1 = mutex(1, req1, req2);
+P2 = mutex(2, req2, req1);
+// List one or more processes to be composed into a system.
+system P1, P2;
+</system>
+	<queries>
+		<option key="--diagnostic" value="1"/>
+		<query>
+			<formula>A[] not (P1.CS and P2.CS)</formula>
+			<comment/>
+			<result outcome="success" type="quality" timestamp="2024-03-06 13:48:50 +0100">
+				<option key="--diagnostic" value="-1"/>
+			</result>
+		</query>
+		<query>
+			<formula>E&lt;&gt; P1.CS</formula>
+			<comment/>
+			<result outcome="success" type="quality" timestamp="2024-03-06 13:48:50 +0100">
+				<option key="--diagnostic" value="-1"/>
+			</result>
+		</query>
+		<query>
+			<formula>E&lt;&gt; P2.CS</formula>
+			<comment/>
+			<result outcome="success" type="quality" timestamp="2024-03-06 14:06:26 +0100">
+				<option key="--diagnostic" value="1"/>
+			</result>
+		</query>
+	</queries>
+</nta>
