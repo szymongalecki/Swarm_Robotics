@@ -69,8 +69,6 @@
 - [How to Research](PDFs/How%20to%20Research.pdf)
 
 ---
-[Webpage](https://szymongalecki.github.io/Swarm_Robotics/) 
-[GitHub](https://github.com/szymongalecki/Swarm_Robotics)
-
+[Webpage](https://szymongalecki.github.io/Swarm_Robotics/)  | [GitHub](https://github.com/szymongalecki/Swarm_Robotics)
 
 
