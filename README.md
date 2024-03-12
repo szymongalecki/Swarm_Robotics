@@ -17,6 +17,7 @@
 - [Time in UPPAAL](Notes/Time%20in%20UPPAAL.md)
 - [Verifying properties in UPPAAL](Notes/Verifying%20properties%20in%20UPPAAL.md)
 - [6.03.2024](Notes/6.03.2024.md)
+- [Recreating basic algorithm in UPPAAL](Notes/Recreating%20basic%20algorithm%20in%20UPPAAL.md)
 
 ### Summaries
 1. [Paper - Property-Driven Design for Swarm Robotics](Notes/Paper%20-%20Property-Driven%20Design%20for%20Swarm%20Robotics.md)
