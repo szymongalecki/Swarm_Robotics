@@ -38,3 +38,28 @@ $$\sqrt{x^2 + y^2} <= radius$$
 dir_x = 1 ? dir_x == -1 : -1
 dir_y = 1 ? dir_y == -1 : -1
 ```
+
+### Next iteration
+- Change `dir_x` and `dir_y` to `angle`
+- Calculate the `x` and `y` position from `angle` and unit step of length 1
+- 180 degree turn is `(angle + 180) % 360`
+
+**Formulas:**
+$step=length(hypotenuse)$ 
+$sin(\alpha) = \frac{opposite}{hypotenuse}$
+$cos(\alpha)=\frac{adjacent}{hypotenuse}$
+$x' = x + (step * sin(\alpha))$
+$y' = y + (step * cos(\alpha))$
+
+I cannot use type `double` for coordinates `x` and `y`:
+Error: *"When using symbolic methods you cannot get state-doubles."*
+
+**This means that I either have to cast to integer or use grid approach with either 4 or 8 directions.**
+
+**Casting to integer doesn't work as expected** when using `fint()` 
+[UPPAAL reference](https://docs.uppaal.org/language-reference/expressions/)
+[StackOverflow issue](https://stackoverflow.com/questions/54460545/how-to-cast-a-double-value-to-a-integer-value-in-uppaal)
+
+$sin(\alpha)$ for $\alpha \in \{90, 270\}$ is not exactly one, therefore `step` must be bigger than 1 to observe any kind of movement.
+
+**The biggest issue is that the Symbolic Simulator doesn't seem to work when values are casted to integer ( or for some other reason )**
