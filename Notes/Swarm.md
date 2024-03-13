@@ -4,7 +4,7 @@ Swarms typically consist of many individual, simple, and homogeneous or heteroge
 Swarms can be considered as a kind of quasi-organism that can adapt to changes in the environment by following specific behaviors (Hamann and Schmickl, 2012), e.g.:
 - Pursuing a specific goal
 - Aggregating or dispersing in the environment
-- Communicating(direct, indirect)
-- Memorising(local states, morphologies)
+- Communicating (direct, indirect)
+- Memorising (local states, morphologies)
 
 From [Paper - Swarm Robotic Behaviors and Current Applications](Paper%20-%20Swarm%20Robotic%20Behaviors%20and%20Current%20Applications.md)
