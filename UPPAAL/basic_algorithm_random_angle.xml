@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE nta PUBLIC '-//Uppaal Team//DTD Flat System 1.6//EN' 'http://www.it.uu.se/research/group/darts/uppaal/flat-1_6.dtd'>
 <nta>
-	<declaration>// Place global declarations </declaration>
+	<declaration>// Place global declarations
+const double pi = 3.14159265358979323846;</declaration>
 	<template>
 		<name x="5" y="5">robot</name>
 		<parameter>int x, int y, int step, int angle, int radius, bool turned_random, bool turned_180</parameter>
@@ -25,30 +26,30 @@
 		<transition id="id5">
 			<source ref="id2"/>
 			<target ref="id1"/>
-			<label kind="guard" x="492" y="-229">turned_180 == true</label>
-			<label kind="assignment" x="425" y="-187">x = fint(x + step * sin(1.0 * angle)),
-y = fint(y + step * cos(1.0 * angle))</label>
+			<label kind="guard" x="374" y="-229">turned_180 == true</label>
+			<label kind="assignment" x="373" y="-178">x = fint(x + step * sin(angle * pi / 180)),
+y = fint(y + step * cos(angle * pi / 180))</label>
 			<nail x="773" y="-195"/>
-			<nail x="391" y="-195"/>
+			<nail x="331" y="-195"/>
 		</transition>
 		<transition id="id6">
 			<source ref="id0"/>
 			<target ref="id1"/>
-			<label kind="guard" x="-51" y="-229">turned_random == true</label>
-			<label kind="assignment" x="-110" y="-178">x = fint(x + step * sin(1.0 * angle)),
-y = fint(y + step * cos(1.0 * angle))</label>
+			<label kind="guard" x="-110" y="-229">turned_random == true</label>
+			<label kind="assignment" x="-110" y="-178">x = fint(x + step * sin(angle * pi / 180)),
+y = fint(y + step * cos(angle * pi / 180))</label>
 			<nail x="-136" y="-195"/>
-			<nail x="204" y="-195"/>
+			<nail x="272" y="-195"/>
 		</transition>
 		<transition id="id7">
 			<source ref="id3"/>
 			<target ref="id1"/>
-			<label kind="assignment" x="416" y="110">angle = (angle + 180) % 360,
-x = fint(x + step * sin(1.0 * angle)),
-y = fint(y + step * cos(1.0 * angle)),
+			<label kind="assignment" x="374" y="110">angle = (angle + 180) % 360,
+x = fint(x + step * sin(angle * pi / 180)),
+y = fint(y + step * cos(angle * pi / 180)),
 turned_180 = true,
 turned_random = false</label>
-			<nail x="365" y="238"/>
+			<nail x="340" y="238"/>
 		</transition>
 		<transition id="id8">
 			<source ref="id2"/>
@@ -58,7 +59,7 @@ turned_random = false</label>
 		<transition id="id9">
 			<source ref="id1"/>
 			<target ref="id2"/>
-			<label kind="guard" x="425" y="-42">(x*x) + (y*y) &gt; (radius*radius)</label>
+			<label kind="guard" x="365" y="-34">(x*x) + (y*y) &gt; (radius*radius)</label>
 		</transition>
 		<transition id="id10">
 			<source ref="id1"/>
@@ -70,11 +71,11 @@ turned_random = false</label>
 			<target ref="id1"/>
 			<label kind="select" x="-110" y="246">random_angle : int[0, 359]</label>
 			<label kind="assignment" x="-110" y="110">angle = random_angle,
-x = fint(x + step * sin(1.0 * angle)),
-y = fint(y + step * cos(1.0 * angle)),
+x = fint(x + step * sin(angle * pi / 180)),
+y = fint(y + step * cos(angle * pi / 180)),
 turned_random = true,
 turned_180 = false</label>
-			<nail x="221" y="238"/>
+			<nail x="263" y="238"/>
 		</transition>
 		<transition id="id12">
 			<source ref="id0"/>
@@ -83,53 +84,53 @@ turned_180 = false</label>
 		</transition>
 	</template>
 	<system>// Place template instantiations here.
-R1 = robot(0, 0, 2, 0, 10, false, false);
+R1 = robot(0, 0, 3, 0, 5, false, false);
 // List one or more processes to be composed into a system.
 system R1;
 </system>
 	<queries>
-		<option key="--diagnostic" value="1"/>
+		<option key="--diagnostic" value="0"/>
 		<query>
 			<formula>E&lt;&gt; R1.turn_random</formula>
 			<comment/>
-			<result outcome="success" type="quality" timestamp="2024-03-12 15:28:25 +0100">
-				<option key="--diagnostic" value="1"/>
+			<result outcome="success" type="quality" timestamp="2024-03-13 11:29:47 +0100">
+				<option key="--diagnostic" value="0"/>
 			</result>
 		</query>
 		<query>
 			<formula>E&lt;&gt; R1.turn_180</formula>
 			<comment/>
-			<result outcome="success" type="quality" timestamp="2024-03-12 15:28:27 +0100">
-				<option key="--diagnostic" value="1"/>
+			<result outcome="success" type="quality" timestamp="2024-03-13 11:29:48 +0100">
+				<option key="--diagnostic" value="0"/>
 			</result>
 		</query>
 		<query>
 			<formula>E&lt;&gt; R1.connected</formula>
 			<comment/>
-			<result outcome="success" type="quality" timestamp="2024-03-12 15:28:30 +0100">
-				<option key="--diagnostic" value="1"/>
+			<result outcome="success" type="quality" timestamp="2024-03-13 11:29:48 +0100">
+				<option key="--diagnostic" value="0"/>
 			</result>
 		</query>
 		<query>
 			<formula>E&lt;&gt; R1.disconnected</formula>
 			<comment/>
-			<result outcome="success" type="quality" timestamp="2024-03-12 15:28:33 +0100">
-				<option key="--diagnostic" value="1"/>
-			</result>
-		</query>
-		<query>
-			<formula>A[] abs(R1.x) &lt;= R1.radius + 1000
-
-
-</formula>
-			<comment/>
-			<result outcome="failure" type="quality" timestamp="2024-03-12 15:40:18 +0100">
-				<option key="--diagnostic" value="1"/>
+			<result outcome="success" type="quality" timestamp="2024-03-13 11:29:48 +0100">
+				<option key="--diagnostic" value="0"/>
 			</result>
 		</query>
 		<query>
 			<formula>A[] not deadlock</formula>
 			<comment/>
+			<result outcome="success" type="quality" timestamp="2024-03-13 11:29:54 +0100">
+				<option key="--diagnostic" value="0"/>
+			</result>
+		</query>
+		<query>
+			<formula>A[] R1.disconnected imply R1.connected</formula>
+			<comment/>
+			<result outcome="failure" type="quality" timestamp="2024-03-13 11:29:56 +0100">
+				<option key="--diagnostic" value="0"/>
+			</result>
 		</query>
 	</queries>
 </nta>
