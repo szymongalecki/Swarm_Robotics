@@ -1,20 +1,32 @@
 ## Mutex in UPPAAL
 Derive an automaton based on Peterson's mutual exclusion algorithm and check its properties using verification tools.
 
-The algorithm for two processes in C.
+The algorithm for two concurrent processes in C.
+**Process 1**
 ```c
-// process 1				     // process 2
-req1 = 1;				         req2 = 1;
-turn = 2;				         turn = 1;
-while(turn != 1 && req2 != 0){	 while(turn != 2 && req1 != 0){
-    // busy wait			         // busy wait
-}				                 }
-// critical section - start		 // critical section - start
-job1();				             job2();
-// critical section - end	     // critical section - end
-req1 = 0				         req2 = 0;
+req1 = 1;
+turn = 2;
+while(turn != 1 && req2 != 0){
+    // busy wait
+}   
+// critical section - start
+job1();       
+// critical section - end
+req1 = 0
 ```
 
+**Process 2**
+```c
+req2 = 1;
+turn = 1;
+while(turn != 2 && req1 != 0){
+// busy wait
+}
+// critical section - start
+job2();
+// critical section - end
+req2 = 0;
+```
 ### Create the mutex template
 - Blue expressions are assignment to variables, that are executed when the transition is taken. To create assignment, edit the '**Update**' section of the created edge.
 - Green expressions are guards that have to be true in order for the corresponding transition to be enabled. To create guard, edit the '**Guard**' section of the created edge.
