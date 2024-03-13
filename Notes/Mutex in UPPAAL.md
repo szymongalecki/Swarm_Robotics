@@ -1,7 +1,7 @@
 ## Mutex in UPPAAL
 Derive an automaton based on Peterson's mutual exclusion algorithm and check its properties using verification tools.
 
-The algorithm for two concurrent processes in C.
+The algorithm for two concurrent processes in C.  
 **Process 1**
 ```c
 req1 = 1;
