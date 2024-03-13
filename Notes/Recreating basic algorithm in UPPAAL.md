@@ -60,6 +60,12 @@ Error: *"When using symbolic methods you cannot get state-doubles."*
 [UPPAAL reference](https://docs.uppaal.org/language-reference/expressions/)
 [StackOverflow issue](https://stackoverflow.com/questions/54460545/how-to-cast-a-double-value-to-a-integer-value-in-uppaal)
 
-$sin(\alpha)$ for $\alpha \in \{90, 270\}$ is not exactly one, therefore `step` must be bigger than 1 to observe any kind of movement.
+Casting $sin(\alpha)$ to integer means that we will only get movement for $\alpha \in \{0, 90, 180, 270\}$ if the `step` is equal to one. Therefore `step` must be bigger than 1 to observe any kind of movement.
 
 **The biggest issue is that the Symbolic Simulator doesn't seem to work when values are casted to integer ( or for some other reason )**
+
+For example let's take the property:
+*All robots that left the circle of radius 'threshold' will find their way back*
+`A[] R1.disconnected imply R1.connected`
+It is not satisfied but the corresponding diagnostic trace is unavailable.
+
