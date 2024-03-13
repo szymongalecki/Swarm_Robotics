@@ -6,7 +6,7 @@ int X[2];
 int Y[2];</declaration>
 	<template>
 		<name x="5" y="5">robot</name>
-		<parameter>bool id, int x, int y, int dir_x, int dir_y, int radius, bool turned_random, bool turned_180</parameter>
+		<parameter>bool id, int x, int y, int dir_x, int dir_y, int threshold, bool turned_random, bool turned_180</parameter>
 		<declaration>// Place local declarations here.</declaration>
 		<location id="id0" x="-136" y="0">
 			<name x="-237" y="-16">connected</name>
@@ -69,14 +69,14 @@ turned_random = false</label>
 			<target ref="id2"/>
 			<label kind="guard" x="374" y="-76">abs(X[id] - X[!id]) * abs(X[id] - X[!id]) 
 + abs(Y[id] - Y[!id]) * abs(Y[id] - Y[!id]) 
-&gt; (radius*radius)</label>
+&gt; (threshold*threshold)</label>
 		</transition>
 		<transition id="id10">
 			<source ref="id1"/>
 			<target ref="id0"/>
 			<label kind="guard" x="-110" y="-76">abs(X[id] - X[!id]) * abs(X[id] - X[!id]) 
 + abs(Y[id] - Y[!id]) * abs(Y[id] - Y[!id]) 
-&lt;= (radius*radius)</label>
+&lt;= (threshold*threshold)</label>
 		</transition>
 		<transition id="id11">
 			<source ref="id4"/>
@@ -109,42 +109,42 @@ system R1, R2;
 		<query>
 			<formula>E&lt;&gt; R1.turn_random</formula>
 			<comment/>
-			<result outcome="success" type="quality" timestamp="2024-03-13 13:10:47 +0100">
+			<result outcome="success" type="quality" timestamp="2024-03-13 15:04:42 +0100">
 				<option key="--diagnostic" value="1"/>
 			</result>
 		</query>
 		<query>
 			<formula>E&lt;&gt; R1.turn_180</formula>
 			<comment/>
-			<result outcome="success" type="quality" timestamp="2024-03-13 13:10:51 +0100">
+			<result outcome="success" type="quality" timestamp="2024-03-13 15:04:43 +0100">
 				<option key="--diagnostic" value="1"/>
 			</result>
 		</query>
 		<query>
 			<formula>E&lt;&gt; (R1.connected &amp;&amp; R2.connected)</formula>
 			<comment/>
-			<result outcome="success" type="quality" timestamp="2024-03-13 13:11:29 +0100">
+			<result outcome="success" type="quality" timestamp="2024-03-13 15:04:43 +0100">
 				<option key="--diagnostic" value="1"/>
 			</result>
 		</query>
 		<query>
 			<formula>E&lt;&gt; (R1.disconnected &amp;&amp; R2.disconnected)</formula>
 			<comment/>
-			<result outcome="success" type="quality" timestamp="2024-03-13 13:11:56 +0100">
+			<result outcome="success" type="quality" timestamp="2024-03-13 15:04:44 +0100">
 				<option key="--diagnostic" value="1"/>
 			</result>
 		</query>
 		<query>
 			<formula>E&lt;&gt; (R1.connected &amp;&amp; R2.connected) imply (R1.disconnected &amp;&amp; R2.disconnected)</formula>
 			<comment/>
-			<result outcome="success" type="quality" timestamp="2024-03-13 13:22:22 +0100">
+			<result outcome="success" type="quality" timestamp="2024-03-13 15:04:44 +0100">
 				<option key="--diagnostic" value="1"/>
 			</result>
 		</query>
 		<query>
 			<formula>E&lt;&gt; (R1.disconnected &amp;&amp; R2.disconnected) imply (R1.connected &amp;&amp; R2.connected)</formula>
 			<comment/>
-			<result outcome="success" type="quality" timestamp="2024-03-13 13:23:55 +0100">
+			<result outcome="success" type="quality" timestamp="2024-03-13 15:04:45 +0100">
 				<option key="--diagnostic" value="1"/>
 			</result>
 		</query>
