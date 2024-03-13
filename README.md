@@ -16,7 +16,6 @@
 - [Mutex in UPPAAL](Notes/Mutex%20in%20UPPAAL.md)
 - [Time in UPPAAL](Notes/Time%20in%20UPPAAL.md)
 - [Verifying properties in UPPAAL](Notes/Verifying%20properties%20in%20UPPAAL.md)
-- [6.03.2024](Notes/6.03.2024.md)
 - [Recreating basic algorithm in UPPAAL](Notes/Recreating%20basic%20algorithm%20in%20UPPAAL.md)
 
 ### Summaries
@@ -24,7 +23,7 @@
 2. [Paper - Towards Temporal Verification of Emergent Behaviours in Swarm Robotic Systems](Notes/Paper%20-%20Towards%20Temporal%20Verification%20of%20Emergent%20Behaviours%20in%20Swarm%20Robotic%20Systems.md)
 3. [Paper - Formal Verification of Probabilistic Swarm Behaviours](Notes/Paper%20-%20Formal%20Verification%20of%20Probabilistic%20Swarm%20Behaviours.md)
 4. [Paper - On Formal Specification of Emergent Behaviours in Swarm Robotic Systems](Notes/Paper%20-%20On%20Formal%20Specification%20of%20Emergent%20Behaviours%20in%20Swarm%20Robotic%20Systems.md)
-5. [Publications of Alessio Lomuscio](Notes/Publications%20of%20Alessio%20Lomuscio.md)
+
 
 ### Papers
 1. [Property-Driven Design for Swarm Robotics](Relevant%20Papers/Property-Driven%20Design%20for%20Swarm%20Robotics.pdf)
@@ -33,6 +32,7 @@
 4. [On Formal Specification of Emergent Behaviours in Swarm Robotic Systems](Relevant%20Papers/On%20Formal%20Specification%20of%20Emergent%20Behaviours%20in%20Swarm%20Robotic%20Systems.pdf)
 
 ### Alessio Lomuscio
+[Publications of Alessio Lomuscio](Notes/Publications%20of%20Alessio%20Lomuscio.md)
 1. [A Counter Abstraction Technique for the Verification of Probabilistic Swarm Systems](Alessio%20Lomuscio%20Papers/A%20Counter%20Abstraction%20Technique%20for%20the%20Verification%20of%20Probabilistic%20Swarm%20Systems.pdf)
 2. [A Counter Abstraction Technique for the Verification of Robot Swarms](Alessio%20Lomuscio%20Papers/A%20Counter%20Abstraction%20Technique%20for%20the%20Verification%20of%20Robot%20Swarms.pdf)
 3. [Formal Verification of Opinion Formation in Swarms](Alessio%20Lomuscio%20Papers/Formal%20Verification%20of%20Opinion%20Formation%20in%20Swarms.pdf)
@@ -70,6 +70,5 @@
 - [How to Research](PDFs/How%20to%20Research.pdf)
 
 ---
-[Webpage](https://szymongalecki.github.io/Swarm_Robotics/)  | [GitHub](https://github.com/szymongalecki/Swarm_Robotics)
-
+[Webpage](https://szymongalecki.github.io/Swarm_Robotics/)     |     [GitHub](https://github.com/szymongalecki/Swarm_Robotics)
 
