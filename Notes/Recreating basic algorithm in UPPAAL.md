@@ -16,33 +16,34 @@ Algorithms adapted from Julien's Membrini [Minimalist Coherent Swarming of Wirel
 - Disconnected when outside of the circle
 
 **Variables:**
-- x, y
-- dir_x, dir_y
-- radius
+- `x, y`
+- `dir_x, dir_y`
+- `radius`
 
 **Initial state:**
-- x = 0, y = 0
-- dir_x = 0, dir_y = 0
-- radius = 3
+- ` x = 0, y = 0`
+- ` dir_x = 0, dir_y = 0`
+- `radius = 3`
 
 **Random turn:**
 - *Move only in multiples of 45 degrees*
-- dir_x = 1 or -1
-- dir_y = 1 or -1
+- `dir_x` $\in \{-1, 0, 1\}$
+- `dir_y` $\in \{-1, 0, 1\}$
 
 **Connected:**
 $$\sqrt{x^2 + y^2} <= radius$$
 
 **Turn 180:**
 ```C++
-dir_x = 1 ? dir_x == -1 : -1
-dir_y = 1 ? dir_y == -1 : -1
+dir_x = dir_x == 0 ? 0 : dir_x == -1 ? 1 : -1,
+dir_y = dir_y == 0 ? 0 : dir_y == -1 ? 1 : -1,
 ```
 
 ### Next iteration
 - Change `dir_x` and `dir_y` to `angle`
 - Calculate the `x` and `y` position from `angle` and unit step of length 1
 - 180 degree turn is `(angle + 180) % 360`
+- Random turn is choosing an angle from range 0 to 359 degrees
 
 **Formulas:**
 $step=length(hypotenuse)$ 
@@ -69,3 +70,8 @@ For example let's take the property:
 `A[] R1.disconnected imply R1.connected`
 It is not satisfied but the corresponding diagnostic trace is unavailable.
 
+### Two robots moving in four directions
+- Robots store their coordinates through the shared data structure
+- Array `X` stores the x coordinates of the robots
+- Array `Y` stores the y coordinates of the robots
+- If the distance between two robots between their distance is bigger than `threshold`, it means that they are disconnected
