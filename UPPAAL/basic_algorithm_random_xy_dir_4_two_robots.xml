@@ -3,25 +3,33 @@
 <nta>
 	<declaration>// Place global declarations 
 int X[2];
-int Y[2];</declaration>
+int Y[2];
+int distance(){
+    return fint(sqrt(pow(1.0 * abs(X[0] - X[1]), 2) + pow(1.0 * abs(Y[0] - Y[1]), 2)));
+}</declaration>
 	<template>
 		<name x="5" y="5">robot</name>
-		<parameter>bool id, int x, int y, int dir_x, int dir_y, int threshold, bool turned_random, bool turned_180</parameter>
+		<parameter>bool id, int x, int y, int dir_x, int dir_y, int threshold, bool turned_random, bool turned_180, bool connected, int dist</parameter>
 		<declaration>// Place local declarations here.</declaration>
 		<location id="id0" x="-136" y="0">
 			<name x="-237" y="-16">connected</name>
+			<urgent/>
 		</location>
 		<location id="id1" x="297" y="0">
 			<name x="212" y="8">forward</name>
+			<urgent/>
 		</location>
 		<location id="id2" x="773" y="0">
 			<name x="798" y="-16">disconnected</name>
+			<urgent/>
 		</location>
 		<location id="id3" x="773" y="238">
 			<name x="799" y="220">turn_180</name>
+			<urgent/>
 		</location>
 		<location id="id4" x="-136" y="238">
 			<name x="-254" y="221">turn_random</name>
+			<urgent/>
 		</location>
 		<init ref="id0"/>
 		<transition id="id5">
@@ -56,7 +64,8 @@ y += dir_y,
 X[id] = x,
 Y[id] = y,
 turned_180 = true,
-turned_random = false</label>
+turned_random = false,
+dist = distance()</label>
 			<nail x="365" y="238"/>
 		</transition>
 		<transition id="id8">
@@ -67,16 +76,14 @@ turned_random = false</label>
 		<transition id="id9">
 			<source ref="id1"/>
 			<target ref="id2"/>
-			<label kind="guard" x="374" y="-76">abs(X[id] - X[!id]) * abs(X[id] - X[!id]) 
-+ abs(Y[id] - Y[!id]) * abs(Y[id] - Y[!id]) 
-&gt; (threshold*threshold)</label>
+			<label kind="guard" x="467" y="-34">dist &gt; threshold</label>
+			<label kind="assignment" x="467" y="0">connected = false</label>
 		</transition>
 		<transition id="id10">
 			<source ref="id1"/>
 			<target ref="id0"/>
-			<label kind="guard" x="-110" y="-76">abs(X[id] - X[!id]) * abs(X[id] - X[!id]) 
-+ abs(Y[id] - Y[!id]) * abs(Y[id] - Y[!id]) 
-&lt;= (threshold*threshold)</label>
+			<label kind="guard" x="-34" y="-25">dist &lt;= threshold</label>
+			<label kind="assignment" x="-34" y="0">connected = true</label>
 		</transition>
 		<transition id="id11">
 			<source ref="id4"/>
@@ -89,7 +96,8 @@ y += dir_y,
 X[id] = x,
 Y[id] = y,
 turned_random = true,
-turned_180 = false</label>
+turned_180 = false,
+dist = distance()</label>
 			<nail x="221" y="238"/>
 		</transition>
 		<transition id="id12">
@@ -99,8 +107,8 @@ turned_180 = false</label>
 		</transition>
 	</template>
 	<system>// Place template instantiations here.
-R1 = robot(true, 0, 0, 0, 0, 3, false, false);
-R2 = robot(false, 0, 0, 0, 0, 3, false, false);
+R1 = robot(true, 0, 0, 0, 0, 3, false, false, true, 0);
+R2 = robot(false, 0, 0, 0, 0, 3, false, false, true, 0);
 // List one or more processes to be composed into a system.
 system R1, R2;
 </system>
@@ -109,42 +117,49 @@ system R1, R2;
 		<query>
 			<formula>E&lt;&gt; R1.turn_random</formula>
 			<comment/>
-			<result outcome="success" type="quality" timestamp="2024-03-13 15:04:42 +0100">
+			<result outcome="success" type="quality" timestamp="2024-03-18 13:32:59 +0100">
+				<option key="--diagnostic" value="1"/>
+			</result>
+		</query>
+		<query>
+			<formula>A&lt;&gt; (R1.dist == distance() &amp;&amp; R2.dist == distance())</formula>
+			<comment/>
+			<result outcome="success" type="quality" timestamp="2024-03-18 13:40:56 +0100">
 				<option key="--diagnostic" value="1"/>
 			</result>
 		</query>
 		<query>
 			<formula>E&lt;&gt; R1.turn_180</formula>
 			<comment/>
-			<result outcome="success" type="quality" timestamp="2024-03-13 15:04:43 +0100">
+			<result outcome="success" type="quality" timestamp="2024-03-18 13:33:00 +0100">
 				<option key="--diagnostic" value="1"/>
 			</result>
 		</query>
 		<query>
 			<formula>E&lt;&gt; (R1.connected &amp;&amp; R2.connected)</formula>
 			<comment/>
-			<result outcome="success" type="quality" timestamp="2024-03-13 15:04:43 +0100">
-				<option key="--diagnostic" value="1"/>
-			</result>
-		</query>
-		<query>
-			<formula>E&lt;&gt; (R1.disconnected &amp;&amp; R2.disconnected)</formula>
-			<comment/>
-			<result outcome="success" type="quality" timestamp="2024-03-13 15:04:44 +0100">
+			<result outcome="success" type="quality" timestamp="2024-03-18 13:33:01 +0100">
 				<option key="--diagnostic" value="1"/>
 			</result>
 		</query>
 		<query>
 			<formula>E&lt;&gt; (R1.connected &amp;&amp; R2.connected) imply (R1.disconnected &amp;&amp; R2.disconnected)</formula>
 			<comment/>
-			<result outcome="success" type="quality" timestamp="2024-03-13 15:04:44 +0100">
+			<result outcome="success" type="quality" timestamp="2024-03-18 13:34:03 +0100">
 				<option key="--diagnostic" value="1"/>
 			</result>
 		</query>
 		<query>
 			<formula>E&lt;&gt; (R1.disconnected &amp;&amp; R2.disconnected) imply (R1.connected &amp;&amp; R2.connected)</formula>
 			<comment/>
-			<result outcome="success" type="quality" timestamp="2024-03-13 15:04:45 +0100">
+			<result outcome="success" type="quality" timestamp="2024-03-18 13:34:00 +0100">
+				<option key="--diagnostic" value="1"/>
+			</result>
+		</query>
+		<query>
+			<formula>A[] (R1.forward &amp;&amp; R1.dist &gt; R1.threshold) imply (R1.disconnected || R2.disconnected)</formula>
+			<comment/>
+			<result outcome="failure" type="quality" timestamp="2024-03-18 13:50:52 +0100">
 				<option key="--diagnostic" value="1"/>
 			</result>
 		</query>
