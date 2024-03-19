@@ -26,3 +26,69 @@ Try changing the types of location in the timed automata:
 	- `.xtr`
 	- `.csv`
 	- `.txt`
+
+### Storing the state of the connection
+The biggest mistake so far was to save the state of connectivity for a single automaton. This lead to robots progressing to move forward while one was disconnected and the other had invalid saved information on being connected.
+
+Exemplary run that shows the undesired behaviour:
+```ts
+Threshold: 2
+P1: connected
+P2: connected
+
+P1  --  --  P2
+0,0         2,0
+```
+
+```ts
+Threshold: 2
+P1: disconnected
+P2: connected
+
+P1  --  --  --
+--  --  --  P2
+1,0         2,0
+```
+
+```ts
+Threshold: 2
+P1: disconnected
+P2: disconnected
+
+P1  --  --  --
+--  --  --  --  P2
+1,0             3,0
+```
+
+```ts
+Threshold: 2
+P1: disconnected
+P2: disconnected
+
+P1  --  --  --
+--  --  --  --  P2
+1,0             3,0
+```
+
+```ts
+Threshold: 2
+P1: disconnected
+P2: disconnected
+
+--  --  --  --
+P1  --  --  --  P2
+0,0             3,0
+```
+
+```ts
+Threshold: 2
+P1: disconnected
+P2: disconnected
+
+--  --  --  --
+--  --  --  --  P2
+P1  --  --  --  3,0
+-1,0             
+```
+
+`P1` will continue with downward movement and `P2` will move left indefinitely. This is due to storing the state of the connection for each of the automatons instead of using a global function to determine the connectivity.
