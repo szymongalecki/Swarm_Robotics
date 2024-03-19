@@ -12,3 +12,17 @@ Try changing the types of location in the timed automata:
 - They turn randomly and move forward until disconnected
 - They turn 180 degrees and become connected 
 - They remain connected and this is the final state
+
+### Issues
+- Automata can stay in the states indefinitely **despite using urgent and committed locations**. This means that possibilities of verifying properties are very limited. Automata staying in the initial states is recognised as a valid trace that invalidates the verified property.
+- Synchronisation based on memory seems to be more complex when it comes to the number of possible states. Each state of each automaton can be interleaved with another one. Without progress requirements imposed by the passing time the state explosion seems to be happening sooner than expected.
+- **Only some properties of liveness can be verified**. Safety properties can't be checked for the following reasons:
+	- Automata with initial states is a valid trace
+	- Memory based synchronisation allows for interleaving creating state space explosion early on
+- Can't save the trace from the Concrete Simulator, I get the following error: "The file name must have a valid file extension.". I tried:
+	- `.xml`
+	- `.xta`
+	- `.ta`
+	- `.xtr`
+	- `.csv`
+	- `.txt`
