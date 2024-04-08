@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE nta PUBLIC '-//Uppaal Team//DTD Flat System 1.6//EN' 'http://www.it.uu.se/research/group/darts/uppaal/flat-1_6.dtd'>
+<nta>
+	<declaration>// Place global declarations here.
+int X[2];
+int Y[2];
+
+int x_direction(int direction){
+    if (direction == 1){
+        return 1;
+    }
+    if (direction == 3){
+        return -1;
+    }
+    return 0;
+}
+
+int y_direction(int direction){
+    if (direction == 0){
+        return 1;
+    }
+    if (direction == 2){
+        return -1;
+    }
+    return 0;
+}
+
+int reverse(int direction){
+    if (direction != 0){
+        return direction * -1;
+    }
+    return 0;
+}
+
+bool connected(int t){
+    int x = abs(X[0] - X[1]);
+    int y = abs(Y[0] - Y[1]);
+    return x*x + y*y &lt;= t*t;
+}</declaration>
+	<template>
+		<name x="5" y="5">Robot</name>
+		<parameter>int[0,1] id, bool turned_random, bool turned_180, int x, int y, int x_dir, int y_dir, int threshold</parameter>
+		<declaration>// Place local declarations here.
+</declaration>
+		<location id="id0" x="-544" y="-93">
+			<name x="-554" y="-127">initial</name>
+			<committed/>
+		</location>
+		<location id="id1" x="-340" y="-93">
+			<name x="-350" y="-127">turn_random</name>
+			<committed/>
+		</location>
+		<location id="id2" x="51" y="76">
+			<name x="42" y="42">turn_180</name>
+			<committed/>
+		</location>
+		<location id="id3" x="42" y="-93">
+			<name x="17" y="-136">forward</name>
+			<committed/>
+		</location>
+		<location id="id4" x="459" y="-93">
+			<name x="449" y="-127">final</name>
+			<committed/>
+		</location>
+		<init ref="id0"/>
+		<transition id="id5">
+			<source ref="id3"/>
+			<target ref="id3"/>
+			<label kind="guard" x="-76" y="-374">(turned_random &amp;&amp; connected(threshold))
+|| (turned_180 &amp;&amp; !connected(threshold))</label>
+			<label kind="assignment" x="-76" y="-314">x += x_dir,
+y += y_dir,
+X[id] = x,
+Y[id] = y</label>
+			<nail x="-178" y="-323"/>
+			<nail x="281" y="-323"/>
+		</transition>
+		<transition id="id6">
+			<source ref="id3"/>
+			<target ref="id4"/>
+			<label kind="guard" x="136" y="-76">turned_180 &amp;&amp; connected(threshold)</label>
+		</transition>
+		<transition id="id7">
+			<source ref="id2"/>
+			<target ref="id3"/>
+			<label kind="assignment" x="-153" y="85">x_dir = reverse(x_dir),
+y_dir = reverse(y_dir),
+turned_random = false,
+turned_180 = true</label>
+			<nail x="-170" y="76"/>
+		</transition>
+		<transition id="id8">
+			<source ref="id3"/>
+			<target ref="id2"/>
+			<label kind="guard" x="102" y="85">!turned_180 &amp;&amp; !connected(threshold)</label>
+			<nail x="280" y="76"/>
+		</transition>
+		<transition id="id9">
+			<source ref="id1"/>
+			<target ref="id3"/>
+			<label kind="select" x="-323" y="-17">direction : int[0, 3]</label>
+			<label kind="assignment" x="-323" y="-85">x_dir = x_direction(direction),
+y_dir = y_direction(direction),
+turned_random = true</label>
+			<nail x="-85" y="-93"/>
+		</transition>
+		<transition id="id10">
+			<source ref="id0"/>
+			<target ref="id1"/>
+			<label kind="assignment" x="-535" y="-76">turned_random = false,
+turned_180 = false,
+x = 0,
+y = 0,
+x_dir = 0,
+y_dir = 0</label>
+		</transition>
+	</template>
+	<system>// Place template instantiations here.
+P1 = Robot(0, false, false, 0, 0, 0, 0, 2);
+P2 = Robot(1, false, false, 0, 0, 0, 0, 2);
+// List one or more processes to be composed into a system.
+system P1, P2;
+</system>
+	<queries>
+		<option key="--diagnostic" value="1"/>
+		<query>
+			<formula>E&lt;&gt; P1.final</formula>
+			<comment/>
+			<result outcome="success" type="quality" timestamp="2024-03-19 16:13:04 +0100">
+				<option key="--diagnostic" value="1"/>
+			</result>
+		</query>
+		<query>
+			<formula>E&lt;&gt; P2.final</formula>
+			<comment/>
+			<result outcome="success" type="quality" timestamp="2024-03-19 16:13:06 +0100">
+				<option key="--diagnostic" value="1"/>
+			</result>
+		</query>
+		<query>
+			<formula>E&lt;&gt; P1.final &amp;&amp; P2.final</formula>
+			<comment/>
+			<result outcome="success" type="quality" timestamp="2024-03-19 16:14:26 +0100">
+				<option key="--diagnostic" value="1"/>
+			</result>
+		</query>
+		<query>
+			<formula>E&lt;&gt; (P1.final &amp;&amp; P2.final) imply connected(2)</formula>
+			<comment/>
+			<result outcome="success" type="quality" timestamp="2024-03-19 16:15:19 +0100">
+				<option key="--diagnostic" value="1"/>
+			</result>
+		</query>
+		<query>
+			<formula>E&lt;&gt; deadlock</formula>
+			<comment/>
+			<result outcome="success" type="quality" timestamp="2024-03-19 16:15:30 +0100">
+				<option key="--diagnostic" value="1"/>
+			</result>
+		</query>
+	</queries>
+</nta>
