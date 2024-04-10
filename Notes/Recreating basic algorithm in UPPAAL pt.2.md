@@ -1,3 +1,4 @@
+## Recreating basic algorithm in UPPAAL pt.2
 ### Automata should not be allowed to stay in the state indefinitely 
 Try changing the types of location in the timed automata:
 
