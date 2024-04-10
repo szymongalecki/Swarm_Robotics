@@ -158,7 +158,7 @@ system P1, P2, C;
 		<query>
 			<formula>A[] C.loop_counter &gt; 7 imply (P1.conn &amp;&amp; P2.conn) || (P1.final &amp;&amp; P2.final)</formula>
 			<comment/>
-			<result outcome="success" type="quality" timestamp="2024-04-10 12:35:22 +0200">
+			<result outcome="success" type="quality" timestamp="2024-04-10 14:29:57 +0200">
 				<option key="--diagnostic" value="1"/>
 			</result>
 		</query>
@@ -172,7 +172,7 @@ system P1, P2, C;
 		<query>
 			<formula>A&lt;&gt; (P1.conn &amp;&amp; P2.conn) || (P1.final &amp;&amp; P2.final)</formula>
 			<comment/>
-			<result outcome="failure" type="quality" timestamp="2024-04-10 12:33:34 +0200">
+			<result outcome="failure" type="quality" timestamp="2024-04-10 14:31:26 +0200">
 				<option key="--diagnostic" value="1"/>
 			</result>
 		</query>
