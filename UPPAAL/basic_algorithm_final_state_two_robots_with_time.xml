@@ -124,6 +124,7 @@ y_dir = 0</label>
 		<parameter>int loop_counter</parameter>
 		<location id="id11" x="0" y="0">
 			<name x="-59" y="-8">loop</name>
+			<label kind="invariant" x="-34" y="25">t &lt;= 1</label>
 		</location>
 		<init ref="id11"/>
 		<transition id="id12">
@@ -151,14 +152,14 @@ system P1, P2, C;
 		<query>
 			<formula>A[] C.loop_counter == 50 imply (P1.final &amp;&amp; P2.final) || (P1.y_dir == P2.y_dir) || (P1.x_dir == P2.x_dir)</formula>
 			<comment/>
-			<result outcome="success" type="quality" timestamp="2024-04-10 12:33:23 +0200">
+			<result outcome="success" type="quality" timestamp="2024-04-24 16:06:21 +0200">
 				<option key="--diagnostic" value="1"/>
 			</result>
 		</query>
 		<query>
 			<formula>A[] C.loop_counter &gt; 7 imply (P1.conn &amp;&amp; P2.conn) || (P1.final &amp;&amp; P2.final)</formula>
 			<comment/>
-			<result outcome="success" type="quality" timestamp="2024-04-10 14:29:57 +0200">
+			<result outcome="success" type="quality" timestamp="2024-04-24 16:06:23 +0200">
 				<option key="--diagnostic" value="1"/>
 			</result>
 		</query>
@@ -172,20 +173,23 @@ system P1, P2, C;
 		<query>
 			<formula>A&lt;&gt; (P1.conn &amp;&amp; P2.conn) || (P1.final &amp;&amp; P2.final)</formula>
 			<comment/>
-			<result outcome="failure" type="quality" timestamp="2024-04-10 14:31:26 +0200">
+			<result outcome="success" type="quality" timestamp="2024-04-24 16:37:41 +0200">
 				<option key="--diagnostic" value="1"/>
 			</result>
 		</query>
 		<query>
-			<formula>A[] (P1.final &amp;&amp; P2.final) imply C.loop_counter &lt;=30</formula>
+			<formula>A[] (P1.conn &amp;&amp; P2.conn) || (P1.final &amp;&amp; P2.final)</formula>
 			<comment/>
-			<result outcome="failure" type="quality" timestamp="2024-04-10 12:32:56 +0200">
+			<result outcome="failure" type="quality" timestamp="2024-04-24 16:37:36 +0200">
 				<option key="--diagnostic" value="1"/>
 			</result>
 		</query>
 		<query>
-			<formula>A[] (P1.final &amp;&amp; P2.final) || (P1.conn &amp;&amp; P2.conn) imply C.loop_counter &lt; 100</formula>
+			<formula>A[] C.loop_counter &gt; 7 imply (P1.conn &amp;&amp; P2.conn) || (P1.final &amp;&amp; P2.final)</formula>
 			<comment/>
+			<result outcome="success" type="quality" timestamp="2024-04-24 16:37:20 +0200">
+				<option key="--diagnostic" value="1"/>
+			</result>
 		</query>
 		<query>
 			<formula>E&lt;&gt; P2.final</formula>
