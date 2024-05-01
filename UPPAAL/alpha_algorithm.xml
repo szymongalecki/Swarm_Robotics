@@ -1,23 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE nta PUBLIC '-//Uppaal Team//DTD Flat System 1.6//EN' 'http://www.it.uu.se/research/group/darts/uppaal/flat-1_6.dtd'>
 <nta>
-	<declaration>// Place global declarations here.
-int n;
-clock t;
-broadcast chan move;
+	<declaration>// number of robots - n, threshold distance - t
+const int n = 3;
+const int t = 2;
 
+// clock - cl, broadcasting channel - bc
+clock cl;
+broadcast chan bc;
+
+// x coordinates - X, y coordinates - Y
 int X[n];
 int Y[n];
+
+// number of neighbours - N, mutual distance to neighbours - D
 int N[n];
 int D[n][n];
 
 int x_direction(int direction){
-    // right
+    // maps direction to x axis
     if (direction == 1){
+        // right
         return 1;
     }
-    // left
     if (direction == 3){
+        // left
         return -1;
     }
     // neither
@@ -25,12 +32,13 @@ int x_direction(int direction){
 }
 
 int y_direction(int direction){
-    // up
+    // maps direction to y axis
     if (direction == 0){
+        // up
         return 1;
     }
-    // down
     if (direction == 2){
+        // down
         return -1;
     }
     // neither
@@ -38,31 +46,38 @@ int y_direction(int direction){
 }
 
 int reverse(int direction){
-    // reverse direction
+    // reverses direction
     return direction * -1;
 }
 
-bool connected(int x_1, int y_1, int x_2, int y_2, int t){
-    // returns true if distance between points 1 &amp; 2 is lower or equal to threshold t
+double distance(int x_1, int y_1, int x_2, int y_2){
+    // calculates Euclidean distance between points 1 &amp; 2
     int x = abs(x_1 - x_2);
     int y = abs(y_1 - y_2);
-    return x*x + y*y &lt;= t*t;
+    return sqrt(x*x + y*y);
+} 
+
+bool connected(double d, int t){
+    // returns true if distance between points 1 &amp; 2 is lower or equal to threshold t
+    return d &lt;= t*1.0;
 }
 
 int neighbours(int id, int t){
+    // returns number of connections for robot with given id
     int x_1 = X[id];
     int y_1 = Y[id];
-    int r = 0;
-    for (int i = 0; i &lt; n; i++){
-        if (i == id){
-            continue;
-        }
-        if (connected(x_1, y_1, X[i], Y[i], t)){
-            r++;
+    int k = 0;
+    int i = 0;
+    for (i = 0; i &lt; n; i++){
+        double d = distance(x_1, y_1, X[i], Y[i]);
+        bool c = connected(d, t);
+        // is robot connected to another robot
+        if(i != id &amp;&amp; c){
+            // increment neighbour counter
+            k++;
         }
     }
-    N[id] = r;
-    return r
+    return k;
 }</declaration>
 	<template>
 		<name x="5" y="5">Robot</name>
@@ -78,54 +93,47 @@ int neighbours(int id, int t){
 		<location id="id2" x="-238" y="255">
 			<name x="-323" y="247">turn_180</name>
 		</location>
-		<location id="id3" x="382" y="-25">
-			<name x="399" y="-34">forward</name>
+		<location id="id3" x="374" y="-42">
+			<name x="391" y="-51">forward</name>
 		</location>
 		<init ref="id0"/>
 		<transition id="id4">
 			<source ref="id3"/>
 			<target ref="id1"/>
-			<label kind="synchronisation" x="110" y="-119">move?</label>
-			<nail x="323" y="-119"/>
-			<nail x="-85" y="-119"/>
+			<label kind="synchronisation" x="110" y="-119">bc?</label>
+			<nail x="-246" y="-102"/>
 		</transition>
 		<transition id="id5">
 			<source ref="id2"/>
 			<target ref="id3"/>
-			<label kind="synchronisation" x="110" y="-34">move?</label>
-			<label kind="assignment" x="76" y="272">x_dir = reverse(x_dir),
+			<label kind="synchronisation" x="-229" y="76">bc?</label>
+			<label kind="assignment" x="-450" y="76">x_dir = reverse(x_dir),
 y_dir = reverse(y_dir),
 turned_random = false,
 turned_180 = true</label>
-			<nail x="-76" y="34"/>
-			<nail x="323" y="34"/>
+			<nail x="-238" y="17"/>
 		</transition>
 		<transition id="id6">
 			<source ref="id3"/>
 			<target ref="id2"/>
-			<label kind="synchronisation" x="93" y="221">move?</label>
-			<nail x="382" y="255"/>
+			<label kind="synchronisation" x="85" y="221">bc?</label>
+			<nail x="374" y="255"/>
 		</transition>
 		<transition id="id7">
 			<source ref="id1"/>
 			<target ref="id3"/>
-			<label kind="select" x="68" y="-433">direction : int[0, 3]</label>
-			<label kind="synchronisation" x="102" y="-340">move?</label>
-			<label kind="assignment" x="68" y="-416">x_dir = x_direction(direction),
-y_dir = y_direction(direction),
-turned_random = true</label>
+			<label kind="synchronisation" x="102" y="-340">bc?</label>
 			<nail x="374" y="-348"/>
 		</transition>
 		<transition id="id8">
 			<source ref="id0"/>
 			<target ref="id1"/>
-			<label kind="synchronisation" x="-544" y="-263">move?</label>
-			<label kind="assignment" x="-816" y="-85">turned_random = false,
-turned_180 = false,
-x = 0,
-y = 0,
-x_dir = 0,
-y_dir = 0</label>
+			<label kind="select" x="-697" y="-391">direction : int[0, 3]</label>
+			<label kind="synchronisation" x="-782" y="-323">bc?</label>
+			<label kind="assignment" x="-697" y="-323">x_dir = x_direction(direction),
+y_dir = y_direction(direction),
+turned_random = true</label>
+			<nail x="-731" y="-348"/>
 		</transition>
 	</template>
 	<template>
@@ -133,16 +141,16 @@ y_dir = 0</label>
 		<parameter>int loop_counter</parameter>
 		<location id="id9" x="0" y="0">
 			<name x="-59" y="-8">loop</name>
-			<label kind="invariant" x="-34" y="25">t &lt;= 1</label>
+			<label kind="invariant" x="-34" y="25">cl &lt;= 1</label>
 		</location>
 		<init ref="id9"/>
 		<transition id="id10">
 			<source ref="id9"/>
 			<target ref="id9"/>
-			<label kind="guard" x="136" y="-59">t &gt;= 1 &amp;&amp;
+			<label kind="guard" x="136" y="-59">cl &gt;= 1 &amp;&amp;
 loop_counter &lt; 100</label>
-			<label kind="synchronisation" x="136" y="-8">move!</label>
-			<label kind="assignment" x="136" y="25">t := 0,
+			<label kind="synchronisation" x="136" y="-8">bc!</label>
+			<label kind="assignment" x="136" y="25">cl := 0,
 loop_counter += 1</label>
 			<nail x="102" y="-93"/>
 			<nail x="102" y="-93"/>
