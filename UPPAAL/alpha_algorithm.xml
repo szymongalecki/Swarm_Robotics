@@ -81,7 +81,7 @@ int neighbours(int id, int t){
 }</declaration>
 	<template>
 		<name x="5" y="5">Robot</name>
-		<parameter>int id, bool turned_random, bool turned_180, int x, int y, int x_dir, int y_dir, int threshold</parameter>
+		<parameter>int id, int x, int y, int x_dir, int y_dir, int threshold, int k, int last_k, int alpha</parameter>
 		<declaration>// Place local declarations here.
 </declaration>
 		<location id="id0" x="-731" y="-110">
@@ -94,59 +94,80 @@ int neighbours(int id, int t){
 			<name x="-323" y="247">turn_180</name>
 		</location>
 		<location id="id3" x="374" y="-42">
-			<name x="391" y="-51">forward</name>
+			<name x="391" y="-68">forward</name>
 		</location>
 		<init ref="id0"/>
 		<transition id="id4">
 			<source ref="id3"/>
-			<target ref="id1"/>
-			<label kind="synchronisation" x="110" y="-119">bc?</label>
-			<nail x="-246" y="-102"/>
+			<target ref="id3"/>
+			<label kind="guard" x="552" y="-76">k &lt;= last_k &amp;&amp; k &gt; alpha</label>
+			<label kind="assignment" x="552" y="-34">X[id] += x_dir,
+Y[id] = y_dir,
+last_k = k,
+k = neighbours(id, t)</label>
+			<nail x="756" y="-42"/>
+			<nail x="756" y="255"/>
+			<nail x="501" y="255"/>
 		</transition>
 		<transition id="id5">
-			<source ref="id2"/>
-			<target ref="id3"/>
-			<label kind="synchronisation" x="-229" y="76">bc?</label>
-			<label kind="assignment" x="-450" y="76">x_dir = reverse(x_dir),
-y_dir = reverse(y_dir),
-turned_random = false,
-turned_180 = true</label>
-			<nail x="-238" y="17"/>
+			<source ref="id3"/>
+			<target ref="id1"/>
+			<label kind="select" x="-76" y="-136">direction : int[0, 3]</label>
+			<label kind="guard" x="-76" y="-161">k &gt; last_k</label>
+			<label kind="assignment" x="-76" y="-102">x_dir = x_direction(direction),
+y_dir = y_direction(direction)</label>
+			<nail x="272" y="-110"/>
+			<nail x="-246" y="-110"/>
 		</transition>
 		<transition id="id6">
-			<source ref="id3"/>
-			<target ref="id2"/>
-			<label kind="synchronisation" x="85" y="221">bc?</label>
-			<nail x="374" y="255"/>
+			<source ref="id2"/>
+			<target ref="id3"/>
+			<label kind="assignment" x="-76" y="25">X[id] += x_dir,
+Y[id] = y_dir,
+last_k = k,
+k = neighbours(id, t)</label>
+			<nail x="-238" y="17"/>
+			<nail x="272" y="17"/>
 		</transition>
 		<transition id="id7">
-			<source ref="id1"/>
-			<target ref="id3"/>
-			<label kind="synchronisation" x="102" y="-340">bc?</label>
-			<nail x="374" y="-348"/>
+			<source ref="id3"/>
+			<target ref="id2"/>
+			<label kind="guard" x="-76" y="229">k &lt; last_k &amp;&amp; k &lt; alpha</label>
+			<label kind="assignment" x="-76" y="263">x_dir = reverse(x_dir),
+y_dir = reverse(y_dir)</label>
+			<nail x="374" y="255"/>
 		</transition>
 		<transition id="id8">
+			<source ref="id1"/>
+			<target ref="id3"/>
+			<label kind="assignment" x="-68" y="-340">X[id] += x_dir,
+Y[id] = y_dir,
+last_k = k,
+k = neighbours(id, t)</label>
+			<nail x="374" y="-348"/>
+		</transition>
+		<transition id="id9">
 			<source ref="id0"/>
 			<target ref="id1"/>
-			<label kind="select" x="-697" y="-391">direction : int[0, 3]</label>
-			<label kind="synchronisation" x="-782" y="-323">bc?</label>
-			<label kind="assignment" x="-697" y="-323">x_dir = x_direction(direction),
+			<label kind="select" x="-697" y="-382">direction : int[0, 3]</label>
+			<label kind="assignment" x="-697" y="-340">x_dir = x_direction(direction),
 y_dir = y_direction(direction),
-turned_random = true</label>
+last_k = neighbours(id, t),
+k = neighbours(id, t)</label>
 			<nail x="-731" y="-348"/>
 		</transition>
 	</template>
 	<template>
 		<name>Clock</name>
 		<parameter>int loop_counter</parameter>
-		<location id="id9" x="0" y="0">
+		<location id="id10" x="0" y="0">
 			<name x="-59" y="-8">loop</name>
 			<label kind="invariant" x="-34" y="25">cl &lt;= 1</label>
 		</location>
-		<init ref="id9"/>
-		<transition id="id10">
-			<source ref="id9"/>
-			<target ref="id9"/>
+		<init ref="id10"/>
+		<transition id="id11">
+			<source ref="id10"/>
+			<target ref="id10"/>
 			<label kind="guard" x="136" y="-59">cl &gt;= 1 &amp;&amp;
 loop_counter &lt; 100</label>
 			<label kind="synchronisation" x="136" y="-8">bc!</label>
@@ -158,11 +179,12 @@ loop_counter += 1</label>
 		</transition>
 	</template>
 	<system>// Place template instantiations here.
-P1 = Robot(0, false, false, 0, 0, 0, 0, 2);
-P2 = Robot(1, false, false, 0, 0, 0, 0, 2);
-C = Clock(0);
+// int id, int x, int y, int x_dir, int y_dir, int threshold, int k, int last_k, int alpha
+P1 = Robot(0, 0, 0, 0, 0, 2, 0, 0, 1);
+P2 = Robot(1, 0, 0, 0, 0, 2, 0, 0, 1);
+// C = Clock(0);
 // List one or more processes to be composed into a system.
-system P1, P2, C;
+system P1, P2;
 </system>
 	<queries>
 		<option key="--diagnostic" value="1"/>
