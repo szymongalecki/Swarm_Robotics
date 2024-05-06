@@ -60,7 +60,7 @@ Every move forward of every robot triggers functions updating the global state:
 Transform this code:
 ```
 if ((k < last_k) and (k < alpha)){
-			turn robot through 180 degrees
+	turn robot through 180 degrees
 }
 else if (k > last_k) {
 	make random turn
