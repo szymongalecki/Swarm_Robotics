@@ -52,3 +52,22 @@ Elements:
 - Number of neighbours k and previous number of neighbours lastK
 - States for random turn and 180 turn 
 - Alpha parameter that specifies desired number of connections, it is related to number of robots n
+
+Every move forward of every robot triggers functions updating the global state:
+- `update_neighbours()` updates a 1d array **N** that stores number of neighbours for each robot `N[id] = # of neighbours`
+- `update_distances()` updates a 2d array **D** that stores mutual distances between each robot `D[id_a][id_b] = distance between a and b`
+
+Transform this code:
+```
+if ((k < last_k) and (k < alpha)){
+			turn robot through 180 degrees
+}
+else if (k > last_k) {
+	make random turn
+}
+else {
+	do not turn
+}
+```
+
+Into a set of mutually exclusive guards based on variables: `k, last_k, alpha`
