@@ -71,3 +71,37 @@ else {
 ```
 
 Into a set of mutually exclusive guards based on variables: `k, last_k, alpha`
+
+### Transform if statements into guard conditions
+[De Morgan's laws](https://en.wikipedia.org/wiki/De_Morgan%27s_laws)
+$p = k < k_{last}$
+$q = k < alpha$
+
+$u = \text{180 degree turn}$
+$u = p \land q$ 
+$u =(k < k_{last}) \land (k < alpha)$
+
+How to split this into random turn and forward motion?
+$\neg u = \neg p \lor \neg q$
+$\neg u = (k \geq k_{last}) \lor (k \geq alpha)$
+
+Proposition:
+$$
+\begin{align}  
+\text{random turn} = \\
+(k > k_{last}) \land \neg u = \\
+(k > k_{last}) \land (k \geq k_{last}) \lor (k \geq alpha) = \\
+(k > k_{last}) \lor (k \geq alpha)
+\end{align}
+$$
+
+$$
+\begin{align}
+\text{forward} = \\
+\neg (k > k_{last}) \land \neg u = \\
+(k \leq k_{last}) \land (k \geq k_{last}) \lor (k \geq alpha) = \\
+(k == k_{last})  \lor (k \geq alpha) = \\
+\end{align}
+$$
+**This proposition is not mutually exclusive and therefore not good enough.**
+From a single state s there can be made two different transition when $(k \geq alpha)$ is satisfied.
