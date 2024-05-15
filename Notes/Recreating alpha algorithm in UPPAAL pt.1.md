@@ -105,3 +105,11 @@ $$
 $$
 **This proposition is not mutually exclusive and therefore not good enough.**
 From a single state s there can be made two different transition when $(k \geq alpha)$ is satisfied.
+
+### Last modifications
+- Added intermediate states to mimic if statements from the pseudocode.
+- Made all states urgent.
+
+Model is using double numbers to store distance which disables symbolic simulator and verification.
+Current version of the model should be a direct implementation of algorithm defined in Julien Nembrini's paper.
+Concrete simulator could be used as a source of traces for testing and analysis but I can't save it's output in any format specified in UPPAAL documentation.
