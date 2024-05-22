@@ -9,8 +9,9 @@ const int t = 5;
 int X[n];
 int Y[n];
 
-// number of neighbours - N, mutual distance to neighbours - D
+// number of neighbours - N, number of last neighbours - L, mutual distance to neighbours - D
 int N[n];
+int L[n];
 int D[n][n];
 
 int x_direction(int direction){
@@ -97,7 +98,12 @@ void update_neighbours(){
     for (i = 0; i &lt; n; i++){
         N[i] = neighbours(i);
     }
-}</declaration>
+}
+
+void update_last(int id){
+    L[id] = N[id];
+}
+</declaration>
 	<template>
 		<name x="5" y="5">Robot</name>
 		<parameter>int id, int x, int y, int x_dir, int y_dir, int k, int last_k, int alpha</parameter>
@@ -113,21 +119,28 @@ void update_neighbours(){
 			<name x="-323" y="247">turn_180</name>
 		</location>
 		<location id="id3" x="374" y="-42">
-			<name x="391" y="-68">forward</name>
+			<name x="391" y="-34">forward</name>
 		</location>
 		<location id="id4" x="884" y="-42">
 			<name x="901" y="-59">if</name>
 		</location>
-		<location id="id5" x="442" y="-348">
-			<name x="451" y="-382">else_if</name>
+		<location id="id5" x="450" y="-348">
+			<name x="459" y="-382">else_if</name>
 		</location>
 		<init ref="id0"/>
 		<transition id="id6">
 			<source ref="id5"/>
 			<target ref="id3"/>
-			<label kind="guard" x="382" y="-212">!(N[id] &gt; last_k)</label>
-			<nail x="544" y="-178"/>
-			<nail x="374" y="-178"/>
+			<label kind="guard" x="459" y="-297">!(N[id] &gt; L[id])</label>
+			<label kind="assignment" x="467" y="-272">x += x_dir,
+y += y_dir,
+X[id] = x,
+Y[id] = y,
+update_last(id),
+update_distances(),
+update_neighbours()</label>
+			<nail x="450" y="-178"/>
+			<nail x="450" y="-119"/>
 		</transition>
 		<transition id="id7">
 			<source ref="id1"/>
@@ -136,9 +149,9 @@ void update_neighbours(){
 y += y_dir,
 X[id] = x,
 Y[id] = y,
-last_k = N[id],
-update_neighbours(),
-update_distances()</label>
+update_last(id),
+update_distances(),
+update_neighbours()</label>
 			<nail x="-238" y="-76"/>
 			<nail x="246" y="-76"/>
 		</transition>
@@ -146,20 +159,20 @@ update_distances()</label>
 			<source ref="id5"/>
 			<target ref="id1"/>
 			<label kind="select" x="68" y="-340">direction : int[0, 3]</label>
-			<label kind="guard" x="68" y="-382">N[id] &gt; last_k</label>
+			<label kind="guard" x="68" y="-382">N[id] &gt; L[id]</label>
 			<label kind="assignment" x="68" y="-314">x_dir = x_direction(direction),
 y_dir = y_direction(direction)</label>
 		</transition>
 		<transition id="id9">
 			<source ref="id4"/>
 			<target ref="id5"/>
-			<label kind="guard" x="578" y="-382">!(N[id] &lt; last_k &amp;&amp; N[id] &lt; alpha)</label>
+			<label kind="guard" x="578" y="-382">!(N[id] &lt; L[id] &amp;&amp; N[id] &lt; alpha)</label>
 			<nail x="875" y="-348"/>
 		</transition>
 		<transition id="id10">
 			<source ref="id4"/>
 			<target ref="id2"/>
-			<label kind="guard" x="246" y="229">N[id] &lt; last_k &amp;&amp; N[id] &lt; alpha</label>
+			<label kind="guard" x="246" y="229">N[id] &lt; L[id] &amp;&amp; N[id] &lt; alpha</label>
 			<label kind="assignment" x="246" y="272">x_dir = reverse(x_dir),
 y_dir = reverse(y_dir)</label>
 			<nail x="884" y="255"/>
@@ -167,13 +180,6 @@ y_dir = reverse(y_dir)</label>
 		<transition id="id11">
 			<source ref="id3"/>
 			<target ref="id4"/>
-			<label kind="assignment" x="552" y="-34">x += x_dir,
-y += y_dir,
-X[id] = x,
-Y[id] = y,
-last_k = N[id],
-update_neighbours(),
-update_distances()</label>
 			<nail x="476" y="-42"/>
 		</transition>
 		<transition id="id12">
@@ -183,9 +189,9 @@ update_distances()</label>
 y += y_dir,
 X[id] = x,
 Y[id] = y,
-last_k = N[id],
-update_neighbours(),
-update_distances()</label>
+update_last(id),
+update_distances(),
+update_neighbours()</label>
 			<nail x="-238" y="17"/>
 			<nail x="272" y="17"/>
 		</transition>
@@ -195,8 +201,9 @@ update_distances()</label>
 			<label kind="select" x="-620" y="-340">direction : int[0, 3]</label>
 			<label kind="assignment" x="-620" y="-314">x_dir = x_direction(direction),
 y_dir = y_direction(direction),
+update_distances(),
 update_neighbours(),
-update_distances()</label>
+update_last(id)</label>
 		</transition>
 	</template>
 	<system>// Place template instantiations here.
