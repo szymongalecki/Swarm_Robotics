@@ -12,3 +12,6 @@ While neighbours can and should be updated globally, the last number of neighbou
 ### Robot should move forward before edge reaches the 'forward' state
 While it doesn't matter when robot moves forward whether at beginning or end of the alpha algorithm's loop, it should be consistent to avoid double updates of global state.
 If robot performs a random turn and moves forward it should not move forward again after reaching the 'forward' state.
+
+### Non-deterministic state is not supported
+Triggering transitions with explicit clock, breaks down sooner or later.

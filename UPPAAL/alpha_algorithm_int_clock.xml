@@ -9,8 +9,9 @@ const int t = 5;
 int X[n];
 int Y[n];
 
-// number of neighbours - N, mutual distance to neighbours - D
+// number of neighbours - N, number of last neighbours - L, mutual distance to neighbours - D
 int N[n];
+int L[n];
 int D[n][n];
 
 // clock - c, broadcast channel - bc
@@ -101,25 +102,30 @@ void update_neighbours(){
     for (i = 0; i &lt; n; i++){
         N[i] = neighbours(i);
     }
-}</declaration>
+}
+
+void update_last(int id){
+    L[id] = N[id];
+}
+</declaration>
 	<template>
 		<name>Clock</name>
 		<parameter>int steps</parameter>
-		<location id="id0" x="-34" y="0">
-			<name x="-102" y="-8">loop</name>
-			<label kind="invariant" x="-102" y="17">c &lt;= 1</label>
+		<location id="id0" x="-59" y="0">
+			<name x="-119" y="-8">loop</name>
+			<label kind="invariant" x="-119" y="17">c &lt;= 1</label>
 		</location>
 		<init ref="id0"/>
 		<transition id="id1">
 			<source ref="id0"/>
 			<target ref="id0"/>
-			<label kind="guard" x="153" y="-170">c &gt;= 1</label>
-			<label kind="synchronisation" x="153" y="-102">bc!</label>
-			<label kind="assignment" x="153" y="-144">c := 0,
+			<label kind="guard" x="110" y="-161">c &gt;= 1</label>
+			<label kind="synchronisation" x="110" y="-135">bc!</label>
+			<label kind="assignment" x="110" y="-118">c = 0,
 steps++</label>
-			<nail x="-34" y="-162"/>
-			<nail x="238" y="-1"/>
-			<nail x="-34" y="161"/>
+			<nail x="-60" y="-178"/>
+			<nail x="170" y="0"/>
+			<nail x="-60" y="153"/>
 		</transition>
 	</template>
 	<template>
@@ -137,22 +143,29 @@ steps++</label>
 			<name x="-323" y="247">turn_180</name>
 		</location>
 		<location id="id5" x="374" y="-42">
-			<name x="391" y="-68">forward</name>
+			<name x="391" y="-34">forward</name>
 		</location>
 		<location id="id6" x="884" y="-42">
 			<name x="901" y="-59">if</name>
 		</location>
-		<location id="id7" x="442" y="-348">
-			<name x="451" y="-382">else_if</name>
+		<location id="id7" x="450" y="-348">
+			<name x="459" y="-382">else_if</name>
 		</location>
 		<init ref="id2"/>
 		<transition id="id8">
 			<source ref="id7"/>
 			<target ref="id5"/>
-			<label kind="guard" x="382" y="-212">!(N[id] &gt; last_k)</label>
-			<label kind="synchronisation" x="391" y="-170">bc?</label>
-			<nail x="544" y="-178"/>
-			<nail x="374" y="-178"/>
+			<label kind="guard" x="459" y="-297">!(N[id] &gt; L[id])</label>
+			<label kind="synchronisation" x="459" y="-323">bc?</label>
+			<label kind="assignment" x="467" y="-272">x += x_dir,
+y += y_dir,
+X[id] = x,
+Y[id] = y,
+update_last(id),
+update_distances(),
+update_neighbours()</label>
+			<nail x="450" y="-178"/>
+			<nail x="450" y="-119"/>
 		</transition>
 		<transition id="id9">
 			<source ref="id3"/>
@@ -162,9 +175,9 @@ steps++</label>
 y += y_dir,
 X[id] = x,
 Y[id] = y,
-last_k = N[id],
-update_neighbours(),
-update_distances()</label>
+update_last(id),
+update_distances(),
+update_neighbours()</label>
 			<nail x="-238" y="-76"/>
 			<nail x="246" y="-76"/>
 		</transition>
@@ -172,22 +185,22 @@ update_distances()</label>
 			<source ref="id7"/>
 			<target ref="id3"/>
 			<label kind="select" x="68" y="-340">direction : int[0, 3]</label>
-			<label kind="guard" x="68" y="-382">N[id] &gt; last_k</label>
-			<label kind="synchronisation" x="-42" y="-348">bc?</label>
+			<label kind="guard" x="68" y="-382">N[id] &gt; L[id]</label>
+			<label kind="synchronisation" x="68" y="-416">bc?</label>
 			<label kind="assignment" x="68" y="-314">x_dir = x_direction(direction),
 y_dir = y_direction(direction)</label>
 		</transition>
 		<transition id="id11">
 			<source ref="id6"/>
 			<target ref="id7"/>
-			<label kind="guard" x="578" y="-382">!(N[id] &lt; last_k &amp;&amp; N[id] &lt; alpha)</label>
-			<label kind="synchronisation" x="586" y="-340">bc?</label>
+			<label kind="guard" x="578" y="-382">!(N[id] &lt; L[id] &amp;&amp; N[id] &lt; alpha)</label>
+			<label kind="synchronisation" x="578" y="-408">bc?</label>
 			<nail x="875" y="-348"/>
 		</transition>
 		<transition id="id12">
 			<source ref="id6"/>
 			<target ref="id4"/>
-			<label kind="guard" x="246" y="229">N[id] &lt; last_k &amp;&amp; N[id] &lt; alpha</label>
+			<label kind="guard" x="246" y="229">N[id] &lt; L[id] &amp;&amp; N[id] &lt; alpha</label>
 			<label kind="synchronisation" x="246" y="204">bc?</label>
 			<label kind="assignment" x="246" y="272">x_dir = reverse(x_dir),
 y_dir = reverse(y_dir)</label>
@@ -196,44 +209,40 @@ y_dir = reverse(y_dir)</label>
 		<transition id="id13">
 			<source ref="id5"/>
 			<target ref="id6"/>
-			<label kind="synchronisation" x="552" y="-68">bc?</label>
-			<label kind="assignment" x="552" y="-34">x += x_dir,
-y += y_dir,
-X[id] = x,
-Y[id] = y,
-last_k = N[id],
-update_neighbours(),
-update_distances()</label>
+			<label kind="synchronisation" x="603" y="-68">bc?</label>
+			<nail x="476" y="-42"/>
 		</transition>
 		<transition id="id14">
 			<source ref="id4"/>
 			<target ref="id5"/>
 			<label kind="synchronisation" x="-212" y="-8">bc?</label>
-			<label kind="assignment" x="-212" y="34">x += x_dir,
+			<label kind="assignment" x="-212" y="25">x += x_dir,
 y += y_dir,
 X[id] = x,
 Y[id] = y,
-last_k = N[id],
-update_neighbours(),
-update_distances()</label>
+update_last(id),
+update_distances(),
+update_neighbours()</label>
 			<nail x="-238" y="17"/>
 			<nail x="272" y="17"/>
 		</transition>
 		<transition id="id15">
 			<source ref="id2"/>
 			<target ref="id3"/>
-			<label kind="select" x="-604" y="-349">direction : int[0, 3]</label>
-			<label kind="assignment" x="-604" y="-323">x_dir = x_direction(direction),
+			<label kind="select" x="-620" y="-340">direction : int[0, 3]</label>
+			<label kind="synchronisation" x="-620" y="-374">bc?</label>
+			<label kind="assignment" x="-620" y="-314">x_dir = x_direction(direction),
 y_dir = y_direction(direction),
+update_distances(),
 update_neighbours(),
-update_distances()</label>
+update_last(id)</label>
 		</transition>
 	</template>
 	<system>// Place template instantiations here.
 // int id, int x, int y, int x_dir, int y_dir, int k, int last_k, int alpha
 P1 = Robot(0, 0, 0, 0, 0, 0, 0, 1);
 P2 = Robot(1, 0, 0, 0, 0, 0, 0, 1);
-P3 = Robot(2, 0, 0, 0, 0, 0, 0, 1)
+P3 = Robot(2, 0, 0, 0, 0, 0, 0, 1);
 C = Clock(0);
 
 // List one or more processes to be composed into a system.
@@ -242,11 +251,8 @@ system C, P1, P2, P3;
 	<queries>
 		<option key="--diagnostic" value="1"/>
 		<query>
-			<formula>E&lt;&gt; N[0] == 1 &amp;&amp; N[1] == 1</formula>
+			<formula/>
 			<comment/>
-			<result outcome="success" type="quality" timestamp="2024-05-21 14:11:43 +0200">
-				<option key="--diagnostic" value="1"/>
-			</result>
 		</query>
 	</queries>
 </nta>
