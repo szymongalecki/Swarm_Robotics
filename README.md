@@ -20,6 +20,7 @@
 - [Recreating basic algorithm in UPPAAL pt.2](Notes/Recreating%20basic%20algorithm%20in%20UPPAAL%20pt.2.md)
 - [Recreating basic algorithm in UPPAAL pt.3](Notes/Recreating%20basic%20algorithm%20in%20UPPAAL%20pt.3.md)
 - [Recreating alpha algorithm in UPPAAL pt.1](Notes/Recreating%20alpha%20algorithm%20in%20UPPAAL%20pt.1.md)
+- [Recreating alpha algorithm in UPPAAL pt.2](Notes/Recreating%20alpha%20algorithm%20in%20UPPAAL%20pt.2.md)
 
 ### Summaries
 1. [Paper - Property-Driven Design for Swarm Robotics](Notes/Paper%20-%20Property-Driven%20Design%20for%20Swarm%20Robotics.md)
