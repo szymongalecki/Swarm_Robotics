@@ -15,3 +15,7 @@ If robot performs a random turn and moves forward it should not move forward aga
 
 ### Non-deterministic state is not supported
 Triggering transitions with explicit clock, breaks down sooner or later.
+
+### Remove the clock from the alpha algorithm
+I removed the clock and tried to add the invariant to the states of the robot. Unfortunately I do not know how to specify the invariant with the modulo operator. As the time is passing forward, once set invariant to 5 time units will not make sense after 15 time units. As the invariant will not be able to be satisfied, transition to this state will not be possible. This will create the deadlock. 
+Now the question is how to specify the invariant so that the robot can stay in the state for x time units with continues time. We don't want to reset the clock.
