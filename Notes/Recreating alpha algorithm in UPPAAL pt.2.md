@@ -19,3 +19,21 @@ Triggering transitions with explicit clock, breaks down sooner or later.
 ### Remove the clock from the alpha algorithm
 I removed the clock and tried to add the invariant to the states of the robot. Unfortunately I do not know how to specify the invariant with the modulo operator. As the time is passing forward, once set invariant to 5 time units will not make sense after 15 time units. As the invariant will not be able to be satisfied, transition to this state will not be possible. This will create the deadlock. 
 Now the question is how to specify the invariant so that the robot can stay in the state for x time units with continues time. We don't want to reset the clock.
+
+### Each robot has its own clock
+- Declared array of clocks `clock C[n]`, where `n` is the number of robots.
+- Robots have invariants on states that are connected to their own clocks.
+- Once the robot leaves the state with defined invariant, it resets its own clock.
+- The main loop has only invariant on the 'forward' state.
+- Rest of the states are 'committed', which means that time doesn't pass in them.
+- Passing time is associated with the forward motion and decision about direction: 'random turn', '180 degree turn', is instantaneous.
+
+Problem:
+- With `n` declared and instantiated robots there are only `n-1` clocks used.
+- Robots reset wrong clocks for some reason
+- Example:
+	- Robot P4 with `id = 3` makes transition that resets its clock
+	- Transition triggers an update `C[id] = 0`
+	- Instead of resetting clock for `id = 3` it resets clock for `id = 2`
+	- Clock for `id = 3` is empty: `{}`
+	- **It looks like a simple off by one error but it is not**
