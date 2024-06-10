@@ -2,7 +2,7 @@
 <!DOCTYPE nta PUBLIC '-//Uppaal Team//DTD Flat System 1.6//EN' 'http://www.it.uu.se/research/group/darts/uppaal/flat-1_6.dtd'>
 <nta>
 	<declaration>// number of robots - n, threshold distance - t
-const int n = 4;
+const int n = 3;
 const int t = 5;
 
 // x coordinates - X, y coordinates - Y
@@ -14,8 +14,6 @@ int N[n];
 int L[n];
 int D[n][n];
 
-// clocks - C
-clock C[n];
 
 int x_direction(int direction){
     // maps direction to x axis
@@ -111,10 +109,10 @@ void update_last(int id){
 		<name x="5" y="5">Robot</name>
 		<parameter>int id, int x, int y, int x_dir, int y_dir, int k, int last_k, int alpha</parameter>
 		<declaration>// Place local declarations here.
-</declaration>
+clock c;</declaration>
 		<location id="id0" x="-663" y="-348">
 			<name x="-748" y="-357">initial</name>
-			<label kind="invariant" x="-722" y="-314">C[id] &lt;= 1</label>
+			<label kind="invariant" x="-739" y="-323">c &lt;= 5</label>
 		</location>
 		<location id="id1" x="-238" y="-348">
 			<name x="-248" y="-382">turn_random</name>
@@ -126,10 +124,10 @@ void update_last(int id){
 		</location>
 		<location id="id3" x="374" y="-42">
 			<name x="408" y="-68">forward</name>
-			<label kind="invariant" x="391" y="-34">C[id] &lt;= 1</label>
+			<label kind="invariant" x="391" y="-34">c &lt;= 5</label>
 		</location>
-		<location id="id4" x="884" y="-42">
-			<name x="901" y="-59">if</name>
+		<location id="id4" x="875" y="-42">
+			<name x="892" y="-59">if</name>
 			<committed/>
 		</location>
 		<location id="id5" x="450" y="-348">
@@ -184,12 +182,12 @@ y_dir = y_direction(direction)</label>
 			<label kind="guard" x="246" y="229">N[id] &lt; L[id] &amp;&amp; N[id] &lt; alpha</label>
 			<label kind="assignment" x="246" y="272">x_dir = reverse(x_dir),
 y_dir = reverse(y_dir)</label>
-			<nail x="884" y="255"/>
+			<nail x="875" y="255"/>
 		</transition>
 		<transition id="id11">
 			<source ref="id3"/>
 			<target ref="id4"/>
-			<label kind="assignment" x="629" y="-34">C[id] = 0</label>
+			<label kind="assignment" x="620" y="-34">c = 0</label>
 			<nail x="476" y="-42"/>
 		</transition>
 		<transition id="id12">
@@ -214,7 +212,7 @@ y_dir = y_direction(direction),
 update_distances(),
 update_neighbours(),
 update_last(id),
-C[id] = 0</label>
+c = 0</label>
 		</transition>
 	</template>
 	<system>// Place template instantiations here.
@@ -222,10 +220,9 @@ C[id] = 0</label>
 P1 = Robot(0, 0, 0, 0, 0, 0, 0, 1);
 P2 = Robot(1, 0, 0, 0, 0, 0, 0, 1);
 P3 = Robot(2, 0, 0, 0, 0, 0, 0, 1);
-P4 = Robot(3, 0, 0, 0, 0, 0, 0, 1);
 
 // List one or more processes to be composed into a system.
-system P1, P2, P3, P4;
+system P1, P2, P3;
 </system>
 	<queries>
 		<option key="--diagnostic" value="1"/>
@@ -235,6 +232,10 @@ system P1, P2, P3, P4;
 			<result outcome="success" type="quality" timestamp="2024-05-28 16:11:15 +0200">
 				<option key="--diagnostic" value="1"/>
 			</result>
+		</query>
+		<query>
+			<formula>E&lt;&gt; P1.c &gt; 5</formula>
+			<comment/>
 		</query>
 	</queries>
 </nta>

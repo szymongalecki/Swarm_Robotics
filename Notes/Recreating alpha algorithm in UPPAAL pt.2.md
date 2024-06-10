@@ -37,3 +37,11 @@ Problem:
 	- Instead of resetting clock for `id = 3` it resets clock for `id = 2`
 	- Clock for `id = 3` is empty: `{}`
 	- **It looks like a simple off by one error but it is not**
+
+Remove the array altogether to exclude an off by one error:
+- Declare a `clock c` in the 'Robots' declarations
+- Each robot now has its own `clock c`
+- It is used to define invariant on states `initial` and `forward`
+- After leaving those states, the local clock gets reset `c = 0`
+- Still, out of `n` declared robots only first `n-1` clocks get updated
+- Clock `n` is empty - `{}`
