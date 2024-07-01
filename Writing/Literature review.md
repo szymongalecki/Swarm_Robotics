@@ -1,11 +1,11 @@
-"- I can start writing about the research part:
-	- How did I find the articles?
-	- What exactly did I find out?
-	- What kind of models were discussed?
-	- What tools were used?
-	- What experiments were conducted?"
-
+## Literature review
 [Problem statement for research project - corrected](../Formal/Problem%20statement%20for%20research%20project%20-%20corrected.md)
+I can start writing about the research part: 
+- How did I find the articles?
+- What exactly did I find out?
+- What kind of models were discussed?
+- What tools were used?
+- What experiments were conducted?"
 
 ### How did I find the articles?
 [Papers - overview, w6](Papers%20-%20overview,%20w6.md)
@@ -27,3 +27,4 @@ In the taxonomy of swarm behaviors depicted in [Swarm Robotic Behaviors and Curr
 - [PRISM](https://www.prismmodelchecker.org/)
 
 ### What experiments were conducted?
+
