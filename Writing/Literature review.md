@@ -15,6 +15,8 @@ Term "swarm robotics" resulted in finding general papers, often overview papers 
 
 ### What exactly did I find out?
 
+
+
 ### What kind of models were discussed?
 
 ### What tools were used?
