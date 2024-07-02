@@ -5,7 +5,7 @@
 ## Introduction - (1-2 pages)
 
 ## Methods (2-3 pages)
-[Methods](Methods.md)
+[Methods](Methods.html)
 ## Results (2-3 pages)
 
 ## Related Work (1-2 pages)
@@ -14,3 +14,12 @@
 
 ## References (1 page)
 
+
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [["$", "$"], ["\\(", "\\)"]]
+  }
+};
+</script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>

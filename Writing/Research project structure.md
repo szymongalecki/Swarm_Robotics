@@ -9,3 +9,12 @@
 | 4     | Related Work | 1-2 pages   |
 | 5     | Conclusions  | 1 page      |
 |       | References   | 1 page      |
+
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [["$", "$"], ["\\(", "\\)"]]
+  }
+};
+</script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>

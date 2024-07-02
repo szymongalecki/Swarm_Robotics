@@ -1,21 +1,21 @@
 **SOURCES:**
-[Recreating basic algorithm in UPPAAL pt.1](../Notes/Recreating%20basic%20algorithm%20in%20UPPAAL%20pt.1.md)
-[Recreating basic algorithm in UPPAAL pt.2](../Notes/Recreating%20basic%20algorithm%20in%20UPPAAL%20pt.2.md)
-[Recreating basic algorithm in UPPAAL pt.3](../Notes/Recreating%20basic%20algorithm%20in%20UPPAAL%20pt.3.md)
-[Recreating alpha algorithm in UPPAAL pt.1](../Notes/Recreating%20alpha%20algorithm%20in%20UPPAAL%20pt.1.md)
-[Recreating alpha algorithm in UPPAAL pt.2](../Notes/Recreating%20alpha%20algorithm%20in%20UPPAAL%20pt.2.md)
+[Recreating basic algorithm in UPPAAL pt.1](../Notes/Recreating%20basic%20algorithm%20in%20UPPAAL%20pt.1.html)
+[Recreating basic algorithm in UPPAAL pt.2](../Notes/Recreating%20basic%20algorithm%20in%20UPPAAL%20pt.2.html)
+[Recreating basic algorithm in UPPAAL pt.3](../Notes/Recreating%20basic%20algorithm%20in%20UPPAAL%20pt.3.html)
+[Recreating alpha algorithm in UPPAAL pt.1](../Notes/Recreating%20alpha%20algorithm%20in%20UPPAAL%20pt.1.html)
+[Recreating alpha algorithm in UPPAAL pt.2](../Notes/Recreating%20alpha%20algorithm%20in%20UPPAAL%20pt.2.html)
 
 
-> Connect [Problem statement for research project - corrected](../Formal/Problem%20statement%20for%20research%20project%20-%20corrected.md) with implementation of Alpha algorithm using UPPAAL
+> Connect [Problem statement for research project - corrected](../Formal/Problem%20statement%20for%20research%20project%20-%20corrected.html) with implementation of Alpha algorithm using UPPAAL
 
 
 ### UPPAAL
 **SOURCES:**
-[Introduction to UPPAAL](../Notes/Introduction%20to%20UPPAAL.md)
-[Time in UPPAAL](../Notes/Time%20in%20UPPAAL.md)
-[Expressions in UPPAAL](../Notes/Expressions%20in%20UPPAAL.md)
-[Verifying properties in UPPAAL](../Notes/Verifying%20properties%20in%20UPPAAL.md)
-[Timed automaton](../Notes/Timed%20automaton.md)
+[Introduction to UPPAAL](../Notes/Introduction%20to%20UPPAAL.html)
+[Time in UPPAAL](../Notes/Time%20in%20UPPAAL.html)
+[Expressions in UPPAAL](../Notes/Expressions%20in%20UPPAAL.html)
+[Verifying properties in UPPAAL](../Notes/Verifying%20properties%20in%20UPPAAL.html)
+[Timed automaton](../Notes/Timed%20automaton.html)
 
 >~~What is it?~~
 >~~Why use it?~~
@@ -50,3 +50,12 @@ UPPAAL is based on a timed automata, which is a finite state machine extended wi
 > 
 
 
+
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [["$", "$"], ["\\(", "\\)"]]
+  }
+};
+</script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>

@@ -10,3 +10,11 @@ Non-deterministic finite-state machine - **NDFSM**
 **Number of Next States**: DFSMs always have exactly one next state for each state-input pair, whereas NDFSMs may have zero, one, or multiple next states for a given state and input.
 
 For any non-deterministic finite-state machine, an equivalent deterministic one can be constructed.
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [["$", "$"], ["\\(", "\\)"]]
+  }
+};
+</script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
