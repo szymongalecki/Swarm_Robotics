@@ -1,3 +1,9 @@
+### Writing
+- [Research project structure](Writing/Research%20project%20structure.md)
+- [Research project](Writing/Research%20project.md)
+- [Methods](Writing/Methods.md)
+- [Literature review](Writing/Literature%20review.md)
+
 ### Definitions
 - [Swarm](Notes/Swarm.md)
 - [Swarm behaviours](Notes/Swarm%20behaviours.md)
