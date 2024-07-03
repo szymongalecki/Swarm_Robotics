@@ -48,3 +48,15 @@ Alpha algorithm is an approach to an aggregation task within the category of spa
 > Use of global functions
 
 
+### Initialisation
+
+### Randomness
+
+### Clocks
+
+### Global state and global functions
+
+### Automata
+>picture of automata
+>description of parts
+>modelling limitations connected to timed automata and not UPPAAL
