@@ -1,11 +1,3 @@
-**SOURCES:**
-[Recreating basic algorithm in UPPAAL pt.1](../Notes/Recreating%20basic%20algorithm%20in%20UPPAAL%20pt.1.md)
-[Recreating basic algorithm in UPPAAL pt.2](../Notes/Recreating%20basic%20algorithm%20in%20UPPAAL%20pt.2.md)
-[Recreating basic algorithm in UPPAAL pt.3](../Notes/Recreating%20basic%20algorithm%20in%20UPPAAL%20pt.3.md)
-[Recreating alpha algorithm in UPPAAL pt.1](../Notes/Recreating%20alpha%20algorithm%20in%20UPPAAL%20pt.1.md)
-[Recreating alpha algorithm in UPPAAL pt.2](../Notes/Recreating%20alpha%20algorithm%20in%20UPPAAL%20pt.2.md)
-
-
 > Connect [Problem statement for research project - corrected](../Formal/Problem%20statement%20for%20research%20project%20-%20corrected.md) with implementation of Alpha algorithm using UPPAAL
 
 
@@ -33,9 +25,16 @@ UPPAAL is based on a timed automata, which is a finite state machine extended wi
 
 
 ### Alpha algorithm
+**SOURCES:**
+[Recreating alpha algorithm in UPPAAL pt.1](../Notes/Recreating%20alpha%20algorithm%20in%20UPPAAL%20pt.1.md)
+[Recreating alpha algorithm in UPPAAL pt.2](../Notes/Recreating%20alpha%20algorithm%20in%20UPPAAL%20pt.2.md)
+[Publications of Alessio Lomuscio](../Notes/Publications%20of%20Alessio%20Lomuscio.md)
+
 > What is it?
 > Who created it?
 > Pseudocode
+
+Alpha algorithm is an approach to an aggregation task within the category of spatial organisation. It is based on assumption that robots send and receive signals through omnidirectional channels like radio or infrared. Single robots makes decision about their movement based only on the number of connections to other robots. The interconnectivity of the swarm is controlled by alpha parameter which is a threshold on desired number of connections for a single robot. 
 
 ### Movement
 >UPPAAL limitations in choosing random angle
@@ -47,6 +46,5 @@ UPPAAL is based on a timed automata, which is a finite state machine extended wi
 > Distance based connection
 > UPPAAL limitations
 > Use of global functions
-> 
 
 
