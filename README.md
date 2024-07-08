@@ -40,6 +40,7 @@
 2. [Towards Temporal Verification of Emergent Behaviours in Swarm Robotic Systems](Relevant%20Papers/Towards%20Temporal%20Verification%20of%20Emergent%20Behaviours%20in%20Swarm%20Robotic%20Systems.pdf)
 3. [Formal Verification of Probabilistic Swarm Behaviours](Relevant%20Papers/Formal%20Verification%20of%20Probabilistic%20Swarm%20Behaviours.pdf)
 4. [On Formal Specification of Emergent Behaviours in Swarm Robotic Systems](Relevant%20Papers/On%20Formal%20Specification%20of%20Emergent%20Behaviours%20in%20Swarm%20Robotic%20Systems.pdf)
+5. [Using Situated Communication in Distributed Autonomous Mobile Robotics](Relevant%20Papers/Using%20Situated%20Communication%20in%20Distributed%20Autonomous%20Mobile%20Robotics.pdf)
 
 ### Alessio Lomuscio
 [Publications of Alessio Lomuscio](Notes/Publications%20of%20Alessio%20Lomuscio.md)
