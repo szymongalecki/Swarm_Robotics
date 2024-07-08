@@ -1,6 +1,5 @@
 > Connect [Problem statement for research project - corrected](../Formal/Problem%20statement%20for%20research%20project%20-%20corrected.md) with implementation of Alpha algorithm using UPPAAL
 
-
 ### UPPAAL
 **SOURCES:**
 [Introduction to UPPAAL](../Notes/Introduction%20to%20UPPAAL.md)
@@ -20,9 +19,6 @@
 Swarm of robots fits within description of a system that can be modelled using UPPAAL. It is a collection of non-deterministic processes - single robots, that are defined using finite control structure - algorithm that is transformed into finite state machine. Swarm has to communicate and it can be achieved using channels or shared variables. Finally the emergent behaviour is a result of individual robot behaviour which is influenced by the passing time.
 
 UPPAAL is based on a timed automata, which is a finite state machine extended with a finite set of real-valued clocks progressing with the same speed. Clock values can be compared to integers in order to create guards that enable or disable transition between states. Clock values can be reset individually, creating possibility to reuse defined guards and control the frequency of operation. They constitute to the state of the system in the same way as locations of all automata and variable values.
-
-
-
 
 ### Alpha algorithm
 **SOURCES:**
@@ -70,10 +66,13 @@ loop forever {
 Pseudocode from [Minimalist Coherent Swarming of Wireless Networked Autonomous Mobile Robots](../Papers/Minimalist%20Coherent%20Swarming%20of%20Wireless%20Networked%20Autonomous%20Mobile%20Robots.pdf)
 
 ### Movement
->UPPAAL limitations in choosing random angle
+>Direction
 >Resolution and grid like map
 >Randomness
 
+Robot always moves in one of four directions: up, right, down or left. Initial direction is chosen at random and mapped to vertical and horizontal components. Direction will not change unless the robot performs random turn or 180 degree turn. Random turn chooses new direction in the same way that initial direction is determined. This means that random turn may result in maintaining the current direction of the robot with approximately 25% chance. 
+
+Robot movement is achieved by incrementing the robot's coordinates with vertical and horizontal direction components. Direction component values are  $\in \{-1, 0, 1\}$ with one of them being equal to zero and other being different than zero. This means that robot will move in one of four possible directions with a step size equal to one. Every time the robot moves, it will update its coordinates in the globally available data structure. Environment in which robot exists is an unbounded grid that can be continuously traversed in four directions.
 ### Connection
 > Need to mimic technology
 > Distance based connection
