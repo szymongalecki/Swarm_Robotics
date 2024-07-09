@@ -87,13 +87,9 @@ The desired number of connections is set by the alpha parameter. If the number o
 
 ### Initialisation
 
-Initial state of system of robots is a fully connected swarm. Each robot gets initialised in the same position given by horizontal and vertical coordinates. This 
-
-### Randomness
-
 ### Clocks
 
-### Global state and global functions
+### Global state and global functions -> Implementation
 
 ### Automata
 >picture of automata
