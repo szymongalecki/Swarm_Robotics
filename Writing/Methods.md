@@ -10,15 +10,13 @@
 
 >~~What is it?~~
 >~~Why use it?~~
->Modelling in UPPAAL
 >~~Timed automata~~
->Verifying properties in UPPAAL
 
 "UPPAAL is an integrated tool environment for modeling, simulation and verification of real-time systems. It is appropriate for systems that can be modelled as a collection of non-deterministic processes with finite control structure and real-valued clocks, communicating through channels or shared variables. Typical application areas include real-time controllers and communication protocols in particular, those where timing aspects are critical." ( https://uppaal.org/features/ )
 
 Swarm of robots fits within description of a system that can be modelled using UPPAAL. It is a collection of non-deterministic processes - single robots, that are defined using finite control structure - algorithm that is transformed into finite state machine. Swarm has to communicate and it can be achieved using channels or shared variables. Finally the emergent behaviour is a result of individual robot behaviour which is influenced by the passing time.
 
-UPPAAL is based on a timed automata, which is a finite state machine extended with a finite set of real-valued clocks progressing with the same speed. Clock values can be compared to integers in order to create guards that enable or disable transition between states. Clock values can be reset individually, creating possibility to reuse defined guards and control the frequency of operation. They constitute to the state of the system in the same way as locations of all automata and variable values.
+~~UPPAAL is based on a timed automata, which is a finite state machine extended with a finite set of real-valued clocks progressing with the same speed. Clock values can be compared to integers in order to create guards that enable or disable transition between states. Clock values can be reset individually, creating possibility to reuse defined guards and control the frequency of operation. They constitute to the state of the system in the same way as locations of all automata and variable values.~~
 
 ### Alpha algorithm
 **SOURCES:**
@@ -73,6 +71,9 @@ Pseudocode from [Minimalist Coherent Swarming of Wireless Networked Autonomous M
 Robot always moves in one of four directions: up, right, down or left. Initial direction is chosen at random and mapped to vertical and horizontal components. Direction will not change unless the robot performs random turn or 180 degree turn. Random turn chooses new direction in the same way that initial direction is determined. This means that random turn may result in maintaining the current direction of the robot with approximately 25% chance. 
 
 Robot movement is achieved by incrementing the robot's coordinates with vertical and horizontal direction components. Direction component values are  $\in \{-1, 0, 1\}$ with one of them being equal to zero and other being different than zero. This means that robot will move in one of four possible directions with a step size equal to one. Every time the robot moves, it will update its coordinates in the globally available data structure. Environment in which robot exists is an unbounded grid that can be continuously traversed in four directions.
+
+Robots are not aware of other robots positions. This means that they can occupy exactly the same point of the grid. Additionally, there is no collision avoidance mechanism that would prevent them from crashing into each other while moving. This simplification could be eliminated but at the cost of implementation being further apart from the original idea of what is an alpha algorithm. We would have to make arbitrary decisions about robot behaviour in the case of collision or inability to move to the occupied point on the grid.
+
 ### Connection
 ~~> Need to mimic technology~~
 ~~> Distance based connection~~
@@ -85,6 +86,8 @@ To mimic the physical signal we need information about robot coordinates, mutual
 The desired number of connections is set by the alpha parameter. If the number of connections falls below alpha, robot will react and turn 180 degrees in order to try to reconnect with other robots. Alpha parameter influences connectivity of the swarm. If the parameter is set to higher values the robots will try to maintain more connections and the resulting swarm will be more compact. If the parameter is set to lower values, robots will be able to move further apart as they will need to maintain less connections. What is low and high value for alpha parameter is subjective to the size of the swarm.
 
 ### Initialisation
+
+Initial state of system of robots is a fully connected swarm. Each robot gets initialised in the same position given by horizontal and vertical coordinates. This 
 
 ### Randomness
 
