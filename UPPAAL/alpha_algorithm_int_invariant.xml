@@ -107,7 +107,7 @@ void update_last(int id){
 </declaration>
 	<template>
 		<name x="5" y="5">Robot</name>
-		<parameter>int id, int x, int y, int x_dir, int y_dir, int k, int last_k, int alpha</parameter>
+		<parameter>int id, int x, int y, int x_dir, int y_dir, int alpha</parameter>
 		<declaration>// Place local declarations here.
 clock c;</declaration>
 		<location id="id0" x="-663" y="-348">
@@ -216,10 +216,10 @@ c = 0</label>
 		</transition>
 	</template>
 	<system>// Place template instantiations here.
-// int id, int x, int y, int x_dir, int y_dir, int k, int last_k, int alpha
-P1 = Robot(0, 0, 0, 0, 0, 0, 0, 1);
-P2 = Robot(1, 0, 0, 0, 0, 0, 0, 1);
-P3 = Robot(2, 0, 0, 0, 0, 0, 0, 1);
+// int id, int x, int y, int x_dir, int y_dir, int alpha
+P1 = Robot(0, 0, 0, 0, 0, 1);
+P2 = Robot(1, 0, 0, 0, 0, 1);
+P3 = Robot(2, 0, 0, 0, 0, 1);
 
 // List one or more processes to be composed into a system.
 system P1, P2, P3;
