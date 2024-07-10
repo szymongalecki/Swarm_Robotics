@@ -12,11 +12,11 @@
 >~~Why use it?~~
 >~~Timed automata~~
 
-"UPPAAL is an integrated tool environment for modeling, simulation and verification of real-time systems. It is appropriate for systems that can be modelled as a collection of non-deterministic processes with finite control structure and real-valued clocks, communicating through channels or shared variables. Typical application areas include real-time controllers and communication protocols in particular, those where timing aspects are critical." ( https://uppaal.org/features/ )
+"UPPAAL is an integrated tool environment for modeling, simulation and verification of real-time systems. It is appropriate for systems that can be modelled as a collection of non-deterministic processes with finite control structure and real-valued clocks, communicating through channels or shared variables. Typical application areas include real-time controllers and communication protocols in particular, those where timing aspects are critical." ~[UPPAAL in a Nutshell](../Papers/UPPAAL%20in%20a%20Nutshell.pdf)
 
 Swarm of robots fits within description of a system that can be modelled using UPPAAL. It is a collection of non-deterministic processes - single robots, that are defined using finite control structure - algorithm that is transformed into finite state machine. Swarm has to communicate and it can be achieved using channels or shared variables. Finally the emergent behaviour is a result of individual robot behaviour which is influenced by the passing time.
 
-~~UPPAAL is based on a timed automata, which is a finite state machine extended with a finite set of real-valued clocks progressing with the same speed. Clock values can be compared to integers in order to create guards that enable or disable transition between states. Clock values can be reset individually, creating possibility to reuse defined guards and control the frequency of operation. They constitute to the state of the system in the same way as locations of all automata and variable values.~~
+
 
 ### Alpha algorithm
 **SOURCES:**
@@ -85,11 +85,15 @@ To mimic the physical signal we need information about robot coordinates, mutual
 
 The desired number of connections is set by the alpha parameter. If the number of connections falls below alpha, robot will react and turn 180 degrees in order to try to reconnect with other robots. Alpha parameter influences connectivity of the swarm. If the parameter is set to higher values the robots will try to maintain more connections and the resulting swarm will be more compact. If the parameter is set to lower values, robots will be able to move further apart as they will need to maintain less connections. What is low and high value for alpha parameter is subjective to the size of the swarm.
 
-### Initialisation
+### Initialisation and clocks
+~~> Parameters~~
+~~> Coordinates~~
+~~> No direction~~
+~~> Clock and invariant~~
 
-### Clocks
+Every robot gets initialised with the same set of parameters apart from its ID. In the beginning all robots are placed at exactly the same point. They have no direction until transitioning to the next state and will not move forward until transitioning further. In the initial state robots can't access information about number of current neighbours and number of last neighbours. The initial state is not reused within the automata, once a robot leaves that state, it can never reach it again.
 
-### Global state and global functions -> Implementation
+Each robot has its own clock that controls how long it can remain in the current state before being forced to transition. After each transition to the next state the robot will reset its own clock. Maximum time for the robot to remain in state can influence the behaviour of the whole system. If we decrease the maximum time of inactivity, we will obtain a system that is on average more reactive and even. With increasing the maximum time of inactivity we increase the chances of robots operating in different pace. As we are modelling swarm we should aim for uniform operation and therefore lower maximum times for inactivity.
 
 ### Automata
 >picture of automata
