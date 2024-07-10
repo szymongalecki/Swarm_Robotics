@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE nta PUBLIC '-//Uppaal Team//DTD Flat System 1.6//EN' 'http://www.it.uu.se/research/group/darts/uppaal/flat-1_6.dtd'>
 <nta>
-	<declaration>// number of robots - n, threshold distance - t
+	<declaration>// number of robots - n, signal radius - r
 const int n = 3;
-const int t = 5;
+const int r = 5;
 
 // x coordinates - X, y coordinates - Y
 int X[n];
@@ -71,8 +71,8 @@ void update_distances(){
 }
 
 bool connected(double d){
-    // returns true if distance between points 1 &amp; 2 is lower or equal to threshold t
-    return d &lt;= t*1.0;
+    // returns true if distance between points 1 &amp; 2 is lower or equal to radius r
+    return d &lt;= r*1.0;
 }
 
 int neighbours(int id){
