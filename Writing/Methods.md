@@ -1,5 +1,6 @@
-> Connect [Problem statement for research project - corrected](../Formal/Problem%20statement%20for%20research%20project%20-%20corrected.md) with implementation of Alpha algorithm using UPPAAL
+> ~~Connect [Problem statement for research project - corrected](../Formal/Problem%20statement%20for%20research%20project%20-%20corrected.md) with implementation of Alpha algorithm using UPPAAL~~
 
+To test the modelling and testing properties of described swarm behaviours we will implement an alpha algorithm using the verification tool UPPAAL. 
 ### UPPAAL
 **SOURCES:**
 [Introduction to UPPAAL](../Notes/Introduction%20to%20UPPAAL.md)
@@ -16,8 +17,6 @@
 
 Swarm of robots fits within description of a system that can be modelled using UPPAAL. It is a collection of non-deterministic processes - single robots, that are defined using finite control structure - algorithm that is transformed into finite state machine. Swarm has to communicate and it can be achieved using channels or shared variables. Finally the emergent behaviour is a result of individual robot behaviour which is influenced by the passing time.
 
-
-
 ### Alpha algorithm
 **SOURCES:**
 [Recreating alpha algorithm in UPPAAL pt.1](../Notes/Recreating%20alpha%20algorithm%20in%20UPPAAL%20pt.1.md)
@@ -30,7 +29,7 @@ Swarm of robots fits within description of a system that can be modelled using U
 
 Alpha algorithm was introduced by Julien Nembrini in [Minimalist Coherent Swarming of Wireless Networked Autonomous Mobile Robots](../Papers/Minimalist%20Coherent%20Swarming%20of%20Wireless%20Networked%20Autonomous%20Mobile%20Robots.pdf). It was inspired by Kasper Støy's work: [Using Situated Communication in Distributed Autonomous Mobile Robotics](../Relevant%20Papers/Using%20Situated%20Communication%20in%20Distributed%20Autonomous%20Mobile%20Robotics.pdf). Støy proposed and implemented a simple control system for aggregating robots. Instead of relying on environment and localisation information, it uses physical properties of the signal used for communication. Robot behaviour is solely determined by the change in the number of robots that are in the range of its signal.
 
-Alpha algorithm is an approach to an aggregation task within the category of spatial organisation. It is based on assumption that robots send and receive signals through omnidirectional channels like radio or infrared. Single robots make decisions about their movement based only on the number of connections to other robots. The interconnectivity of the swarm is controlled by alpha parameter which is a threshold on desired number of connections for a single robot. 
+Alpha algorithm is an approach to an aggregation task within the category of spatial organisation. It is based on assumption that robots send and receive signals through omnidirectional channels like radio or infrared. Single robots make decisions about their movement based only on the number of connections to other robots. The interconnectivity of the swarm is controlled by the alpha parameter which is a threshold on the desired number of connections for a single robot. 
 
 ```
 Create a list of neighbours for robot, Nlist
@@ -96,6 +95,27 @@ Every robot gets initialised with the same set of parameters apart from its ID. 
 Each robot has its own clock that controls how long it can remain in the current state before being forced to transition. After each transition to the next state the robot will reset its own clock. Maximum time for the robot to remain in state can influence the behaviour of the whole system. If we decrease the maximum time of inactivity, we will obtain a system that is on average more reactive and even. With increasing the maximum time of inactivity we increase the chances of robots operating in different pace. As we are modelling swarm we should aim for uniform operation and therefore lower maximum times for inactivity.
 
 ### Automata
->picture of automata
+
+>~~picture of automata -> make a custom picture instead of screenshot~~
 >description of parts
 >modelling limitations connected to timed automata and not UPPAAL
+
+Pseudocode for the alpha algorithm presented in [Minimalist Coherent Swarming of Wireless Networked Autonomous Mobile Robots](../Papers/Minimalist%20Coherent%20Swarming%20of%20Wireless%20Networked%20Autonomous%20Mobile%20Robots.pdf) was directly transformed to timed automata. Swarm implementing the alpha algorithm is a composition of multiple robots whose entire behaviour is described in the presented automata.
+
+Automata has the following states:
+- INITIAL, where the robot is not moving and has no direction;
+- RANDOM TURN, where the robot randomly chooses one of four directions;
+- U-TURN, where the robot changes direction by 180 degrees;
+- FORWARD, where the robot moves forward in the set direction;
+- IF, where the robot checks if it is disconnected from neighbours;
+- ELSE IF, where the robot checks if it is connected to more than desired number of neighbours;
+
+Each automata has its own clock that controls how much time it can remain in a given state. Maximum time - $t$ a robot can remain in states FORWARD and INITIAL is limited by the maximum time $T$. After leaving mentioned states, the robot resets its clock. In remaining states the time doesn't pass and therefore time $t$ is not incremented.
+
+Transition from one state into another can only happen if the condition is satisfied. If there is no condition over the edge, transition can always be taken. Conditions controlling the robot are associated with the following variables:
+$n$ - current number of connections;
+$l$ - previous number of connections;
+$\alpha$ - alpha parameter, desired number of connections;
+
+![automaton](../Images/automaton.png)
+
