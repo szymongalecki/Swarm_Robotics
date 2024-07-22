@@ -122,86 +122,67 @@ clock c;</declaration>
 			<name x="-323" y="247">turn_180</name>
 			<committed/>
 		</location>
-		<location id="id3" x="374" y="-42">
-			<name x="408" y="-68">forward</name>
-			<label kind="invariant" x="391" y="-34">c &lt;= 5</label>
+		<location id="id3" x="144" y="-34">
+			<name x="161" y="-59">forward</name>
+			<label kind="invariant" x="161" y="-25">c &lt;= 5</label>
 		</location>
-		<location id="id4" x="875" y="-42">
-			<name x="892" y="-59">if</name>
+		<location id="id4" x="646" y="-34">
+			<name x="663" y="-51">if</name>
 			<committed/>
 		</location>
-		<location id="id5" x="450" y="-348">
-			<name x="459" y="-382">else_if</name>
+		<location id="id5" x="144" y="-348">
+			<name x="153" y="-382">else_if</name>
 			<committed/>
 		</location>
 		<init ref="id0"/>
 		<transition id="id6">
 			<source ref="id5"/>
 			<target ref="id3"/>
-			<label kind="guard" x="459" y="-297">!(N[id] &gt; L[id])</label>
-			<label kind="assignment" x="467" y="-272">x += x_dir,
-y += y_dir,
-X[id] = x,
-Y[id] = y,
-update_last(id),
-update_distances(),
-update_neighbours()</label>
-			<nail x="450" y="-178"/>
-			<nail x="450" y="-119"/>
+			<label kind="guard" x="153" y="-204">!(N[id] &gt; L[id])</label>
 		</transition>
 		<transition id="id7">
 			<source ref="id1"/>
 			<target ref="id3"/>
-			<label kind="assignment" x="-212" y="-238">x += x_dir,
-y += y_dir,
-X[id] = x,
-Y[id] = y,
-update_last(id),
-update_distances(),
-update_neighbours()</label>
-			<nail x="-238" y="-76"/>
-			<nail x="246" y="-76"/>
+			<label kind="select" x="-229" y="-238">direction : int[0, 3]</label>
+			<label kind="assignment" x="-229" y="-212">x_dir = x_direction(direction),
+y_dir = y_direction(direction)</label>
+			<nail x="-238" y="-68"/>
 		</transition>
 		<transition id="id8">
 			<source ref="id5"/>
 			<target ref="id1"/>
-			<label kind="select" x="68" y="-340">direction : int[0, 3]</label>
-			<label kind="guard" x="68" y="-382">N[id] &gt; L[id]</label>
-			<label kind="assignment" x="68" y="-314">x_dir = x_direction(direction),
-y_dir = y_direction(direction)</label>
+			<label kind="guard" x="-85" y="-382">N[id] &gt; L[id]</label>
 		</transition>
 		<transition id="id9">
 			<source ref="id4"/>
 			<target ref="id5"/>
-			<label kind="guard" x="578" y="-382">!(N[id] &lt; L[id] &amp;&amp; N[id] &lt; alpha)</label>
-			<nail x="875" y="-348"/>
+			<label kind="guard" x="382" y="-382">!(N[id] &lt; L[id] &amp;&amp; N[id] &lt; alpha)</label>
+			<nail x="646" y="-348"/>
 		</transition>
 		<transition id="id10">
 			<source ref="id4"/>
 			<target ref="id2"/>
-			<label kind="guard" x="246" y="229">N[id] &lt; L[id] &amp;&amp; N[id] &lt; alpha</label>
-			<label kind="assignment" x="246" y="272">x_dir = reverse(x_dir),
-y_dir = reverse(y_dir)</label>
-			<nail x="875" y="255"/>
+			<label kind="guard" x="391" y="221">N[id] &lt; L[id] &amp;&amp; N[id] &lt; alpha</label>
+			<nail x="646" y="255"/>
 		</transition>
 		<transition id="id11">
 			<source ref="id3"/>
 			<target ref="id4"/>
-			<label kind="assignment" x="620" y="-34">c = 0</label>
-			<nail x="476" y="-42"/>
-		</transition>
-		<transition id="id12">
-			<source ref="id2"/>
-			<target ref="id3"/>
-			<label kind="assignment" x="-212" y="25">x += x_dir,
+			<label kind="assignment" x="357" y="-204">c = 0,
+x += x_dir,
 y += y_dir,
 X[id] = x,
 Y[id] = y,
 update_last(id),
 update_distances(),
 update_neighbours()</label>
+		</transition>
+		<transition id="id12">
+			<source ref="id2"/>
+			<target ref="id3"/>
+			<label kind="assignment" x="-229" y="119">x_dir = reverse(x_dir),
+y_dir = reverse(y_dir)</label>
 			<nail x="-238" y="17"/>
-			<nail x="272" y="17"/>
 		</transition>
 		<transition id="id13">
 			<source ref="id0"/>
@@ -229,12 +210,12 @@ system P1, P2, P3;
 		<query>
 			<formula>E&lt;&gt; P1.turn_random &amp;&amp; P1.x != 0</formula>
 			<comment/>
-			<result outcome="success" type="quality" timestamp="2024-05-28 16:11:15 +0200">
+			<result outcome="success" type="quality" timestamp="2024-07-22 10:59:06 +0200">
 				<option key="--diagnostic" value="1"/>
 			</result>
 		</query>
 		<query>
-			<formula>E&lt;&gt; P1.c &gt; 5</formula>
+			<formula>A[] P1.c &lt;= 5</formula>
 			<comment/>
 		</query>
 	</queries>
