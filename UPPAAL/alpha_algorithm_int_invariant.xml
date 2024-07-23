@@ -107,100 +107,97 @@ void update_last(int id){
 </declaration>
 	<template>
 		<name x="5" y="5">Robot</name>
-		<parameter>int id, int x, int y, int x_dir, int y_dir, int alpha</parameter>
+		<parameter>int id, int x, int y, int x_dir, int y_dir, int alpha, int T</parameter>
 		<declaration>// Place local declarations here.
-clock c;</declaration>
-		<location id="id0" x="-663" y="-348">
-			<name x="-748" y="-357">initial</name>
-			<label kind="invariant" x="-739" y="-323">c &lt;= 5</label>
+clock t;</declaration>
+		<location id="id0" x="-425" y="-289">
+			<name x="-510" y="-298">initial</name>
+			<label kind="invariant" x="-509" y="-281">t &lt;= T</label>
 		</location>
-		<location id="id1" x="-238" y="-348">
-			<name x="-248" y="-382">turn_random</name>
+		<location id="id1" x="-178" y="-289">
+			<name x="-188" y="-323">turn_random</name>
 			<committed/>
 		</location>
-		<location id="id2" x="-238" y="255">
-			<name x="-323" y="247">turn_180</name>
+		<location id="id2" x="-178" y="221">
+			<name x="-263" y="213">turn_180</name>
 			<committed/>
 		</location>
 		<location id="id3" x="144" y="-34">
-			<name x="161" y="-59">forward</name>
-			<label kind="invariant" x="161" y="-25">c &lt;= 5</label>
+			<name x="161" y="-76">forward</name>
+			<label kind="invariant" x="161" y="-59">t &lt;= T</label>
 		</location>
-		<location id="id4" x="646" y="-34">
-			<name x="663" y="-51">if</name>
+		<location id="id4" x="527" y="-34">
+			<name x="544" y="-51">if</name>
 			<committed/>
 		</location>
-		<location id="id5" x="144" y="-348">
-			<name x="153" y="-382">else_if</name>
+		<location id="id5" x="144" y="-289">
+			<name x="153" y="-323">else_if</name>
 			<committed/>
 		</location>
 		<init ref="id0"/>
 		<transition id="id6">
 			<source ref="id5"/>
 			<target ref="id3"/>
-			<label kind="guard" x="153" y="-204">!(N[id] &gt; L[id])</label>
+			<label kind="guard" x="144" y="-178">!(N[id] &gt; L[id])</label>
 		</transition>
 		<transition id="id7">
 			<source ref="id1"/>
 			<target ref="id3"/>
-			<label kind="select" x="-229" y="-238">direction : int[0, 3]</label>
-			<label kind="assignment" x="-229" y="-212">x_dir = x_direction(direction),
+			<label kind="select" x="-170" y="-204">direction : int[0, 3]</label>
+			<label kind="assignment" x="-170" y="-178">x_dir = x_direction(direction),
 y_dir = y_direction(direction)</label>
-			<nail x="-238" y="-68"/>
+			<nail x="-178" y="-68"/>
 		</transition>
 		<transition id="id8">
 			<source ref="id5"/>
 			<target ref="id1"/>
-			<label kind="guard" x="-85" y="-382">N[id] &gt; L[id]</label>
+			<label kind="guard" x="-68" y="-314">N[id] &gt; L[id]</label>
 		</transition>
 		<transition id="id9">
 			<source ref="id4"/>
 			<target ref="id5"/>
-			<label kind="guard" x="382" y="-382">!(N[id] &lt; L[id] &amp;&amp; N[id] &lt; alpha)</label>
-			<nail x="646" y="-348"/>
+			<label kind="guard" x="246" y="-314">!(N[id] &lt; L[id] &amp;&amp; N[id] &lt; alpha)</label>
+			<nail x="527" y="-289"/>
 		</transition>
 		<transition id="id10">
 			<source ref="id4"/>
 			<target ref="id2"/>
-			<label kind="guard" x="391" y="221">N[id] &lt; L[id] &amp;&amp; N[id] &lt; alpha</label>
-			<nail x="646" y="255"/>
+			<label kind="guard" x="263" y="195">N[id] &lt; L[id] &amp;&amp; N[id] &lt; alpha</label>
+			<nail x="527" y="221"/>
 		</transition>
 		<transition id="id11">
 			<source ref="id3"/>
 			<target ref="id4"/>
-			<label kind="assignment" x="357" y="-204">c = 0,
-x += x_dir,
+			<label kind="assignment" x="297" y="-34">x += x_dir,
 y += y_dir,
 X[id] = x,
 Y[id] = y,
 update_last(id),
 update_distances(),
-update_neighbours()</label>
+update_neighbours(),
+t = 0</label>
 		</transition>
 		<transition id="id12">
 			<source ref="id2"/>
 			<target ref="id3"/>
-			<label kind="assignment" x="-229" y="119">x_dir = reverse(x_dir),
+			<label kind="assignment" x="-170" y="93">x_dir = reverse(x_dir),
 y_dir = reverse(y_dir)</label>
-			<nail x="-238" y="17"/>
+			<nail x="-178" y="17"/>
 		</transition>
 		<transition id="id13">
 			<source ref="id0"/>
 			<target ref="id1"/>
-			<label kind="select" x="-620" y="-340">direction : int[0, 3]</label>
-			<label kind="assignment" x="-620" y="-314">x_dir = x_direction(direction),
-y_dir = y_direction(direction),
-update_distances(),
+			<label kind="assignment" x="-382" y="-289">update_distances(),
 update_neighbours(),
 update_last(id),
-c = 0</label>
+t = 0</label>
 		</transition>
 	</template>
 	<system>// Place template instantiations here.
-// int id, int x, int y, int x_dir, int y_dir, int alpha
-P1 = Robot(0, 0, 0, 0, 0, 1);
-P2 = Robot(1, 0, 0, 0, 0, 1);
-P3 = Robot(2, 0, 0, 0, 0, 1);
+// int id, int x, int y, int x_dir, int y_dir, int alpha, int T
+P1 = Robot(0, 0, 0, 0, 0, 1, 5);
+P2 = Robot(1, 0, 0, 0, 0, 1, 5);
+P3 = Robot(2, 0, 0, 0, 0, 1, 5);
 
 // List one or more processes to be composed into a system.
 system P1, P2, P3;
