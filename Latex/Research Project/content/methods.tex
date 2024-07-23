@@ -1,6 +1,5 @@
 \section{Methods}
-% needs introduction
-
+In the reviewed papers we can find multiple approaches to verification and testing of implemented swarm behaviours. Algorithms for those behaviours were usually well documented alongside the experiments and obtained results. Sometimes there would be an automaton corresponding to the textual description of behaviour or pseudocode. Used logic and tools were also mentioned frequently. However we would not be able to reproduce the experiments because none of them explained in detail how the chosen swarm behaviour was modelled. That is why this section will focus on explaining how algorithm's pseudocode and general assumptions were transformed into a functioning model. The selected algorithm to demonstrate the process of modelling is Alpha algorithm. It was chosen because there were many experiments that addressed Alpha algorithm but omitted the details of what was actually being tested or verified.
 
 \subsection{Alpha algorithm}
 Alpha algorithm was introduced by Julien Nembrini in \cite{Minimalist_Coherent_Swarming_of_Wireless_Networked_Autonomous_Mobile_Robots}. It was inspired by Kasper Støy's work \cite{Using_Situated_Communication_in_Distributed_Autonomous_Mobile_Robotics}. Støy proposed and implemented a simple control system for aggregating robots. Instead of relying on environment and localisation information, it uses physical properties of the signal used for communication. Robot behaviour is solely determined by the change in the number of robots that are in the range of its signal.
@@ -9,7 +8,7 @@ Alpha algorithm is an approach to an aggregation task within the category of spa
 
 In order to explain the Alpha algorithm in a greater detail we will divide the most important aspects of the robot behaviour into subsections. First three subsections: Movement, Connection, Initialisation and clocks, will explain the algorithm's general assumptions and design choices. The fourth and last subsection - Automaton, will transform the pseudocode for the Alpha algorithm into automaton while incorporating design choices introduced in previous subsections.
 
-\begin{figure}[h!]
+\begin{figure}[H]
 \caption{Pseudocode for Alpha algorithm from \cite{Minimalist_Coherent_Swarming_of_Wireless_Networked_Autonomous_Mobile_Robots}}
 \begin{lstlisting}
 Create a list of neighbours for robot, Nlist
@@ -79,7 +78,7 @@ Robot has to transition before time $t$ is equal to $T$. After leaving mentioned
 $n$ - current number of neighbours;\\
 $l$ - previous number of neighbours;\\
 $\alpha$ - Alpha parameter, desired number of neighbours;\\
-\begin{figure}[h!]
+\begin{figure}[H]
 \caption{Timed automaton for the Alpha algorithm}
 \includegraphics[scale=0.9]{images/automaton.png}
 \label{fig:automaton}
