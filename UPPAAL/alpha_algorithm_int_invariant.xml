@@ -77,12 +77,12 @@ bool connected(double d){
 
 int neighbours(int id){
     // returns number of connections for robot with given id
-    int x_1 = X[id];
-    int y_1 = Y[id];
+    int x = X[id];
+    int y = Y[id];
     int k = 0;
     int i = 0;
     for (i = 0; i &lt; n; i++){
-        double d = distance(x_1, y_1, X[i], Y[i]);
+        double d = distance(x, y, X[i], Y[i]);
         bool c = connected(d);
         // is robot connected to another robot
         if(i != id &amp;&amp; c){
