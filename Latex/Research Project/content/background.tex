@@ -1,5 +1,39 @@
 \section{Background}
-\subsection{UPPAAL}
-"UPPAAL is an integrated tool environment for modeling, simulation and verification of real-time systems. It is appropriate for systems that can be modelled as a collection of non-deterministic processes with finite control structure and real-valued clocks, communicating through channels or shared variables. Typical application areas include real-time controllers and communication protocols in particular, those where timing aspects are critical." \cite{UPPAAL_in_a_Nutshell}
+- All definitions that are needed to understand the methods section and make the article self-sustained. \\
+- Explain verification of properties. \\
+- Find paper with description of timed automata in UPPAAL. \\
+- Find paper with description of timed automata, probably in reference section of above paper. \\
 
-Swarm of robots fits within description of a system that can be modelled using UPPAAL. It is a collection of non-deterministic processes - single robots, that are defined using finite control structure - algorithm that is transformed into finite state machine. Swarm has to communicate and it can be achieved using channels or shared variables. Finally the emergent behaviour is a result of individual robot behaviour which is influenced by the passing time.
+\subsection{UPPAAL}
+"UPPAAL is an integrated tool environment for modeling, simulation and verification of real-time systems. It is appropriate for systems that can be modelled as a collection of non-deterministic processes with finite control structure and real-valued clocks, communicating through channels or shared variables. Typical application areas include real-time controllers and communication protocols in particular, those where timing aspects are critical." \cite{UPPAAL_in_a_Nutshell}
+
+Swarm of robots fits within description of a system that can be modelled using UPPAAL. It is a collection of non-deterministic processes - single robots, that are defined using finite control structure, an algorithm that is transformed into a finite state machine. Swarm has to communicate and it can be achieved using channels or shared variables. Finally the emergent behaviour is a result of individual robot behaviour which is influenced by the passing time.
+
+
+\subsection{Timed automata in UPPAAL}
+Timed automata in UPPAAL is based on timed automata defined by Rajeev Alur and David Dill in \cite{Automata_For_Modeling_Real-Time_Systems}. It is a finite-state machine extended with clocks and variables of both boolean and integer type.
+
+PROPER DEFINITION WITH VARIABLES AND NAMES, SOMETHING LIKE:
+A timed automaton is a tuple $(L, l_0, C, A, E, I)$ where 
+- $L$ is a set of locations, 
+- $l_0 \in L$ is the initial location, 
+- $C$ is the set of clocks, 
+- $A$ is a set of actions, co-actions and the internal $\tau$ - action, 
+- $E \subseteq L \times A \times B(C) \times 2^C \times L$ is a set of edges between locations with an action, a guard and a set of clocks to be reset,
+- $I : L \rightarrow B(C)$ assigns invariants to locations.
+\\\\
+
+
+
+"The basis of the Uppaal model is the notion of timed automata [3] developed by Alur and Dill as an extension of classical finite-state automata with clock variables. To provide a more expressive model and to ease the modeling task, we further extend timed automata with more general types of data variables such as boolean and integer variables. Our final goal is to develop a modeling (or design) language which is as close as possible to a high-level real-time programming language with various data types. Clearly, this will create problems for decidability of model-checking. However, we can always require that the value domains of the data variables should be finite in order to guarantee the termination of a verification procedure.
+
+In the current implementation of Uppaal a system description (or model) consists of a collection of timed automata extended with integer variables in addition to clock variables. Consider the Uppaal model of Figure 3. The model consists of two components A and B with control nodes {A0, A1, A2, A3} and {B0, B1, B2, B3} respectively. In addition to these discrete control structures, the model uses two clocks x and y, one integer variable n and one channel a.
+
+The edges of the automata are decorated with three types of labels: a guard, expressing a condition on the values of clocks and integer variables that must be satisfied in order for the edge to be taken; a synchronization action which is performed when the edge is taken and finally a number of clock resets and assignments to integer variables. All three types of labels are optional.
+
+In addition, control nodes may be decorated with so-called invariants, which are conditions expressing constraints on the clock values in order for control to remain in a particular node." 
+\cite{UPPAAL_in_a_Nutshell}
+
+
+
+
