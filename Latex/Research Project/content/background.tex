@@ -1,8 +1,4 @@
 \section{Background}
-- All definitions that are needed to understand the methods section and make the article self-sustained. \\
-- Explain verification of properties. \\
-- Find paper with description of timed automata in UPPAAL. \\
-- Find paper with description of timed automata, probably in reference section of above paper. \\
 
 \subsection{UPPAAL}
 "UPPAAL is an integrated tool environment for modeling, simulation and verification of real-time systems. It is appropriate for systems that can be modelled as a collection of non-deterministic processes with finite control structure and real-valued clocks, communicating through channels or shared variables. Typical application areas include real-time controllers and communication protocols in particular, those where timing aspects are critical." \cite{UPPAAL_in_a_Nutshell}
@@ -11,29 +7,21 @@ Swarm of robots fits within description of a system that can be modelled using U
 
 
 \subsection{Timed automata in UPPAAL}
-Timed automata in UPPAAL is based on timed automata defined by Rajeev Alur and David Dill in \cite{Automata_For_Modeling_Real-Time_Systems}. It is a finite-state machine extended with clocks and variables of both boolean and integer type.
+Timed automata in UPPAAL is based on timed automata defined by Rajeev Alur and David Dill in \cite{Automata_For_Modeling_Real-Time_Systems}, defined in Figure \ref{fig:definition}. UPPAAL builds on top of that definition extending the states of the automata with invariants. Invariant is a condition on the clock which controls how long an automaton can remain in the given state. Edge between states can be decorated with guard, synchronisation action, clock resets and variable assignments. Guard is a condition on the clock or integer variables that needs to be satisfied in order for the transition to be enabled. Synchronisation action is sending a signal to corresponding edge(s) or waiting to receive such a signal in order to synchronise transitions. Clock reset and variable assignment are used to update the state which will be used for edge conditions and determine further transitions. \cite{UPPAAL_in_a_Nutshell}
 
-PROPER DEFINITION WITH VARIABLES AND NAMES, SOMETHING LIKE:
-A timed automaton is a tuple $(L, l_0, C, A, E, I)$ where 
-- $L$ is a set of locations, 
-- $l_0 \in L$ is the initial location, 
-- $C$ is the set of clocks, 
-- $A$ is a set of actions, co-actions and the internal $\tau$ - action, 
-- $E \subseteq L \times A \times B(C) \times 2^C \times L$ is a set of edges between locations with an action, a guard and a set of clocks to be reset,
-- $I : L \rightarrow B(C)$ assigns invariants to locations.
-\\\\
-
-
-
-"The basis of the Uppaal model is the notion of timed automata [3] developed by Alur and Dill as an extension of classical finite-state automata with clock variables. To provide a more expressive model and to ease the modeling task, we further extend timed automata with more general types of data variables such as boolean and integer variables. Our final goal is to develop a modeling (or design) language which is as close as possible to a high-level real-time programming language with various data types. Clearly, this will create problems for decidability of model-checking. However, we can always require that the value domains of the data variables should be finite in order to guarantee the termination of a verification procedure.
-
-In the current implementation of Uppaal a system description (or model) consists of a collection of timed automata extended with integer variables in addition to clock variables. Consider the Uppaal model of Figure 3. The model consists of two components A and B with control nodes {A0, A1, A2, A3} and {B0, B1, B2, B3} respectively. In addition to these discrete control structures, the model uses two clocks x and y, one integer variable n and one channel a.
-
-The edges of the automata are decorated with three types of labels: a guard, expressing a condition on the values of clocks and integer variables that must be satisfied in order for the edge to be taken; a synchronization action which is performed when the edge is taken and finally a number of clock resets and assignments to integer variables. All three types of labels are optional.
-
-In addition, control nodes may be decorated with so-called invariants, which are conditions expressing constraints on the clock values in order for control to remain in a particular node." 
-\cite{UPPAAL_in_a_Nutshell}
-
-
-
-
+\begin{figure}[H]
+\caption{Definition of timed automaton from \cite{Automata_For_Modeling_Real-Time_Systems}}
+A timed automaton is a tuple $(\Sigma, S, S_0, C, E)$ where:\\
+$\Sigma$ - input alphabet;\\
+$S$ - finite set of automaton states;\\
+$S_0 \subseteq S$ - set of start states; \\
+$C$ - finite set of clocks; \\
+$E \subseteq S \times S [\Sigma \cup {\epsilon}] \times 2^C \times \Phi(C)$ - set of transitions\\\\
+An edge in timed automaton is a tuple $\langle s, s', \sigma, \lambda \delta \rangle$, where:\\
+$s$ - origin state;\\
+$s`$ - destination state;\\
+$\sigma$ - input symbol for the transition;\\
+$\lambda$ - set of clocks to be reset with this transition;\\
+$\delta$ - condition enabling the transition;\\
+\label{fig:definition}
+\end{figure}
