@@ -2,12 +2,21 @@
 In the previous section, we introduced the Alpha algorithm and taken assumptions which were transformed into a timed automaton. The description provides the details to implement the Alpha algorithm with any suitable tool of choice. In this section, we will focus on implementation with regards to the specific tool of our choice, UPPAAL. UPPAAL is one of the major tools for model checking and verification of real-time systems that can be modeled as timed automata. As the previous section finished on timed automaton, we will start by presenting timed automaton implemented in UPPAAL. We will draw connections between them as presented in Figure \ref{fig:automaton} and Figure \ref{fig:automaton_uppaal}. Then, we will explain global functions and state.
 
 \begin{figure}[H]
-\caption{UPPAAL implementation of the automaton}
+\caption{UPPAAL implementation of the timed automaton}
 \includegraphics[scale=0.3]{images/automaton_uppaal.png}
 \label{fig:automaton_uppaal}
 \end{figure}
 
-To start with comparison between general automaton and its specific implementation in UPPAAL, let us notice that both automata have the same set of states and transitions. Guarded transitions use the same conditions. Each robot accesses its own set of condition variables by providing \textbf{id} to the global arrays. Array \textbf{N} holds the number of neighbours for each robot. Array \textbf{L} holds the last number of neighbours for each robot. Those variables are held in the global arrays so that a single robot could update the number of neighbours for all of the other robots every time it moves. It may seem counter intuitive that a single robot updates the variables of other robots. However, the execution of the system composed from multiple robots is based on interleavings. At any given time a single robot transitions between states. This means that only the moving robot is guaranteed to have true information about number of connections. Global updates of the number of neighbours is a way to mimic physical, continuous signal that would determine whether robots are connected or not. It eliminates the situation where robot would make a decision on already outdated information. The implementation assumes that each time a robot moves it will update its coordinates, update the last number of neighbours for itself and update the current number of neighbours for all robots. It achieves the last two actions by calling \textbf{update\_last(id)} and \textbf{update\_neighbours()}. Figure \ref{fig:neighbours} shows the process of updating the number of connections for all robots.
+\noindent
+Variables of the timed automaton presented in Figure \ref{fig:automaton_uppaal}:\\
+\textbf{id} - unique identifier of the robot;\\
+\textbf{x\_dir} - horizontal direction component;\\
+\textbf{y\_dir} - vertical direction component;\\
+\textbf{alpha} - alpha parameter;\\
+\textbf{T} - time threshold for inactivity;\\
+
+To start with comparison between general automaton and its specific implementation in UPPAAL, let us notice that both automata have the same set of states and transitions. Guarded transitions use the same conditions. Each robot accesses its own set of condition variables by providing \textbf{id} to the global arrays. Array \textbf{N} holds the number of neighbours for each robot. Array \textbf{L} holds the last number of neighbours for each robot. Those variables are held in the global arrays so that a single robot could update the number of neighbours for all of the other robots every time it moves. It may seem counter intuitive that a single robot updates the variables of other robots. However, the execution of the system composed from multiple robots is based on interleavings. At any given time a single robot transitions between states. This means that only the moving robot is guaranteed to have true information about number of connections. Global updates of the number of neighbours is a way to mimic physical, continuous signal that would determine whether robots are connected or not. It eliminates the situation where robot would make a decision on already outdated information. The implementation assumes that each time a robot moves it will update its coordinates, update the last number of neighbours for itself and update the current number of neighbours for all robots. Use of the coordinates is necessary as the state of connection is determined by the Euclidean distance between robots and radius of the assumed communication technology. The update of the number of neighbours is achieved by calling \textbf{update\_last(id)} and \textbf{update\_neighbours()}. Figure \ref{fig:neighbours} shows the process of updating the number of connections for all robots.
+
 \begin{figure}[H]
 \caption{Implementation of \textbf{update\_neighbours()} and \textbf{neighbours()}}
 \lstset { language=C++ }
@@ -68,5 +77,21 @@ int reverse(int direction){
 \end{figure}
 
 The last element of the implementation is time. Each robot has its own clock that limits how long it can stay in the states with defined invariants: \textbf{initial}, \textbf{forward}. After transitioning from those states, a robot will reset its clock. Only in those states, the time passes. Other states are so called committed locations. In committed locations time does not pass which means that individual robot clocks do not progress. As a consequence the time progresses during the forward motion of the robot but decision to turn happens instantaneously.
+
+The implementation of the Alpha algorithm in UPPAAL and the presented timed automaton model depct the behavior of a single robot. In order to create a robot swarm we need to instantiate multiple such robots and compose them into a system. This is achieved in UPPAAL with code presented in Figure \ref{fig:composition}.
+\begin{figure}[H]
+\caption{Composing multiple robots into a system in UPPAAL}
+\lstset { language=C++ }
+\begin{lstlisting}
+// id, x_dir, y_dir, alpha, T
+P1 = Robot(0, 0, 0, 1, 5);
+P2 = Robot(1, 0, 0, 1, 5);
+P3 = Robot(2, 0, 0, 1, 5);
+system P1, P2, P3;
+\end{lstlisting}
+\label{fig:composition}
+\end{figure}
+
+
 
 We started from general timed automaton implementing the Alpha algorithm. We implemented it using UPPAAL and recreated states, transitions and conditions. We explained the reasoning behind using the global state for condition variables and the mechanism of updating them. We showed how the robot movement and changes of directions are realised and when it happens. Finally we described the timing aspect and its practical implications on the behaviour of the model.
