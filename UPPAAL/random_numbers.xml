@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE nta PUBLIC '-//Uppaal Team//DTD Flat System 1.6//EN' 'http://www.it.uu.se/research/group/darts/uppaal/flat-1_6.dtd'>
+<nta>
+	<declaration>// Place global declarations here.
+</declaration>
+	<template>
+		<name x="5" y="5">Template</name>
+		<parameter>int r</parameter>
+		<declaration>// Place local declarations here.
+clock x;</declaration>
+		<location id="id0" x="-281" y="-102">
+			<name x="-365" y="-136">initial</name>
+			<label kind="invariant" x="-365" y="-110">x &lt;= 5</label>
+		</location>
+		<location id="id1" x="119" y="-229">
+			<name x="119" y="-263">even</name>
+			<committed/>
+		</location>
+		<location id="id2" x="119" y="17">
+			<name x="127" y="-17">odd</name>
+			<committed/>
+		</location>
+		<location id="id3" x="-103" y="-102">
+			<name x="-119" y="-144">rand</name>
+			<committed/>
+		</location>
+		<init ref="id0"/>
+		<transition id="id4">
+			<source ref="id3"/>
+			<target ref="id2"/>
+			<label kind="guard" x="-8" y="-102">!(r % 2 == 0)</label>
+			<nail x="-26" y="-77"/>
+			<nail x="119" y="-76"/>
+		</transition>
+		<transition id="id5">
+			<source ref="id3"/>
+			<target ref="id1"/>
+			<label kind="guard" x="-9" y="-153">r % 2 == 0</label>
+			<nail x="-26" y="-127"/>
+			<nail x="119" y="-127"/>
+		</transition>
+		<transition id="id6">
+			<source ref="id0"/>
+			<target ref="id3"/>
+			<label kind="select" x="-246" y="-136">i : int[0,5]</label>
+			<label kind="assignment" x="-246" y="-93">r = i,
+x = 0</label>
+		</transition>
+		<transition id="id7">
+			<source ref="id2"/>
+			<target ref="id0"/>
+			<nail x="-281" y="17"/>
+		</transition>
+		<transition id="id8">
+			<source ref="id1"/>
+			<target ref="id0"/>
+			<nail x="-281" y="-229"/>
+		</transition>
+	</template>
+	<system>// Place template instantiations here.
+P = Template(0);
+// List one or more processes to be composed into a system.
+system P;
+</system>
+	<queries>
+		<option key="--diagnostic" value="0"/>
+		<query>
+			<formula>A[] not deadlock</formula>
+			<comment/>
+			<result outcome="success" type="quality" timestamp="2024-08-05 13:42:55 +0200">
+			</result>
+		</query>
+		<query>
+			<formula>A[] (P.rand || P.odd || P.even) imply P.x == 0</formula>
+			<comment/>
+			<result outcome="success" type="quality" timestamp="2024-08-05 14:15:25 +0200">
+				<option key="--diagnostic" value="0"/>
+			</result>
+		</query>
+		<query>
+			<formula>A[] P.even imply (P.r == 0 || P.r == 2 || P.r == 4)</formula>
+			<comment/>
+			<result outcome="success" type="quality" timestamp="2024-08-05 13:53:40 +0200">
+			</result>
+		</query>
+		<query>
+			<formula>A[] P.initial imply P.x &lt;= 5</formula>
+			<comment/>
+			<result outcome="success" type="quality" timestamp="2024-08-05 13:58:29 +0200">
+				<option key="--diagnostic" value="0"/>
+			</result>
+		</query>
+	</queries>
+</nta>
