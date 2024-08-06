@@ -52,7 +52,7 @@ where $\phi, \psi$ are local properties that can be checked locally on a state, 
 \label{def:quantifiers}
 \end{definition}
 \noindent
-To check the correctness of implementation of the example model, presented in Figure \ref{fig:automaton_example}, we positively verified following properties.\\
+To check the correctness of implementation of the example model, presented in Figure \ref{fig:automaton_example}, we successfully verified following properties.\\
 - \texttt{A[] not deadlock} - model never reaches deadlock.\\
 - \texttt{A[] (P.rand || P.odd || P.even) imply P.x == 0} - model in location rand or odd or even, implies that time does not progress.\\
 - \texttt{A[] P.even imply (P.r == 0 || P.r == 2 || P.r == 4)} -  model in location even, implies that the integer selected at random is equal to 0 or 2 or 4.\\

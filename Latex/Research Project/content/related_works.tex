@@ -1,0 +1,9 @@
+\section{Related works}
+
+Paper  \cite{Towards_Temporal_Verification_of_Emergent_Behaviours_in_Swarm_Robotic_Systems} tried to verify the correctness of the Alpha algorithm by model checking the state-space reduced system with different modes of concurrency. System was reduced to 2-3 robots and grid of size 5x5-8x8 to avoid the state explosion problem. Examined modes of concurrency were synchrony, strict turn taking, non-strict turn taking and fair asynchrony. Synchrony was found to be the most accurate mode of concurrency for modeling real execution. Property 'no specific robot will remain disconnected forever' was defined using propositional linear-time temporal logic and verified using symbolic model checker NuSMV. The property was succesfully verified for a system consisting of two robots executing with synchronous mode of concurrency. The property was falsified for all systems consisting of three robots.
+
+In \cite{On_Formal_Specification_of_Emergent_Behaviours_in_Swarm_Robotic_Systems} the Alpha algorithm was simplified in a similar way as in this works. It used temporal logic to formally specify emergent behaviours of a robotic swarm system. Two such properties were defined but not verified. Property 1 - "It is repeatedly the case that for each robot, we can find another robot so that they are connected". Property 2 - "Eventually it will always be the case that every robot is connected to at least $k$ robots, where $k$ is a pre-defined constant".
+
+Work \cite{Formal_Verification_of_Probabilistic_Swarm_Behaviours}...
+
+
