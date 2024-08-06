@@ -8,9 +8,9 @@
 		<parameter>int r</parameter>
 		<declaration>// Place local declarations here.
 clock x;</declaration>
-		<location id="id0" x="-281" y="-102">
-			<name x="-365" y="-136">initial</name>
-			<label kind="invariant" x="-365" y="-110">x &lt;= 5</label>
+		<location id="id0" x="-280" y="-102">
+			<name x="-364" y="-136">initial</name>
+			<label kind="invariant" x="-364" y="-110">x &lt;= 5</label>
 		</location>
 		<location id="id1" x="119" y="-229">
 			<name x="119" y="-263">even</name>
@@ -20,8 +20,8 @@ clock x;</declaration>
 			<name x="127" y="-17">odd</name>
 			<committed/>
 		</location>
-		<location id="id3" x="-103" y="-102">
-			<name x="-119" y="-144">rand</name>
+		<location id="id3" x="-102" y="-102">
+			<name x="-118" y="-144">rand</name>
 			<committed/>
 		</location>
 		<init ref="id0"/>

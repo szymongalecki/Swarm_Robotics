@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE nta PUBLIC '-//Uppaal Team//DTD Flat System 1.6//EN' 'http://www.it.uu.se/research/group/darts/uppaal/flat-1_6.dtd'>
 <nta>
-	<declaration>// number of robots - n, signal radius - r
-const int n = 3;
-const int r = 5;
+	<declaration>// number of robots - n, signal radius - r, grid boundary - g =&gt; grid: 2g x 2g 
+const int n = 2;
+const int r = 2;
+const int g = 5;
+const int alpha = 1;
+const int t_max = 5;
 
 // x coordinates - X, y coordinates - Y
 int X[n];
@@ -107,40 +110,66 @@ void update_last(int id){
 </declaration>
 	<template>
 		<name x="5" y="5">Robot</name>
-		<parameter>int id, int x_dir, int y_dir, int alpha, int T</parameter>
+		<parameter>int id, int x, int y, int x_dir, int y_dir</parameter>
 		<declaration>// Place local declarations here.
 clock t;</declaration>
 		<location id="id0" x="-425" y="-289">
 			<name x="-510" y="-298">initial</name>
-			<label kind="invariant" x="-509" y="-281">t &lt;= T</label>
+			<label kind="invariant" x="-510" y="-280">t &lt;= t_max</label>
 		</location>
 		<location id="id1" x="-178" y="-289">
 			<name x="-188" y="-323">turn_random</name>
 			<committed/>
 		</location>
-		<location id="id2" x="-178" y="221">
-			<name x="-263" y="213">turn_180</name>
+		<location id="id2" x="-178" y="238">
+			<name x="-263" y="230">turn_180</name>
 			<committed/>
 		</location>
-		<location id="id3" x="144" y="-34">
-			<name x="161" y="-76">forward</name>
-			<label kind="invariant" x="161" y="-59">t &lt;= T</label>
+		<location id="id3" x="110" y="-34">
+			<name x="127" y="-76">forward</name>
+			<label kind="invariant" x="127" y="-59">t &lt;= t_max</label>
 		</location>
-		<location id="id4" x="527" y="-34">
-			<name x="544" y="-51">if</name>
+		<location id="id4" x="722" y="-34">
+			<name x="739" y="-76">if</name>
 			<committed/>
 		</location>
-		<location id="id5" x="144" y="-289">
-			<name x="153" y="-323">else_if</name>
+		<location id="id5" x="110" y="-289">
+			<name x="119" y="-323">else_if</name>
+			<committed/>
+		</location>
+		<location id="id6" x="374" y="-34">
+			<name x="323" y="-76">grid</name>
 			<committed/>
 		</location>
 		<init ref="id0"/>
-		<transition id="id6">
+		<transition id="id7">
+			<source ref="id6"/>
+			<target ref="id2"/>
+			<label kind="guard" x="76" y="170">abs(X[id]) &gt;=  g || abs(Y[id]) &gt;= g</label>
+			<nail x="374" y="195"/>
+			<nail x="59" y="195"/>
+		</transition>
+		<transition id="id8">
+			<source ref="id6"/>
+			<target ref="id4"/>
+			<label kind="guard" x="391" y="-59">!(abs(X[id]) &gt;=  g || abs(Y[id]) &gt;= g)</label>
+		</transition>
+		<transition id="id9">
+			<source ref="id3"/>
+			<target ref="id6"/>
+			<label kind="assignment" x="161" y="-34">X[id] = x_dir,
+Y[id] = y_dir,
+update_last(id),
+update_distances(),
+update_neighbours(),
+t = 0</label>
+		</transition>
+		<transition id="id10">
 			<source ref="id5"/>
 			<target ref="id3"/>
-			<label kind="guard" x="144" y="-178">!(N[id] &gt; L[id])</label>
+			<label kind="guard" x="119" y="-178">!(N[id] &gt; L[id])</label>
 		</transition>
-		<transition id="id7">
+		<transition id="id11">
 			<source ref="id1"/>
 			<target ref="id3"/>
 			<label kind="select" x="-170" y="-204">direction : int[0, 3]</label>
@@ -148,41 +177,31 @@ clock t;</declaration>
 y_dir = y_direction(direction)</label>
 			<nail x="-178" y="-68"/>
 		</transition>
-		<transition id="id8">
+		<transition id="id12">
 			<source ref="id5"/>
 			<target ref="id1"/>
 			<label kind="guard" x="-68" y="-314">N[id] &gt; L[id]</label>
 		</transition>
-		<transition id="id9">
+		<transition id="id13">
 			<source ref="id4"/>
 			<target ref="id5"/>
-			<label kind="guard" x="246" y="-314">!(N[id] &lt; L[id] &amp;&amp; N[id] &lt; alpha)</label>
-			<nail x="527" y="-289"/>
+			<label kind="guard" x="442" y="-314">!(N[id] &lt; L[id] &amp;&amp; N[id] &lt; alpha)</label>
+			<nail x="722" y="-289"/>
 		</transition>
-		<transition id="id10">
+		<transition id="id14">
 			<source ref="id4"/>
 			<target ref="id2"/>
-			<label kind="guard" x="263" y="195">N[id] &lt; L[id] &amp;&amp; N[id] &lt; alpha</label>
-			<nail x="527" y="221"/>
+			<label kind="guard" x="459" y="212">N[id] &lt; L[id] &amp;&amp; N[id] &lt; alpha</label>
+			<nail x="722" y="238"/>
 		</transition>
-		<transition id="id11">
-			<source ref="id3"/>
-			<target ref="id4"/>
-			<label kind="assignment" x="297" y="-34">X[id] += x_dir,
-Y[id] += y_dir,
-update_last(id),
-update_distances(),
-update_neighbours(),
-t = 0</label>
-		</transition>
-		<transition id="id12">
+		<transition id="id15">
 			<source ref="id2"/>
 			<target ref="id3"/>
 			<label kind="assignment" x="-170" y="93">x_dir = reverse(x_dir),
 y_dir = reverse(y_dir)</label>
 			<nail x="-178" y="17"/>
 		</transition>
-		<transition id="id13">
+		<transition id="id16">
 			<source ref="id0"/>
 			<target ref="id1"/>
 			<label kind="assignment" x="-382" y="-289">update_distances(),
@@ -192,30 +211,84 @@ t = 0</label>
 		</transition>
 	</template>
 	<system>// Place template instantiations here.
-// int id, int x_dir, int y_dir, int alpha, int T
-P1 = Robot(0, 0, 0, 1, 5);
-P2 = Robot(1, 0, 0, 1, 5);
-P3 = Robot(2, 0, 0, 1, 5);
+// int id, int x, int y, int x_dir, int y_dir, 
+P1 = Robot(0, 0, 0, 0, 0);
+P2 = Robot(1, 0, 0, 0, 0);
 
 // List one or more processes to be composed into a system.
-system P1, P2, P3;
+system P1, P2;
 </system>
 	<queries>
-		<option key="--diagnostic" value="1"/>
+		<option key="--diagnostic" value="0"/>
 		<query>
-			<formula>E&lt;&gt; P1.turn_random &amp;&amp; P1.x != 0</formula>
+			<formula>E&lt;&gt; P1.x_dir == P2.x_dir &amp;&amp; P1.x_dir != 0 &amp;&amp; N[0] == 1</formula>
 			<comment/>
-			<result outcome="success" type="quality" timestamp="2024-07-22 10:59:06 +0200">
-				<option key="--diagnostic" value="1"/>
+			<result outcome="success" type="quality" timestamp="2024-08-06 21:24:23 +0200">
+				<option key="--diagnostic" value="0"/>
 			</result>
 		</query>
 		<query>
-			<formula>A[] P1.c &lt;= 5</formula>
+			<formula>A[] P1.turn_random imply P2.forward || P2.initial</formula>
 			<comment/>
+			<result outcome="success" type="quality" timestamp="2024-08-06 16:59:43 +0200">
+				<option key="--diagnostic" value="0"/>
+			</result>
 		</query>
 		<query>
 			<formula>A[] N[0] == N[1]</formula>
 			<comment/>
+			<result outcome="success" type="quality" timestamp="2024-08-06 16:59:50 +0200">
+				<option key="--diagnostic" value="0"/>
+			</result>
+		</query>
+		<query>
+			<formula>A[] not deadlock</formula>
+			<comment/>
+			<result outcome="success" type="quality" timestamp="2024-08-06 17:00:11 +0200">
+				<option key="--diagnostic" value="0"/>
+			</result>
+		</query>
+		<query>
+			<formula>A[] P1.forward or P1.initial imply P1.t &lt;= t_max</formula>
+			<comment/>
+			<result outcome="success" type="quality" timestamp="2024-08-06 17:00:18 +0200">
+				<option key="--diagnostic" value="0"/>
+			</result>
+		</query>
+		<query>
+			<formula>A[] P1.forward imply (P1.x_dir != 0 and P1.y_dir == 0) or (P1.x_dir == 0 and P1.y_dir != 0)</formula>
+			<comment/>
+			<result outcome="success" type="quality" timestamp="2024-08-06 17:00:25 +0200">
+				<option key="--diagnostic" value="0"/>
+			</result>
+		</query>
+		<query>
+			<formula>A[] P1.turn_random imply P1.t == 0</formula>
+			<comment/>
+			<result outcome="success" type="quality" timestamp="2024-08-06 17:00:33 +0200">
+				<option key="--diagnostic" value="0"/>
+			</result>
+		</query>
+		<query>
+			<formula>A[] P1.turn_random imply P2.initial or P2.forward</formula>
+			<comment/>
+			<result outcome="success" type="quality" timestamp="2024-08-06 17:00:39 +0200">
+				<option key="--diagnostic" value="0"/>
+			</result>
+		</query>
+		<query>
+			<formula>A[] P1.t &lt;= t_max and P2.t &lt;= t_max</formula>
+			<comment/>
+			<result outcome="success" type="quality" timestamp="2024-08-06 17:00:48 +0200">
+				<option key="--diagnostic" value="0"/>
+			</result>
+		</query>
+		<query>
+			<formula>A[] not P1.initial and not P1.forward imply P1.t == 0</formula>
+			<comment/>
+			<result outcome="success" type="quality" timestamp="2024-08-06 21:27:54 +0200">
+				<option key="--diagnostic" value="0"/>
+			</result>
 		</query>
 	</queries>
 </nta>
