@@ -15,3 +15,12 @@ To see the difference, try the properties:
 - The former property `E<> Obs.idle and x > 3` no longer holds.
 
 
+
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [["$", "$"], ["\\(", "\\)"]]
+  }
+};
+</script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>

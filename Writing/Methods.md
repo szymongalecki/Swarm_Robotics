@@ -1,13 +1,13 @@
-> ~~Connect [Problem statement for research project - corrected](../Formal/Problem%20statement%20for%20research%20project%20-%20corrected.md) with implementation of Alpha algorithm using UPPAAL~~
+> ~~Connect [Problem statement for research project - corrected](../Formal/Problem%20statement%20for%20research%20project%20-%20corrected.html) with implementation of Alpha algorithm using UPPAAL~~
 
 To test the modelling and testing properties of described swarm behaviours we will implement an alpha algorithm using the verification tool UPPAAL. 
 ### UPPAAL
 **SOURCES:**
-[Introduction to UPPAAL](../Notes/Introduction%20to%20UPPAAL.md)
-[Time in UPPAAL](../Notes/Time%20in%20UPPAAL.md)
-[Expressions in UPPAAL](../Notes/Expressions%20in%20UPPAAL.md)
-[Verifying properties in UPPAAL](../Notes/Verifying%20properties%20in%20UPPAAL.md)
-[Timed automaton](../Notes/Timed%20automaton.md)
+[Introduction to UPPAAL](../Notes/Introduction%20to%20UPPAAL.html)
+[Time in UPPAAL](../Notes/Time%20in%20UPPAAL.html)
+[Expressions in UPPAAL](../Notes/Expressions%20in%20UPPAAL.html)
+[Verifying properties in UPPAAL](../Notes/Verifying%20properties%20in%20UPPAAL.html)
+[Timed automaton](../Notes/Timed%20automaton.html)
 
 >~~What is it?~~
 >~~Why use it?~~
@@ -19,9 +19,9 @@ Swarm of robots fits within description of a system that can be modelled using U
 
 ### Alpha algorithm
 **SOURCES:**
-[Recreating alpha algorithm in UPPAAL pt.1](../Notes/Recreating%20alpha%20algorithm%20in%20UPPAAL%20pt.1.md)
-[Recreating alpha algorithm in UPPAAL pt.2](../Notes/Recreating%20alpha%20algorithm%20in%20UPPAAL%20pt.2.md)
-[Publications of Alessio Lomuscio](../Notes/Publications%20of%20Alessio%20Lomuscio.md)
+[Recreating alpha algorithm in UPPAAL pt.1](../Notes/Recreating%20alpha%20algorithm%20in%20UPPAAL%20pt.1.html)
+[Recreating alpha algorithm in UPPAAL pt.2](../Notes/Recreating%20alpha%20algorithm%20in%20UPPAAL%20pt.2.html)
+[Publications of Alessio Lomuscio](../Notes/Publications%20of%20Alessio%20Lomuscio.html)
 
 > ~~What is it?~~
 > ~~Who created it?~~
@@ -119,3 +119,12 @@ $\alpha$ - alpha parameter, desired number of connections;
 
 ![automaton](../Images/automaton.png)
 
+
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [["$", "$"], ["\\(", "\\)"]]
+  }
+};
+</script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>

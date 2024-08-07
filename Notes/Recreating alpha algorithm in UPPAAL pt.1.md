@@ -113,3 +113,11 @@ From a single state s there can be made two different transition when $(k \geq a
 Model is using double numbers to store distance which disables symbolic simulator and verification.
 Current version of the model should be a direct implementation of algorithm defined in Julien Nembrini's paper.
 Concrete simulator could be used as a source of traces for testing and analysis but I can't save it's output in any format specified in UPPAAL documentation.
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [["$", "$"], ["\\(", "\\)"]]
+  }
+};
+</script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
