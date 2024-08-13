@@ -10,7 +10,7 @@ As a result of adding an invariant on the clock state, robots have to make trans
 	- `A[] C.loop_counter > 7 imply (P1.conn && P2.conn) || (P1.final && P2.final)`
 
 ### Alpha algorithm
-Pseudocode taken from [Minimalist Coherent Swarming of Wireless Networked Autonomous Mobile Robots](../Papers/Minimalist%20Coherent%20Swarming%20of%20Wireless%20Networked%20Autonomous%20Mobile%20Robots.pdf)
+Pseudocode taken from [Minimalist Coherent Swarming of Wireless Networked Autonomous Mobile Robots](../Relevant%20Papers/Minimalist%20Coherent%20Swarming%20of%20Wireless%20Networked%20Autonomous%20Mobile%20Robots.pdf)
 ```
 Create a list of neighbours for robot, Nlist
 k = number of neighours in Nlist

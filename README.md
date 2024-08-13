@@ -1,8 +1,6 @@
 ### Writing
 - [Research project structure](Writing/Research%20project%20structure.md)
-- [Research project](Writing/Research%20project.md)
-- [Methods](Writing/Methods.md)
-- [Literature review](Writing/Literature%20review.md)
+- [Research_Project](Latex/Research_Project.pdf)
 
 ### Definitions
 - [Swarm](Notes/Swarm.md)
@@ -22,6 +20,8 @@
 - [Mutex in UPPAAL](Notes/Mutex%20in%20UPPAAL.md)
 - [Time in UPPAAL](Notes/Time%20in%20UPPAAL.md)
 - [Verifying properties in UPPAAL](Notes/Verifying%20properties%20in%20UPPAAL.md)
+
+### Implementation notes
 - [Recreating basic algorithm in UPPAAL pt.1](Notes/Recreating%20basic%20algorithm%20in%20UPPAAL%20pt.1.md)
 - [Recreating basic algorithm in UPPAAL pt.2](Notes/Recreating%20basic%20algorithm%20in%20UPPAAL%20pt.2.md)
 - [Recreating basic algorithm in UPPAAL pt.3](Notes/Recreating%20basic%20algorithm%20in%20UPPAAL%20pt.3.md)
@@ -34,13 +34,16 @@
 3. [Paper - Formal Verification of Probabilistic Swarm Behaviours](Notes/Paper%20-%20Formal%20Verification%20of%20Probabilistic%20Swarm%20Behaviours.md)
 4. [Paper - On Formal Specification of Emergent Behaviours in Swarm Robotic Systems](Notes/Paper%20-%20On%20Formal%20Specification%20of%20Emergent%20Behaviours%20in%20Swarm%20Robotic%20Systems.md)
 
-
-### Papers
+### Relevant papers
 1. [Property-Driven Design for Swarm Robotics](Relevant%20Papers/Property-Driven%20Design%20for%20Swarm%20Robotics.pdf)
 2. [Towards Temporal Verification of Emergent Behaviours in Swarm Robotic Systems](Relevant%20Papers/Towards%20Temporal%20Verification%20of%20Emergent%20Behaviours%20in%20Swarm%20Robotic%20Systems.pdf)
 3. [Formal Verification of Probabilistic Swarm Behaviours](Relevant%20Papers/Formal%20Verification%20of%20Probabilistic%20Swarm%20Behaviours.pdf)
 4. [On Formal Specification of Emergent Behaviours in Swarm Robotic Systems](Relevant%20Papers/On%20Formal%20Specification%20of%20Emergent%20Behaviours%20in%20Swarm%20Robotic%20Systems.pdf)
 5. [Using Situated Communication in Distributed Autonomous Mobile Robotics](Relevant%20Papers/Using%20Situated%20Communication%20in%20Distributed%20Autonomous%20Mobile%20Robotics.pdf)
+6. [Timed Automata - Semantics, Algorithms and Tools](Relevant%20Papers/Timed%20Automata%20-%20Semantics,%20Algorithms%20and%20Tools.pdf)
+7. [UPPAAL in a Nutshell](Papers/UPPAAL%20in%20a%20Nutshell.pdf)
+8. [Minimalist Coherent Swarming of Wireless Networked Autonomous Mobile Robots](Relevant%20Papers/Minimalist%20Coherent%20Swarming%20of%20Wireless%20Networked%20Autonomous%20Mobile%20Robots.pdf)
+9. [Automata For Modelling Real-Time Systems](Relevant%20Papers/Automata%20For%20Modelling%20Real-Time%20Systems.pdf)
 
 ### Alessio Lomuscio
 [Publications of Alessio Lomuscio](Notes/Publications%20of%20Alessio%20Lomuscio.md)
@@ -82,4 +85,3 @@
 
 ---
 [Webpage](https://szymongalecki.github.io/Swarm_Robotics/)     |     [GitHub](https://github.com/szymongalecki/Swarm_Robotics)
-

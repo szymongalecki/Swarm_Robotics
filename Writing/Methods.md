@@ -27,7 +27,7 @@ Swarm of robots fits within description of a system that can be modelled using U
 > ~~Who created it?~~
 > ~~Pseudocode~~
 
-Alpha algorithm was introduced by Julien Nembrini in [Minimalist Coherent Swarming of Wireless Networked Autonomous Mobile Robots](../Papers/Minimalist%20Coherent%20Swarming%20of%20Wireless%20Networked%20Autonomous%20Mobile%20Robots.pdf). It was inspired by Kasper Støy's work: [Using Situated Communication in Distributed Autonomous Mobile Robotics](../Relevant%20Papers/Using%20Situated%20Communication%20in%20Distributed%20Autonomous%20Mobile%20Robotics.pdf). Støy proposed and implemented a simple control system for aggregating robots. Instead of relying on environment and localisation information, it uses physical properties of the signal used for communication. Robot behaviour is solely determined by the change in the number of robots that are in the range of its signal.
+Alpha algorithm was introduced by Julien Nembrini in [Minimalist Coherent Swarming of Wireless Networked Autonomous Mobile Robots](../Relevant%20Papers/Minimalist%20Coherent%20Swarming%20of%20Wireless%20Networked%20Autonomous%20Mobile%20Robots.pdf). It was inspired by Kasper Støy's work: [Using Situated Communication in Distributed Autonomous Mobile Robotics](../Relevant%20Papers/Using%20Situated%20Communication%20in%20Distributed%20Autonomous%20Mobile%20Robotics.pdf). Støy proposed and implemented a simple control system for aggregating robots. Instead of relying on environment and localisation information, it uses physical properties of the signal used for communication. Robot behaviour is solely determined by the change in the number of robots that are in the range of its signal.
 
 Alpha algorithm is an approach to an aggregation task within the category of spatial organisation. It is based on assumption that robots send and receive signals through omnidirectional channels like radio or infrared. Single robots make decisions about their movement based only on the number of connections to other robots. The interconnectivity of the swarm is controlled by the alpha parameter which is a threshold on the desired number of connections for a single robot. 
 
@@ -60,7 +60,7 @@ loop forever {
 	i++
 }
 ```
-Pseudocode from [Minimalist Coherent Swarming of Wireless Networked Autonomous Mobile Robots](../Papers/Minimalist%20Coherent%20Swarming%20of%20Wireless%20Networked%20Autonomous%20Mobile%20Robots.pdf)
+Pseudocode from [Minimalist Coherent Swarming of Wireless Networked Autonomous Mobile Robots](../Relevant%20Papers/Minimalist%20Coherent%20Swarming%20of%20Wireless%20Networked%20Autonomous%20Mobile%20Robots.pdf)
 
 ### Movement
 >~~Direction~~
@@ -78,7 +78,7 @@ Robots are not aware of other robots positions. This means that they can occupy 
 ~~> Distance based connection~~
 ~~> Alpha parameter~~
 
-Number of robot connections is the main parameter determining the robot behaviour. Therefore it is important to accurately model what it means for robots to be connected. One of the assumptions in Julien Nembrini's [Minimalist Coherent Swarming of Wireless Networked Autonomous Mobile Robots](../Papers/Minimalist%20Coherent%20Swarming%20of%20Wireless%20Networked%20Autonomous%20Mobile%20Robots.pdf) is that physical signal is omnidirectional. However, robot movement is modelled to be two dimensional. Consequently we will assume that two robots are connected if their distance is smaller than radius of physical signal that we mimic. Length of the radius will determine how far apart the robots can move before losing connection.
+Number of robot connections is the main parameter determining the robot behaviour. Therefore it is important to accurately model what it means for robots to be connected. One of the assumptions in Julien Nembrini's [Minimalist Coherent Swarming of Wireless Networked Autonomous Mobile Robots](../Relevant%20Papers/Minimalist%20Coherent%20Swarming%20of%20Wireless%20Networked%20Autonomous%20Mobile%20Robots.pdf) is that physical signal is omnidirectional. However, robot movement is modelled to be two dimensional. Consequently we will assume that two robots are connected if their distance is smaller than radius of physical signal that we mimic. Length of the radius will determine how far apart the robots can move before losing connection.
 
 To mimic the physical signal we need information about robot coordinates, mutual distances, previous and current number of neighbours. This allows for evaluating whether robots are in the signal distance and therefore connected or not. Every time robot moves it will update its own coordinates, previous number of neighbours for itself, current number of neighbours for all robots and mutual distances for all robots. It may seem like the robot is using more information than it is assumed in the alpha algorithm. Information that it passes is used to mimic the physical signal of the real robot. Although, it updates its coordinates, robot is not aware of the position of its neighbours. Its movement is derived solely from information about previous and current number of neighbours. 
 
@@ -100,7 +100,7 @@ Each robot has its own clock that controls how long it can remain in the current
 >description of parts
 >modelling limitations connected to timed automata and not UPPAAL
 
-Pseudocode for the alpha algorithm presented in [Minimalist Coherent Swarming of Wireless Networked Autonomous Mobile Robots](../Papers/Minimalist%20Coherent%20Swarming%20of%20Wireless%20Networked%20Autonomous%20Mobile%20Robots.pdf) was directly transformed to timed automata. Swarm implementing the alpha algorithm is a composition of multiple robots whose entire behaviour is described in the presented automata.
+Pseudocode for the alpha algorithm presented in [Minimalist Coherent Swarming of Wireless Networked Autonomous Mobile Robots](../Relevant%20Papers/Minimalist%20Coherent%20Swarming%20of%20Wireless%20Networked%20Autonomous%20Mobile%20Robots.pdf) was directly transformed to timed automata. Swarm implementing the alpha algorithm is a composition of multiple robots whose entire behaviour is described in the presented automata.
 
 Automata has the following states:
 - INITIAL, where the robot is not moving and has no direction;
