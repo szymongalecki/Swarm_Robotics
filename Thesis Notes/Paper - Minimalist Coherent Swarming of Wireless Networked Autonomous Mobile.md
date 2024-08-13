@@ -23,3 +23,9 @@ It is now widely agreed that real robot experiments are needed to confirm result
 
 ### Coherence
 In the real world, unbounded environment seem as ubiquitous as bounded ones. If it is sometimes possible to restrict the environment or assume it is bounded, this is certainly not true in general. Consider only fluid environments such as the atmosphere or the oceans. In trying to keep a group of robots together in such an environment there are two approaches: **either give the robots an ability to come back towards the group or design a swarming algorithm that will not allow any robot to lose the group.** [...] Following the desire for minimalism presented in chapter 2, the second approach will therefore be pursued: throughout this chapter the aim is to show the capacity of the algorithm developed to achieve stable swarming of the robots. It will be referred to as *coherence*. 
+
+### Shared neighbour algorithm: $\beta$-algorithm
+![](../Images/bridges.png)
+To avoid the extreme configuration of figure 4.10, we make use of the graph theory concept of *clustering*: instead of considering only its own degree of connection to trigger a reaction, **each robot will receive from its neighbours their adjacency table - their neighbours' list** - in order to check whether a particular neighbour is *shared* by the other ones, that is whether a particular neighbour is the neighbour of other robots.
+
+**The algorithm works as follows: for each lost connection a robot checks how many of its remaining neighbours still have the lost robot in their neighbourhood.** If this number is less than or equal to the fixed threshold $\beta$, the robot turns around and comes back. In parallel if its degree of connections is rising the robot chooses a random heading.
