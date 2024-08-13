@@ -1,0 +1,11 @@
+@article{lpw:sttt97,
+  author = 	 {Kim G.\ Larsen and Paul Pettersson and Wang Yi},
+  title = 	 {{{\sc Uppaal}\ in a Nutshell}},
+  journal = 	 {Int.\ Journal on Software Tools for Technology Transfer},
+  publisher =    {Springer--Verlag},
+  volume =       1,
+  number =       {1--2},
+  pages =        {134-152},
+  month =        Oct,
+  year = 	 {1997}
+}
