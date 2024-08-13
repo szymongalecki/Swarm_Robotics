@@ -2,6 +2,9 @@
 - [Research project structure](Writing/Research%20project%20structure.md)
 - [Research_Project](Latex/Research_Project.pdf)
 
+### Thesis notes
+- [Paper - Minimalist Coherent Swarming of Wireless Networked Autonomous Mobile](Thesis%20Notes/Paper%20-%20Minimalist%20Coherent%20Swarming%20of%20Wireless%20Networked%20Autonomous%20Mobile.md)
+
 ### Definitions
 - [Swarm](Notes/Swarm.md)
 - [Swarm behaviours](Notes/Swarm%20behaviours.md)
