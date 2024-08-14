@@ -29,3 +29,73 @@ In the real world, unbounded environment seem as ubiquitous as bounded ones. If 
 To avoid the extreme configuration of figure 4.10, we make use of the graph theory concept of *clustering*: instead of considering only its own degree of connection to trigger a reaction, **each robot will receive from its neighbours their adjacency table - their neighbours' list** - in order to check whether a particular neighbour is *shared* by the other ones, that is whether a particular neighbour is the neighbour of other robots.
 
 **The algorithm works as follows: for each lost connection a robot checks how many of its remaining neighbours still have the lost robot in their neighbourhood.** If this number is less than or equal to the fixed threshold $\beta$, the robot turns around and comes back. In parallel if its degree of connections is rising the robot chooses a random heading.
+
+```
+Create list of neighbours for robot, Nlist
+k = number of neighbours in Nlist
+i = 0
+
+loop forever {
+	i = i modulo cadence
+
+	if (i = 0) {
+		Send ID message
+
+		Save copy of k in LastK
+		Set reaction indicator Back to FALSE
+		k = number of neighbours in Nlist
+		Create LostList comparing Nlist and OldList
+
+		for (each robot in LostList) {
+			Find nShared, number of shared neighbours
+			if (nShared <= beta) {
+				Set reaction indicator Back to TRUE
+			}
+		}
+
+		if (Back = TRUE) {
+			turn robot through 180 degrees 
+		}
+		else if (k > LastK) {
+			make random turn
+		}
+
+		Save copy of Nlist in OldList
+	}
+
+	Steer the robot according to state
+	Listen for calls from robots in range
+	Grow Nlist with neighbours IDs and connection info
+
+	i++
+}
+
+```
+
+"The following section will show that the upgrade to the $\beta$-algorithm is itself able in (possibly noisy) simulations and to a certain extent in real robot experiments, to guarantee this coherence."
+
+
+### Verification ideas for $\beta$-algorithm
+There are two descriptions of unwanted scenarios which the algorithm is supposed to prevent from.
+
+![](../Images/shared_neighbour.png)
+In the situation of figure 4.12, robot A, wen losing the connection with robot B will check its other neighbours and finds that robots C and D share B as neighbour. Hence A will react and turn back only if the threshold $\beta$ is set equal ot greater than two. The algorithm thus makes the robot try to maintain the triangulation observable in the figure, therefore avoiding critical states. 
+
+![](../Images/cutvertex.png)
+The $\beta$-algorithm also prevents the formation of cutvertices as long as $\beta$ is greater or equal to 2. Indeed in the situation depicted in figure 4.14 a cutvertex is about to be formed. But the presence of a cutvertex implies that there can only be one shared neighbour. Hence a reaction to prevent a cutvertex providing $\beta \geq$ 2.
+
+###  Lower performance in hardware aka ways of optimising the model 
+- Two successive 180 degrees turns without straight movement has been shown to be crucial for disconnection. However, the lack of positive increase in the length of the runs with increasing cadence, raises doubts about the unique influence of this factor.
+
+There are so many possible hardware reasons that could be causing the lower performance in real robots but at the same time the algorithm was not verified to be correct.
+
+### Conclusions
+The main $\beta$-algorithm achieved long term coherence, tuning of the network connectivity, area coverage control and the exchange of information needed by this algorithm was demonstrated to be sufficient for crude relative positioning within the swarm (localisation-$\beta$-algorithm). **Real robot experiments and simulations presented sufficient similarities to support the correctness of the implementation.** 
+(DID THEY?)
+
+### Further research direction
+........
+
+
+
+
