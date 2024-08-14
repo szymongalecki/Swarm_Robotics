@@ -50,7 +50,7 @@ void update_neighbours(){
 \label{fig:neighbours}
 \end{figure}
 \noindent
-The number of connections will then determine the next transitions. Transition that is forced by the clock in the \textbf{forward} state will always result in the robot moving by a unit step in its current direction. Then, based on logical value of the conditions guarding transitions, it can also change its direction. The direction will change after robot reaches and transitions from states \textbf{turn\_random} or \textbf{turn\_180}. Additonally, robot will perform the 180 degree turn if it reaches the boundary of the grid that is its environment. The random turn is realised as a random choice between four directions: up, right, down, up and translating it into x, y coordinates. The 180 degree turn is realised as choosing the opposite direction to the current one. Change of direction is achieved by functions \textbf{x\_direction(direction)}, \textbf{y\_direction(direction)}, \textbf{reverse(direction)}. Figure \ref{fig:direction} show the process of changing direction.
+The number of connections will then determine the next transitions. Transition that is forced by the clock in the \textbf{forward} state will always result in the robot moving by a unit step in its current direction. Then, based on logical value of the conditions guarding transitions, it can also change its direction. The direction will change after robot reaches and transitions from states \textbf{turn\_random} or \textbf{turn\_180}. Additionally, robot will perform the 180 degree turn if it reaches the boundary of the grid that is its environment. The random turn is realised as a random choice between four directions: up, right, down, up and translating it into x, y coordinates. The 180 degree turn is realised as choosing the opposite direction to the current one. Change of direction is achieved by functions \textbf{x\_direction(direction)}, \textbf{y\_direction(direction)}, \textbf{reverse(direction)}. Figure \ref{fig:direction} show the process of changing direction.
 \begin{figure}[H]
 \caption{Implementation of \textbf{x\_direction(direction)} and \textbf{reverse(direction)}}
 \lstset { language=C++ }
@@ -79,7 +79,7 @@ int reverse(int direction){
 \noindent
 The last element of the implementation is time. Each robot has its own clock that limits how long it can stay in the states with defined invariants: \textbf{initial}, \textbf{forward}. After transitioning from those states, a robot will reset its clock. Only in those states, the time passes. Other states are so called committed locations. In committed locations time does not pass which means that individual robot clocks do not progress. As a consequence the time progresses during the forward motion of the robot but decision to turn happens instantaneously.
 
-The implementation of the Alpha algorithm in UPPAAL and the presented timed automaton model depct the behavior of a single robot. In order to create a robot swarm we need to instantiate multiple such robots and compose them into a system. This is achieved in UPPAAL with code presented in Figure \ref{fig:composition}.
+The implementation of the Alpha algorithm in UPPAAL and the presented timed automaton model depict the behavior of a single robot. In order to create a robot swarm we need to instantiate multiple such robots and compose them into a system. This is achieved in UPPAAL with code presented in Figure \ref{fig:composition}.
 \begin{figure}[H]
 \caption{System consisting of two models in UPPAAL}
 \lstset { language=C++ }
