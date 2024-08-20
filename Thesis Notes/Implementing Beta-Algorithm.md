@@ -37,3 +37,11 @@ loop forever {
 }
 
 ```
+
+
+### Next time
+- Inspect `turn180(id)`, there is something wrong with counting shared neighbours.
+- Check that all the states are reachable. Check that they are not only reachable as the next states after initial state.
+- Add clock and invariant on not committed states.
+- Verify implementation in a similar way to alpha algorithm.
+- Model scenarios described in the paper.

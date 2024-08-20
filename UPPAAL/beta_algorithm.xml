@@ -3,31 +3,80 @@
 <nta>
 	<declaration>// Place global declarations here.
 
-// Number of robots - R, Beta parameter - BETA, Signal threshold - T
+// Number of robots - R, Beta parameter - BETA, Signal threshold - T, Grid boundary - G =&gt; Grid : 2G x 2G
 const int R = 3;
-const int T = 2;
-const int BETA = 2;
+const int T = 1;
+const int BETA = 1;
+const int G = 3;
 
 // Robot coordinates
 int x[R];
 int y[R];
+
+// Robot directions
+int x_dir[R];
+int y_dir[R];
 
 // List of current and old neighbours lists for each robot
 // Convention: 
 //    - id of the robot will point to its neighbours list
 //    - 1 at position id indicates connection with robot of a given id, 0 otherwise
 int neighbours[R][R];
-int last_neighbours[R][R];
+int old_neighbours[R][R];
+int lost_neighbours[R][R];
+int shared[R];
+double distances[R][R];
 
 // Number of connections and old connections for each robot
 int k[R];
-int last_k[R];
+int old_k[R];
 
-// Updates k and last_k
+// Map one of four directionos into x_dir and y_dir
+void mapDirection(int id, int dir){
+    if (dir == 0){
+		// up
+        x_dir[id] = 0;
+        y_dir[id] = 1;
+    }
+    if (dir == 1){
+		// right
+        x_dir[id] = 1;
+        y_dir[id] = 0;
+    }
+    if (dir == 2){
+		// down
+        x_dir[id] = 0;
+        y_dir[id] = -1;
+    }
+    if (dir == 3){
+		// left
+        x_dir[id] = -1;
+        y_dir[id] = 0;
+    }
+}
+
+// Reverse current direction of the robot
+void reverseDirection(int id){
+	x_dir[id] *= -1;
+	y_dir[id] *= -1;
+}
+
+// Move robot forward in its current direction
+void moveForward(int id){
+	x[id] += x_dir[id];
+	y[id] += y_dir[id];
+}
+
+// Checks if robot is on the boundary of the grid
+bool gridBoundary(int id){
+    return abs(x[id]) == G || abs(y[id]) == G;
+}
+
+// Updates k and old_k
 void updateConnections(int id){
    int i;
    int n;
-   last_k[id] = k[id];
+   old_k[id] = k[id];
    for (i = 0; i &lt; R; i++){
        if (neighbours[id][i] == 1){
            n++;
@@ -36,10 +85,24 @@ void updateConnections(int id){
    k[id] = n;
 }
 
+// Updates lost_neighbours
+void lostNeighbours(int id){
+    int i;
+    for (i = 0; i &lt; R; i++){
+        if (old_neighbours[id][i] == 1 &amp;&amp; neighbours[id][i] == 0){
+            lost_neighbours[id][i] = 1;
+        } else {
+            lost_neighbours[id][i] = 0;
+        }
+    }
+}
+
+
 // Returns the number of neighbours shared between two robots
 int sharedNeighbours(int id1, int id2){
     int shared;
     int i;
+    
     for (i = 0; i &lt; R; i++){
         if(neighbours[id1][i] == neighbours[id2][i] &amp;&amp; neighbours[id1][i] == 1){
             shared++;
@@ -48,19 +111,22 @@ int sharedNeighbours(int id1, int id2){
     return shared;
 }
 
+// Decide if robot should make a random turn
+bool turnRandom(int id){
+    return k[id] &gt; old_k[id];
+}
+
+
 // Decide if robot should turn around
-bool turnBack(int id1){
-    int id2;
+bool turn180(int id){
+    int i;
     int n_shared;
-    for (id2 = 0; id2 &lt; R; id2++){
-        if (neighbours[id1][id2] == 1 &amp;&amp; last_neighbours[id1][id2] == 0){
-            n_shared += sharedNeighbours(id1, id2);
+    for (i = 0; i &lt; R; i++){
+        if (neighbours[id][i] == 1 &amp;&amp; old_neighbours[id][i] == 0){
+            n_shared += sharedNeighbours(id, i);
         }
     }
-    if (n_shared &lt;= BETA){
-        return true;
-    }
-    return false;
+    return n_shared &lt;= BETA;
 }
 
 // Calculates Euclidean distance between robots
@@ -73,35 +139,158 @@ bool connected(double distance, double threshold){
     return distance &lt;= threshold;
 }
 
-void updateNeighbours(){
-    int id1;
-    int id2;
-    for (id1 = 0; id1 &lt; R; id1++){
-        for (id2 = 0; id2 &lt; id1; id2++){
-            if (connected(distance(x[id1], y[id1], x[id2], y[id2]), T)){
-                neighbours[id1][id2] = 1;
-                neighbours[id2][id1] = 1;
+// Update distances
+void updateDistances(){
+    int i;
+    int j;
+    for (i = 0; i &lt; R; i++){
+        for (j = 0; j &lt; R; j++){
+            distances[i][j] = distance(x[i], y[i], x[j], y[j]);
+        }
+    }
+}
+
+void updateNeighbours(int id){
+    int i;
+    old_neighbours[id] = neighbours[id];
+    for (i = 0; i &lt; R; i++){
+            if (connected(distance(x[id], y[id], x[i], y[i]), T) &amp;&amp; id != i){
+                neighbours[id][i] = 1;
+            } else {
+                neighbours[id][i] = 0;
             }
-        } 
     }
 }</declaration>
 	<template>
-		<name x="5" y="5">Template</name>
+		<name x="5" y="5">Robot</name>
+		<parameter>int id</parameter>
 		<declaration>// Place local declarations here.
 </declaration>
-		<location id="id0" x="0" y="0">
+		<location id="id0" x="-544" y="-340">
+			<name x="-554" y="-374">initial</name>
+		</location>
+		<location id="id1" x="-323" y="-340">
+			<name x="-333" y="-374">turn_random</name>
+			<committed/>
+		</location>
+		<location id="id2" x="-323" y="153">
+			<name x="-297" y="127">turn_180</name>
+			<committed/>
+		</location>
+		<location id="id3" x="-323" y="-110">
+			<name x="-399" y="-135">forward</name>
+		</location>
+		<location id="id4" x="289" y="-110">
+			<name x="297" y="-144">if</name>
+			<committed/>
+		</location>
+		<location id="id5" x="59" y="-341">
+			<name x="49" y="-375">else_if</name>
+			<committed/>
+		</location>
+		<location id="id6" x="8" y="-110">
+			<name x="-2" y="-144">grid</name>
+			<committed/>
 		</location>
 		<init ref="id0"/>
+		<transition id="id7">
+			<source ref="id4"/>
+			<target ref="id2"/>
+			<label kind="guard" x="187" y="119">turn180(id)</label>
+			<nail x="289" y="153"/>
+		</transition>
+		<transition id="id8">
+			<source ref="id2"/>
+			<target ref="id3"/>
+			<label kind="assignment" x="-501" y="-17">reverseDirection(id)</label>
+		</transition>
+		<transition id="id9">
+			<source ref="id6"/>
+			<target ref="id2"/>
+			<label kind="guard" x="-238" y="35">gridBoundary(id)</label>
+			<nail x="8" y="68"/>
+			<nail x="-246" y="68"/>
+		</transition>
+		<transition id="id10">
+			<source ref="id6"/>
+			<target ref="id4"/>
+			<label kind="guard" x="76" y="-144">!gridBoundary(id)</label>
+		</transition>
+		<transition id="id11">
+			<source ref="id3"/>
+			<target ref="id6"/>
+			<label kind="assignment" x="-238" y="-102">moveForward(id),
+updateNeighbours(id),
+updateConnections(id),
+lostNeighbours(id),
+updateDistances()</label>
+		</transition>
+		<transition id="id12">
+			<source ref="id5"/>
+			<target ref="id3"/>
+			<label kind="guard" x="-85" y="-255">!turnRandom(id)</label>
+			<nail x="59" y="-221"/>
+			<nail x="-263" y="-221"/>
+		</transition>
+		<transition id="id13">
+			<source ref="id5"/>
+			<target ref="id1"/>
+			<label kind="guard" x="-187" y="-374">turnRandom(id)</label>
+		</transition>
+		<transition id="id14">
+			<source ref="id4"/>
+			<target ref="id5"/>
+			<label kind="guard" x="187" y="-374">turn180(id)</label>
+			<nail x="289" y="-341"/>
+		</transition>
+		<transition id="id15">
+			<source ref="id1"/>
+			<target ref="id3"/>
+			<label kind="select" x="-518" y="-238">dir : int[0,3]</label>
+			<label kind="assignment" x="-518" y="-221">mapDirection(id, dir)</label>
+		</transition>
+		<transition id="id16">
+			<source ref="id0"/>
+			<target ref="id1"/>
+			<label kind="assignment" x="-518" y="-331">updateNeighbours(id),
+updateConnections(id)</label>
+		</transition>
 	</template>
 	<system>// Place template instantiations here.
-Process = Template();
+P0 = Robot(0);
+P1 = Robot(1);
+P2 = Robot(2);
+// P3 = Robot(3);
 // List one or more processes to be composed into a system.
-system Process;
+system P0, P1, P2; //, P3;
 </system>
 	<queries>
+		<option key="--diagnostic" value="0"/>
 		<query>
-			<formula/>
+			<formula>A[] not deadlock</formula>
 			<comment/>
+			<result outcome="success" type="quality" timestamp="2024-08-20 14:46:47 +0200">
+			</result>
+		</query>
+		<query>
+			<formula>E&lt;&gt; P0.turn_180</formula>
+			<comment/>
+			<result outcome="success" type="quality" timestamp="2024-08-20 18:09:47 +0200">
+			</result>
+		</query>
+		<query>
+			<formula>E&lt;&gt; P0.turn_random &amp;&amp; x[0] != 0 &amp;&amp; y[0] != 0</formula>
+			<comment/>
+			<result outcome="failure" type="quality" timestamp="2024-08-20 18:49:18 +0200">
+				<option key="--diagnostic" value="0"/>
+			</result>
+		</query>
+		<query>
+			<formula>A[] x[0] &lt; G</formula>
+			<comment/>
+			<result outcome="failure" type="quality" timestamp="2024-08-20 18:13:00 +0200">
+				<option key="--diagnostic" value="0"/>
+			</result>
 		</query>
 	</queries>
 </nta>
