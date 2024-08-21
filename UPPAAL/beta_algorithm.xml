@@ -24,8 +24,8 @@ int y_dir[R];
 int neighbours[R][R];
 int old_neighbours[R][R];
 int lost_neighbours[R][R];
-int shared[R];
-double distances[R][R];
+int n_shared_neighbours[R];
+int distances[R][R];
 
 // Number of connections and old connections for each robot
 int k[R];
@@ -85,32 +85,6 @@ void updateConnections(int id){
    k[id] = n;
 }
 
-// Updates lost_neighbours
-void lostNeighbours(int id){
-    int i;
-    for (i = 0; i &lt; R; i++){
-        if (old_neighbours[id][i] == 1 &amp;&amp; neighbours[id][i] == 0){
-            lost_neighbours[id][i] = 1;
-        } else {
-            lost_neighbours[id][i] = 0;
-        }
-    }
-}
-
-
-// Returns the number of neighbours shared between two robots
-int sharedNeighbours(int id1, int id2){
-    int shared;
-    int i;
-    
-    for (i = 0; i &lt; R; i++){
-        if(neighbours[id1][i] == neighbours[id2][i] &amp;&amp; neighbours[id1][i] == 1){
-            shared++;
-        }
-    }
-    return shared;
-}
-
 // Decide if robot should make a random turn
 bool turnRandom(int id){
     return k[id] &gt; old_k[id];
@@ -119,14 +93,7 @@ bool turnRandom(int id){
 
 // Decide if robot should turn around
 bool turn180(int id){
-    int i;
-    int n_shared;
-    for (i = 0; i &lt; R; i++){
-        if (neighbours[id][i] == 1 &amp;&amp; old_neighbours[id][i] == 0){
-            n_shared += sharedNeighbours(id, i);
-        }
-    }
-    return n_shared &lt;= BETA;
+    return n_shared_neighbours[id] &lt;= BETA;
 }
 
 // Calculates Euclidean distance between robots
@@ -145,9 +112,46 @@ void updateDistances(){
     int j;
     for (i = 0; i &lt; R; i++){
         for (j = 0; j &lt; R; j++){
-            distances[i][j] = distance(x[i], y[i], x[j], y[j]);
+            distances[i][j] = fint(distance(x[i], y[i], x[j], y[j]));
         }
     }
+}
+
+// Updates lost_neighbours
+void lostNeighbours(int id){
+    int i;
+    for (i = 0; i &lt; R; i++){
+        if (old_neighbours[id][i] == 1 &amp;&amp; neighbours[id][i] == 0){
+            lost_neighbours[id][i] = 1;
+        } else {
+            lost_neighbours[id][i] = 0;
+        }
+    }
+}
+
+
+// Returns the number of neighbours shared between two robots
+int sharedNeighbours(int id1, int id2){
+    int shared;
+    int i;
+    for (i = 0; i &lt; R; i++){
+        if(neighbours[id1][i] == neighbours[id2][i] &amp;&amp; neighbours[id1][i] == 1){
+            shared++;
+        }
+    }
+    return shared;
+}
+
+// Updates n_shared_neighbours
+void nSharedNeighbours(int id){
+    int i;
+    int n_shared;
+    for (i = 0; i &lt; R; i++){
+        if (old_neighbours[id][i] == 1 &amp;&amp; neighbours[id][i] == 0){
+            n_shared += sharedNeighbours(id, i);
+        }
+    }
+    n_shared_neighbours[id] = n_shared;
 }
 
 void updateNeighbours(int id){
@@ -160,14 +164,16 @@ void updateNeighbours(int id){
                 neighbours[id][i] = 0;
             }
     }
+    lostNeighbours(id);
+    nSharedNeighbours(id);
 }</declaration>
 	<template>
 		<name x="5" y="5">Robot</name>
 		<parameter>int id</parameter>
 		<declaration>// Place local declarations here.
-</declaration>
+clock x;</declaration>
 		<location id="id0" x="-544" y="-340">
-			<name x="-554" y="-374">initial</name>
+			<name x="-612" y="-374">initial</name>
 		</location>
 		<location id="id1" x="-323" y="-340">
 			<name x="-333" y="-374">turn_random</name>
@@ -222,7 +228,6 @@ void updateNeighbours(int id){
 			<label kind="assignment" x="-238" y="-102">moveForward(id),
 updateNeighbours(id),
 updateConnections(id),
-lostNeighbours(id),
 updateDistances()</label>
 		</transition>
 		<transition id="id12">
@@ -240,7 +245,7 @@ updateDistances()</label>
 		<transition id="id14">
 			<source ref="id4"/>
 			<target ref="id5"/>
-			<label kind="guard" x="187" y="-374">turn180(id)</label>
+			<label kind="guard" x="187" y="-374">!turn180(id)</label>
 			<nail x="289" y="-341"/>
 		</transition>
 		<transition id="id15">
@@ -260,35 +265,72 @@ updateConnections(id)</label>
 P0 = Robot(0);
 P1 = Robot(1);
 P2 = Robot(2);
-// P3 = Robot(3);
+
 // List one or more processes to be composed into a system.
-system P0, P1, P2; //, P3;
+system P0, P1, P2;
 </system>
 	<queries>
 		<option key="--diagnostic" value="0"/>
 		<query>
 			<formula>A[] not deadlock</formula>
 			<comment/>
-			<result outcome="success" type="quality" timestamp="2024-08-20 14:46:47 +0200">
+			<result outcome="success" type="quality" timestamp="2024-08-21 17:42:39 +0200">
+				<option key="--diagnostic" value="0"/>
+			</result>
+		</query>
+		<query>
+			<formula>A[] P0.turn_random imply n_shared_neighbours[0] &lt;= BETA </formula>
+			<comment/>
+			<result outcome="success" type="quality" timestamp="2024-08-21 17:10:23 +0200">
+				<option key="--diagnostic" value="0"/>
+			</result>
+		</query>
+		<query>
+			<formula>E&lt;&gt; n_shared_neighbours[0] != 0</formula>
+			<comment/>
+			<result outcome="success" type="quality" timestamp="2024-08-21 17:16:39 +0200">
+				<option key="--diagnostic" value="0"/>
+			</result>
+		</query>
+		<query>
+			<formula>E&lt;&gt; P0.turn_random &amp;&amp; n_shared_neighbours[0] &gt; BETA &amp;&amp; k[0] &gt; old_k[0]</formula>
+			<comment>There exists a path for robot P0 where it performs random turn bot only after initial state</comment>
+			<result outcome="success" type="quality" timestamp="2024-08-21 17:32:04 +0200">
+				<option key="--diagnostic" value="0"/>
 			</result>
 		</query>
 		<query>
 			<formula>E&lt;&gt; P0.turn_180</formula>
 			<comment/>
-			<result outcome="success" type="quality" timestamp="2024-08-20 18:09:47 +0200">
+			<result outcome="success" type="quality" timestamp="2024-08-21 16:50:18 +0200">
+				<option key="--diagnostic" value="1"/>
 			</result>
 		</query>
 		<query>
-			<formula>E&lt;&gt; P0.turn_random &amp;&amp; x[0] != 0 &amp;&amp; y[0] != 0</formula>
-			<comment/>
-			<result outcome="failure" type="quality" timestamp="2024-08-20 18:49:18 +0200">
+			<formula>A[] forall(i : int[0,R-1]) abs(x[i]) &lt; G &amp;&amp; abs(y[i]) &lt; G</formula>
+			<comment>All robots will always stay inside of the grid</comment>
+			<result outcome="success" type="quality" timestamp="2024-08-21 17:05:19 +0200">
 				<option key="--diagnostic" value="0"/>
 			</result>
 		</query>
 		<query>
-			<formula>A[] x[0] &lt; G</formula>
+			<formula>A[] P0.turn_random imply ( x[0] == 0 &amp;&amp; y[0] == 0 )</formula>
 			<comment/>
-			<result outcome="failure" type="quality" timestamp="2024-08-20 18:13:00 +0200">
+			<result outcome="success" type="quality" timestamp="2024-08-21 17:08:21 +0200">
+				<option key="--diagnostic" value="0"/>
+			</result>
+		</query>
+		<query>
+			<formula>A[] P0.turn_random imply x[0] == 0</formula>
+			<comment/>
+			<result outcome="success" type="quality" timestamp="2024-08-21 17:08:02 +0200">
+				<option key="--diagnostic" value="0"/>
+			</result>
+		</query>
+		<query>
+			<formula>A[] P0.turn_random imply P1.forward or P1.initial</formula>
+			<comment/>
+			<result outcome="success" type="quality" timestamp="2024-08-21 17:46:11 +0200">
 				<option key="--diagnostic" value="0"/>
 			</result>
 		</query>
