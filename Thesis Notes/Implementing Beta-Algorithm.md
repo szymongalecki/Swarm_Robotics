@@ -40,8 +40,28 @@ loop forever {
 
 
 ### Next time
-- Inspect `turn180(id)`, there is something wrong with counting shared neighbours.
-- Check that all the states are reachable. Check that they are not only reachable as the next states after initial state.
-- Add clock and invariant on not committed states.
+Inspect `turn180(id)`, there is something wrong with counting shared neighbours.
+
+Check that all the states are reachable. Check that they are not only reachable as the next states after initial state.
+
+I wrongly interpreted this part of the pseudocode:
+```
+for (each robot in LostList) {
+			Find nShared, number of shared neighbours
+			if (nShared <= beta) {
+				Set reaction indicator Back to TRUE
+			}
+		}
+```
+
+**Previously:**
+`If LostList is empty then nShared=0 and Back=True`
+
+**Now:**
+`If LostList is empty we do not execute this part of code as there are no elements to iterate over`
+`We do not care about nShared`
+`Back=False`
+
+- ~~Add clock and invariant on not committed states.~~
 - Verify implementation in a similar way to alpha algorithm.
 - Model scenarios described in the paper.
