@@ -4,12 +4,12 @@
 	<declaration>// Place global declarations here.
 
 // Number of robots - N, Beta parameter - BETA, Signal radius - R, Grid boundary - G =&gt; Grid : 2G x 2G
-const int N = 3;
-const int R = 1;
+const int N = 2;
+const int R = 2;
 const int STEP = 1;
 const int BETA = 1;
 const int G = 3;
-const int T_MAX = 5;
+const int T_MAX = 1;
 clock C;
 
 
@@ -98,7 +98,7 @@ bool turnRandom(int id){
 bool noLostNeighbours(int id){
     int i;
     for (i = 0; i &lt; N; i++){
-        if(last_neighbours[id][i] != 0){
+        if(lost_neighbours[id][i] != 0){
             return false;
         }
     }
@@ -171,6 +171,7 @@ void nSharedNeighbours(int id){
     n_shared_neighbours[id] = n_shared;
 }
 
+// Updates last_neighbours, neighbours, lost_neighbours and n_shared_neighbours
 void updateNeighbours(int id){
     int i;
     last_neighbours[id] = neighbours[id];
@@ -285,27 +286,28 @@ x = 0</label>
 	<system>// Place template instantiations here.
 P0 = Robot(0);
 P1 = Robot(1);
-P2 = Robot(2);
+//P2 = Robot(2);
 //P3 = Robot(3);
 //P4 = Robot(4);
  
 
 // List one or more processes to be composed into a system.
-system P0, P1, P2;
+system P0, P1;
+//P2;
 //,P3, P4;
 </system>
 	<queries>
-		<option key="--diagnostic" value="2"/>
+		<option key="--diagnostic" value="1"/>
 		<query>
 			<formula>A[] not deadlock</formula>
 			<comment/>
+			<result outcome="success" type="quality" timestamp="2024-08-24 20:41:08 +0200">
+				<option key="--diagnostic" value="1"/>
+			</result>
 		</query>
 		<query>
 			<formula>A[] P0.turn_random imply n_shared_neighbours[0] &lt;= BETA </formula>
 			<comment/>
-			<result outcome="success" type="quality" timestamp="2024-08-23 19:45:17 +0200">
-				<option key="--diagnostic" value="2"/>
-			</result>
 		</query>
 		<query>
 			<formula>E&lt;&gt; n_shared_neighbours[0] != 0</formula>
@@ -317,108 +319,146 @@ system P0, P1, P2;
 		<query>
 			<formula>E&lt;&gt; P0.turn_random</formula>
 			<comment/>
-			<result outcome="success" type="quality" timestamp="2024-08-23 19:46:56 +0200">
+			<result outcome="success" type="quality" timestamp="2024-08-24 20:22:47 +0200">
 				<option key="--diagnostic" value="2"/>
 			</result>
 		</query>
 		<query>
 			<formula>E&lt;&gt; P0.turn_random &amp;&amp; k[0] &gt; last_k[0]</formula>
 			<comment>There exists a path for robot P0 where it performs random turn bot only after initial state</comment>
+			<result outcome="success" type="quality" timestamp="2024-08-24 20:09:52 +0200">
+				<option key="--diagnostic" value="2"/>
+			</result>
 		</query>
 		<query>
-			<formula>E&lt;&gt; P0.turn_180</formula>
+			<formula>E&lt;&gt; P0.turn_180 &amp;&amp; (abs(x[0]) == G || abs(y[0]) == G)</formula>
 			<comment/>
-			<result outcome="success" type="quality" timestamp="2024-08-23 19:46:59 +0200">
+			<result outcome="success" type="quality" timestamp="2024-08-24 20:33:25 +0200">
 				<option key="--diagnostic" value="2"/>
+			</result>
+		</query>
+		<query>
+			<formula>E&lt;&gt; P0.forward &amp;&amp; k[0] &lt;= last_k[0]</formula>
+			<comment/>
+			<result outcome="success" type="quality" timestamp="2024-08-24 20:38:15 +0200">
+				<option key="--diagnostic" value="1"/>
 			</result>
 		</query>
 		<query>
 			<formula>E&lt;&gt; P0.else_if</formula>
 			<comment/>
-			<result outcome="success" type="quality" timestamp="2024-08-23 20:34:12 +0200">
+			<result outcome="success" type="quality" timestamp="2024-08-24 20:10:00 +0200">
 				<option key="--diagnostic" value="2"/>
 			</result>
 		</query>
 		<query>
 			<formula>E&lt;&gt; P0.grid</formula>
 			<comment/>
-			<result outcome="success" type="quality" timestamp="2024-08-23 19:47:02 +0200">
+			<result outcome="success" type="quality" timestamp="2024-08-24 20:12:02 +0200">
 				<option key="--diagnostic" value="2"/>
 			</result>
 		</query>
 		<query>
-			<formula>A[] P0.turn_random imply ( x[0] == 0 &amp;&amp; y[0] == 0 )</formula>
+			<formula>E&lt;&gt; forall(i : int[0, N-1]) x[i] == G &amp;&amp; y[i] == G</formula>
 			<comment/>
-			<result outcome="success" type="quality" timestamp="2024-08-23 19:48:04 +0200">
+			<result outcome="failure" type="quality" timestamp="2024-08-24 20:13:36 +0200">
 				<option key="--diagnostic" value="2"/>
 			</result>
 		</query>
 		<query>
-			<formula>A[] P0.turn_random imply x[0] == 0</formula>
+			<formula>E&lt;&gt; x[0] == G &amp;&amp; y[0] == G</formula>
 			<comment/>
-			<result outcome="success" type="quality" timestamp="2024-08-23 19:48:15 +0200">
+			<result outcome="failure" type="quality" timestamp="2024-08-24 20:22:40 +0200">
 				<option key="--diagnostic" value="2"/>
+			</result>
+		</query>
+		<query>
+			<formula>E&lt;&gt; forall(i : int[0, N-1]) C &gt; T_MAX &amp;&amp; k[i] == 0 &amp;&amp; last_k[i] == 0</formula>
+			<comment/>
+			<result outcome="success" type="quality" timestamp="2024-08-24 20:25:31 +0200">
+				<option key="--diagnostic" value="2"/>
+			</result>
+		</query>
+		<query>
+			<formula>E&lt;&gt; P0.turn_random &amp;&amp; (x[0] != 0 || y[0] != 0)</formula>
+			<comment/>
+			<result outcome="success" type="quality" timestamp="2024-08-24 20:11:22 +0200">
+				<option key="--diagnostic" value="2"/>
+			</result>
+		</query>
+		<query>
+			<formula>E&lt;&gt; C &gt; T_MAX &amp;&amp; P0.turn_random</formula>
+			<comment/>
+			<result outcome="success" type="quality" timestamp="2024-08-24 20:40:22 +0200">
+				<option key="--diagnostic" value="1"/>
 			</result>
 		</query>
 		<query>
 			<formula>A[] P0.turn_random imply P1.forward or P1.initial</formula>
 			<comment/>
-			<result outcome="success" type="quality" timestamp="2024-08-23 19:48:19 +0200">
-				<option key="--diagnostic" value="2"/>
-			</result>
 		</query>
 		<query>
 			<formula>A[] C &gt; T_MAX imply not P0.initial</formula>
 			<comment/>
-			<result outcome="success" type="quality" timestamp="2024-08-23 19:48:23 +0200">
-				<option key="--diagnostic" value="2"/>
-			</result>
 		</query>
 		<query>
 			<formula>A[] P0.initial imply C &lt;= 5</formula>
 			<comment/>
-			<result outcome="success" type="quality" timestamp="2024-08-23 19:48:27 +0200">
-				<option key="--diagnostic" value="2"/>
-			</result>
 		</query>
 		<query>
 			<formula>A[] forall(i : int[0, N-1]) C &gt; T_MAX imply x_dir[i] != 0 or y_dir[i] != 0</formula>
 			<comment>All robots have </comment>
-			<result outcome="success" type="quality" timestamp="2024-08-23 20:35:21 +0200">
-				<option key="--diagnostic" value="2"/>
+			<result outcome="success" type="quality" timestamp="2024-08-24 20:42:15 +0200">
+				<option key="--diagnostic" value="1"/>
 			</result>
 		</query>
 		<query>
-			<formula>A[] forall(i : int[0, N-1]) C &gt; T_MAX imply k[i] != 0 || last_k[i] != 0</formula>
+			<formula>A[] forall(i : int[0, N-1]) (C &gt; T_MAX &amp;&amp; C &lt;= 2*T_MAX) imply (k[i] != 0 || last_k[i] != 0)</formula>
 			<comment/>
+			<result outcome="failure" type="quality" timestamp="2024-08-24 20:42:18 +0200">
+				<option key="--diagnostic" value="1"/>
+			</result>
+		</query>
+		<query>
+			<formula>A[] forall(i : int[0, N-1]) (x[i] != 0 || y[i] != 0) imply (k[i] != 0 or last_k[i] != 0)</formula>
+			<comment/>
+			<result outcome="failure" type="quality" timestamp="2024-08-24 20:42:24 +0200">
+				<option key="--diagnostic" value="1"/>
+			</result>
 		</query>
 		<query>
 			<formula>A[] forall(i : int[0, N-1]) C &gt; T_MAX imply k[i] &gt;= BETA or last_k[i] &gt;= BETA</formula>
 			<comment/>
+			<result outcome="failure" type="quality" timestamp="2024-08-24 20:42:25 +0200">
+				<option key="--diagnostic" value="1"/>
+			</result>
 		</query>
 		<query>
 			<formula>A[] forall(i : int[0, N-1]) last_k[i] == 0 and C &gt; T_MAX imply k[i] != 0</formula>
 			<comment/>
-			<result outcome="success" type="quality" timestamp="2024-08-23 20:16:39 +0200">
-				<option key="--diagnostic" value="2"/>
+			<result outcome="failure" type="quality" timestamp="2024-08-24 20:42:26 +0200">
+				<option key="--diagnostic" value="1"/>
 			</result>
 		</query>
 		<query>
 			<formula>A[] forall(i : int[0, N-1]) k[i] != 0 || last_k[i] != 0</formula>
 			<comment/>
-			<result outcome="failure" type="quality" timestamp="2024-08-23 20:36:57 +0200">
-				<option key="--diagnostic" value="2"/>
+			<result outcome="failure" type="quality" timestamp="2024-08-24 20:42:26 +0200">
+				<option key="--diagnostic" value="1"/>
 			</result>
 		</query>
 		<query>
-			<formula>A[] forall(i : int[0, N-1]) abs(x[i]) &lt;= G and abs(y[i]) &lt;= G</formula>
+			<formula>A[] forall(i : int[0, N-1]) abs(x[i]) &lt;= G &amp;&amp; abs(y[i]) &lt;= G</formula>
 			<comment/>
+			<result outcome="success" type="quality" timestamp="2024-08-24 20:43:17 +0200">
+				<option key="--diagnostic" value="1"/>
+			</result>
 		</query>
 		<query>
 			<formula>A[] forall(i : int[0, N-1]) abs(x[i]) &lt;= STEP and abs(y[i]) &lt;= STEP</formula>
 			<comment/>
-			<result outcome="failure" type="quality" timestamp="2024-08-23 20:39:02 +0200">
-				<option key="--diagnostic" value="2"/>
+			<result outcome="failure" type="quality" timestamp="2024-08-24 20:42:31 +0200">
+				<option key="--diagnostic" value="1"/>
 			</result>
 		</query>
 	</queries>
