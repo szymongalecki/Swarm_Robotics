@@ -1,39 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE nta PUBLIC '-//Uppaal Team//DTD Flat System 1.6//EN' 'http://www.it.uu.se/research/group/darts/uppaal/flat-1_6.dtd'>
 <nta>
-	<declaration>// Place global declarations here.
-
-// Number of robots - N, Beta parameter - BETA, Signal radius - R, Grid boundary - G =&gt; Grid : 2G x 2G
-const int N = 4;
-const int R = 2;
-const int STEP = 1;
-const int BETA = 0;
-const int G = 3;
-const int T_MAX = 1;
-clock C;
+	<declaration>// System specification
+const int N = 4;        // Number of robots
+const int R = 3;        // Signal radius
+const int STEP = 1;     // Step size
+const int BETA = 2;     // Beta parameter
+const int G = 3;        // Grid boundary =&gt; Grid : 2G x 2G
+const int T_MAX = 1;    // Time threshold on invariant
+clock C;                // Global clock 
 
 
-// Robot coordinates
-int x[N];
-int y[N];
+// Data structures for implementation
+int x[N];                    // List of x-axis coordinates for each robot
+int y[N];                    // List of y-axis coordinates for each robot
+int x_dir[N];                // List of x-axis directions for each robot
+int y_dir[N];                // List of y-axis directions for each robot
+int neighbours[N][N];        // List of neighbours for each robot
+int last_neighbours[N][N];   // List of previous neighbours for each robot 
+int lost_neighbours[N][N];   // List of lost neighbours : last_neighbours - neighbours
+int shared_neighbours[N][N]; // List of shared neighbours with the lost neighbours
+int shared[N];               // Count of shared neighbours with the lost neighbours
+int distances[N][N];         // Integer part of mutual distances between robots (not used for connections)
+int k[N];                    // Number of connections for each robot
+int last_k[N];               // Number of last connections for each robot
 
-// Robot directions
-int x_dir[N];
-int y_dir[N];
-
-// List of current and last neighbours lists for each robot
-// Convention: 
-//    - id of the robot will point to its neighbours list
-//    - 1 at position id indicates connection with robot of a given id, 0 otherwise
-int neighbours[N][N];
-int last_neighbours[N][N];
-int lost_neighbours[N][N];
-int n_shared_neighbours[N];
-int distances[N][N];
-
-// Number of connections and last connections for each robot
-int k[N];
-int last_k[N];
 
 // Function specifying the desired system state which can be used for verification
 bool special_case(int id){
@@ -43,7 +34,8 @@ bool special_case(int id){
     return false;
 }
 
-// Map one of four directionos into x_dir and y_dir
+// Maps one of four directions into x-axis and y-axis directions
+// Updates: x_dir, y_dir
 void mapDirection(int id, int dir){
     if (dir == 0){
 		// up
@@ -67,13 +59,15 @@ void mapDirection(int id, int dir){
     }
 }
 
-// Reverse current direction of the robot
+// Reverses current direction of the robot
+// Updates: x_dir, y_dir
 void reverseDirection(int id){
 	x_dir[id] *= -1;
 	y_dir[id] *= -1;
 }
 
-// Move robot forward in its current direction
+// Moves robot forward in its current direction
+// Updates: x, y
 void moveForward(int id){
 	x[id] += x_dir[id] * STEP;
 	y[id] += y_dir[id] * STEP;
@@ -84,7 +78,7 @@ bool gridBoundary(int id){
     return abs(x[id]) == G || abs(y[id]) == G;
 }
 
-// Updates k and last_k
+// 
 void updateConnections(int id){
    int i;
    int n;
@@ -118,7 +112,7 @@ bool turn180(int id){
     if (noLostNeighbours(id)){
         return false;
     }
-    return n_shared_neighbours[id] &lt;= BETA;
+    return shared[id] &lt;= BETA;
 }
 
 // Calculates Euclidean distance between robots
@@ -131,7 +125,8 @@ bool connected(double distance, double threshold){
     return distance &lt;= threshold;
 }
 
-// Update distances
+// Calculcates the distances between robots and saves the approximation
+// Updates: distances
 void updateDistances(){
     int i;
     int j;
@@ -142,7 +137,8 @@ void updateDistances(){
     }
 }
 
-// Updates lost_neighbours
+// Creates the list of lost neighbours
+// Updates: lost_neighbours
 void lostNeighbours(int id){
     int i;
     for (i = 0; i &lt; N; i++){
@@ -154,32 +150,43 @@ void lostNeighbours(int id){
     }
 }
 
-
-// Returns the number of neighbours shared between two robots
-int sharedNeighbours(int id1, int id2){
-    int shared;
+// Finds and counts shared neighbours between id holder and robots from lost_neighbours
+// Updates: shared_neighbours, shared
+void sharedNeighbours(int id){
     int i;
+    int j;
+    int s;
+    // If there are no lost neighbours there are no shared neighbours
+    if (noLostNeighbours(id)){
+        shared[id] = 0;
+        for (j = 0; j &lt; N; j++){
+            shared_neighbours[id][j] = 0;
+        }
+        return;
+    }
+    // If there are lost neighbours, count shared neighbours
     for (i = 0; i &lt; N; i++){
-        if(neighbours[id1][i] == neighbours[id2][i] &amp;&amp; neighbours[id1][i] == 1){
-            shared++;
+        if (lost_neighbours[id][i] == 1){
+            for (j = 0; j &lt; N; j++){
+                if (neighbours[id][j] == 1 &amp;&amp; neighbours[i][j] == 1){
+                    shared_neighbours[id][j] = 1;
+                } else {
+                    shared_neighbours[id][j] = 0;
+                }
+            }
         }
     }
-    return shared;
-}
-
-// Updates n_shared_neighbours
-void nSharedNeighbours(int id){
-    int i;
-    int n_shared;
-    for (i = 0; i &lt; N; i++){
-        if (last_neighbours[id][i] == 1 &amp;&amp; neighbours[id][i] == 0){
-            n_shared += sharedNeighbours(id, i);
+    // Count shared neighburs
+    for (j = 0; j &lt; N; j++){
+        if(shared_neighbours[id][j] == 1){
+            s++;
         }
     }
-    n_shared_neighbours[id] = n_shared;
+    shared[id] = s;
 }
 
-// Updates last_neighbours, neighbours, lost_neighbours and n_shared_neighbours
+// Updates all connection based data structures
+// Updates: last_neighbours, neighbours, lost_neighbours, shared_neighbours, shared
 void updateNeighbours(int id){
     int i;
     last_neighbours[id] = neighbours[id];
@@ -191,13 +198,13 @@ void updateNeighbours(int id){
             }
     }
     lostNeighbours(id);
-    nSharedNeighbours(id);
+    sharedNeighbours(id);
 }</declaration>
 	<template>
 		<name x="5" y="5">Robot</name>
 		<parameter>int id</parameter>
 		<declaration>// Place local declarations here.
-clock x;</declaration>
+clock t;</declaration>
 		<location id="id0" x="-323" y="-340">
 			<name x="-333" y="-374">turn_random</name>
 			<committed/>
@@ -208,14 +215,14 @@ clock x;</declaration>
 		</location>
 		<location id="id2" x="-323" y="-110">
 			<name x="-399" y="-135">forward</name>
-			<label kind="invariant" x="-425" y="-110">x &lt;= T_MAX</label>
+			<label kind="invariant" x="-425" y="-110">t &lt;= T_MAX</label>
 		</location>
 		<location id="id3" x="289" y="-110">
 			<name x="297" y="-144">if</name>
 			<committed/>
 		</location>
-		<location id="id4" x="59" y="-341">
-			<name x="49" y="-375">else_if</name>
+		<location id="id4" x="0" y="-340">
+			<name x="-10" y="-374">else_if</name>
 			<committed/>
 		</location>
 		<location id="id5" x="8" y="-110">
@@ -237,7 +244,7 @@ clock x;</declaration>
 		<transition id="id8">
 			<source ref="id5"/>
 			<target ref="id1"/>
-			<label kind="guard" x="-238" y="35">gridBoundary(id)</label>
+			<label kind="guard" x="-178" y="34">gridBoundary(id)</label>
 			<nail x="8" y="68"/>
 			<nail x="-246" y="68"/>
 		</transition>
@@ -253,14 +260,14 @@ clock x;</declaration>
 updateNeighbours(id),
 updateConnections(id),
 updateDistances(),
-x = 0</label>
+t = 0</label>
 		</transition>
 		<transition id="id11">
 			<source ref="id4"/>
 			<target ref="id2"/>
-			<label kind="guard" x="-85" y="-255">!turnRandom(id)</label>
-			<nail x="59" y="-221"/>
-			<nail x="-263" y="-221"/>
+			<label kind="guard" x="-187" y="-255">!turnRandom(id)</label>
+			<nail x="0" y="-221"/>
+			<nail x="-221" y="-221"/>
 		</transition>
 		<transition id="id12">
 			<source ref="id4"/>
@@ -293,12 +300,19 @@ system P0, P1, P2, P3;
 //P4;
 </system>
 	<queries>
-		<option key="--diagnostic" value="1"/>
+		<option key="--diagnostic" value="0"/>
 		<query>
 			<formula>A[] not deadlock</formula>
 			<comment/>
-			<result outcome="success" type="quality" timestamp="2024-08-24 20:41:08 +0200">
+			<result outcome="success" type="quality" timestamp="2024-08-25 16:19:00 +0200">
 				<option key="--diagnostic" value="1"/>
+			</result>
+		</query>
+		<query>
+			<formula>E&lt;&gt; shared[0] == 2</formula>
+			<comment/>
+			<result outcome="success" type="quality" timestamp="2024-08-25 19:48:56 +0200">
+				<option key="--diagnostic" value="0"/>
 			</result>
 		</query>
 		<query>
@@ -462,6 +476,13 @@ system P0, P1, P2, P3;
 			<comment/>
 			<result outcome="failure" type="quality" timestamp="2024-08-24 20:42:31 +0200">
 				<option key="--diagnostic" value="1"/>
+			</result>
+		</query>
+		<query>
+			<formula>E&lt;&gt; C &gt; 0 &amp;&amp; P0.turn_random</formula>
+			<comment/>
+			<result outcome="success" type="quality" timestamp="2024-08-25 20:40:40 +0200">
+				<option key="--diagnostic" value="0"/>
 			</result>
 		</query>
 	</queries>
