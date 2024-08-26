@@ -27,6 +27,7 @@ loop forever {
 		else if (k > LastK) {
 			make random turn
 		}
+		
 		Save copy of Nlist in Oldlist
 	}
 	Steer the robot according to state

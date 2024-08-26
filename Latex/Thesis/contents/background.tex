@@ -1,0 +1,39 @@
+\section{Background}
+
+\subsection{UPPAAL}
+
+
+
+\subsection{Timed automata in UPPAAL}
+\begin{definition}[Definition of timed automaton \cite{Alur1990}]
+A timed automaton is a tuple $(\Sigma, S, S_0, C, E)$ where:\\
+$\Sigma$ - input alphabet;\\
+$S$ - finite set of automaton states;\\
+$S_0 \subseteq S$ - set of start states; \\
+$C$ - finite set of clocks; \\
+$E \subseteq S \times S [\Sigma \cup {\epsilon}] \times 2^C \times \Phi(C)$ - set of transitions\\\\
+An edge in timed automaton is a tuple $\langle s, s', \sigma, \lambda \delta \rangle$, where:\\
+$s$ - origin state;\\
+$s`$ - destination state;\\
+$\sigma$ - input symbol for the transition;\\
+$\lambda$ - set of clocks to be reset with this transition;\\
+$\delta$ - condition enabling the transition;\\
+\label{def:automaton}
+\end{definition}
+
+
+\subsection{Modeling in UPPAAL}
+
+
+
+\subsection{Verifying properties in UPPAAL}
+\begin{definition}[Logical quantifiers in UPPAAL \cite{Bengtsson2004}]
+The formulas should be one of the following forms\\
+- \texttt{A[]$\phi$} -- Invariantly $\phi$.\\
+- \texttt{E<> $\phi$} -- Possibly $\phi$.\\
+- \texttt{A<> $\phi$} -- Always Eventually $\phi$.\\
+- \texttt{E[] $\phi$} -- Potentially Always $\phi$.\\
+- \texttt{$\phi$ --> $\psi$} -- $\phi$ always leads to $\psi$.\\
+where $\phi, \psi$ are local properties that can be checked locally on a state, i.e. boolean expressions over predicates on locations and integer variables, and clock constraints.
+\label{def:quantifiers}
+\end{definition}

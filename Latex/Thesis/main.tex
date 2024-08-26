@@ -1,0 +1,43 @@
+\documentclass{article}
+\usepackage{graphicx}   % Inserting images
+\usepackage{listings}   % Code snippets
+\usepackage{cite}       % Citing
+\usepackage{float}      % Placing figures
+\usepackage{amsthm}     % Definitions 
+\theoremstyle{definition}                    
+\newtheorem{definition}{Definition}[section] 
+
+\usepackage{lipsum} 
+
+% title, author, date
+\title{Implementation and Verification of the Beta Algorithm for Robot Swarm Using Timed Automata and UPPAAL}
+\author{Szymon Gałecki - sgal@itu.dk\\KISPECI1SE}
+\date{August 2024}
+
+
+\begin{document}
+
+% title, abstract, table of contents
+\maketitle
+\include{contents/abstract}
+\tableofcontents
+
+
+% contents
+\include{contents/introduction}
+\include{contents/background}
+\include{contents/methods}
+\include{contents/implementation}
+\include{contents/results}
+\include{contents/related_works}
+\include{contents/conclusions}
+
+
+
+
+% bibliography
+\bibliography{refs}
+\bibliographystyle{plain}
+
+
+\end{document}

@@ -28,7 +28,7 @@ int last_k[N];               // Number of last connections for each robot
 
 // Function specifying the desired system state which can be used for verification
 bool special_case(int id){
-    if (neighbours[id][0] == 0 &amp;&amp; neighbours[id][1] == 1 &amp;&amp; neighbours[id][2] == 1 &amp;&amp; neighbours[id][3] == 1 &amp;&amp; x[0] != 0){
+    if (shared[0] == 2){
         return true;
     } 
     return false;
@@ -209,8 +209,8 @@ clock t;</declaration>
 			<name x="-333" y="-374">turn_random</name>
 			<committed/>
 		</location>
-		<location id="id1" x="-323" y="153">
-			<name x="-297" y="127">turn_180</name>
+		<location id="id1" x="-323" y="161">
+			<name x="-297" y="135">turn_180</name>
 			<committed/>
 		</location>
 		<location id="id2" x="-323" y="-110">
@@ -233,20 +233,20 @@ clock t;</declaration>
 		<transition id="id6">
 			<source ref="id3"/>
 			<target ref="id1"/>
-			<label kind="guard" x="187" y="119">turn180(id)</label>
-			<nail x="289" y="153"/>
+			<label kind="guard" x="187" y="127">turn180(id)</label>
+			<nail x="289" y="161"/>
 		</transition>
 		<transition id="id7">
 			<source ref="id1"/>
 			<target ref="id2"/>
-			<label kind="assignment" x="-501" y="-17">reverseDirection(id)</label>
+			<label kind="assignment" x="-518" y="-17">reverseDirection(id)</label>
 		</transition>
 		<transition id="id8">
 			<source ref="id5"/>
 			<target ref="id1"/>
 			<label kind="guard" x="-178" y="34">gridBoundary(id)</label>
 			<nail x="8" y="68"/>
-			<nail x="-246" y="68"/>
+			<nail x="-212" y="68"/>
 		</transition>
 		<transition id="id9">
 			<source ref="id5"/>
@@ -406,8 +406,8 @@ system P0, P1, P2, P3;
 		<query>
 			<formula>E&lt;&gt; special_case(0)</formula>
 			<comment/>
-			<result outcome="success" type="quality" timestamp="2024-08-25 16:15:14 +0200">
-				<option key="--diagnostic" value="1"/>
+			<result outcome="success" type="quality" timestamp="2024-08-25 21:24:46 +0200">
+				<option key="--diagnostic" value="0"/>
 			</result>
 		</query>
 		<query>
