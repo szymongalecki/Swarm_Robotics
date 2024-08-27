@@ -25,8 +25,50 @@ $\delta$ - condition enabling the transition;\\
 \subsection{Modeling in UPPAAL}
 
 
+% Pseudo-code for mutex
+\begin{figure}[H]
+\caption{Peterson’s mutual exclusion algorithm 
+\label{fig:mutex_code}
+\cite{SmallTutorial2009}, \cite{Peterson1981}}
+\begin{tabular}{|p{0.5\textwidth}|p{0.5\textwidth}|}
+\hline
+\textbf{Process 1} & \textbf{Process 2} \\
+\hline
+\begin{lstlisting}[basicstyle=\ttfamily]
+req1=1;
+turn=2;
+while(turn!=1 && req2!=0);
+// critical section:
+job1();
+req1=0;
+\end{lstlisting}
+&
+\begin{lstlisting}[basicstyle=\ttfamily]
+req2=1;
+turn=1;
+while(turn!=2 && req1!=0);
+// critical section:
+job2();
+req2=0;
+\end{lstlisting}
+\\
+\hline
+\end{tabular}
+\end{figure}
+
+
+% Mutex implementation in UPPAAL
+\begin{figure}[H]
+\caption{Mutex automata in UPPAAL \cite{SmallTutorial2009}}
+\includegraphics[width=\textwidth]{images/mutex.png}
+\label{fig:mutex_uppaal}
+\end{figure}
+
+
 
 \subsection{Verifying properties in UPPAAL}
+
+% Logical quantifiers in UPPAAL
 \begin{definition}[Logical quantifiers in UPPAAL \cite{Bengtsson2004}]
 The formulas should be one of the following forms\\
 - \texttt{A[]$\phi$} -- Invariantly $\phi$.\\
@@ -37,3 +79,15 @@ The formulas should be one of the following forms\\
 where $\phi, \psi$ are local properties that can be checked locally on a state, i.e. boolean expressions over predicates on locations and integer variables, and clock constraints.
 \label{def:quantifiers}
 \end{definition}
+
+
+% Successfully verified properties for mutex
+\begin{figure}[H]
+\caption{Successfully verified properties for mutex \cite{SmallTutorial2009}}
+\label{fig:mutex_verification}
+\begin{lstlisting}[style=code]
+A[] not (P1.CS and P2.CS)
+E<> P1.CS
+E<> P2.CS
+\end{lstlisting}    
+\end{figure}

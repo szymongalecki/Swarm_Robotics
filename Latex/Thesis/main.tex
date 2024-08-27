@@ -6,8 +6,15 @@
 \usepackage{amsthm}     % Definitions 
 \theoremstyle{definition}                    
 \newtheorem{definition}{Definition}[section] 
+\usepackage{url}        % Command \url in @misc reference 
+\usepackage{lipsum}     % Lorem ipsum
 
-\usepackage{lipsum} 
+% Style for pseudo-code
+\lstdefinestyle{code}{
+  basicstyle=\ttfamily\small,         % Code font size and style
+  tabsize=4,                          % Tab space
+  frame=single,                       % Frame around the code
+}
 
 % title, author, date
 \title{Implementation and Verification of the Beta Algorithm for Robot Swarm Using Timed Automata and UPPAAL}
