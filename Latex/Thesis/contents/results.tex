@@ -1,5 +1,52 @@
 \section{Results}
 \subsection{Verifying implementation}
 
+% System specification
+\begin{figure}[H]
+\caption{System specification for properties in Figure \ref{fig:properties_2_robots}}
+\label{fig:system_2_robots}
+\begin{lstlisting}[style=code]
+const int N = 2;
+const int R = 2;
+const int STEP = 1;
+const int BETA = 1;
+const int G = 3;
+const int T_MAX = 1;
+\end{lstlisting}    
+\end{figure}
+
+\begin{figure}[H]
+\caption{Succesfully verified properties}
+\label{fig:properties_2_robots}
+\begin{lstlisting}[style=code]
+1. A[] not deadlock
+2. A[] forall(i : int[0, N-1]) C > 0 imply x_dir[i] != 0 or y_dir[i] != 0
+3. A[] exists(i : int[0, N-1]) x[i] != G || y[i] != G
+4. A[] forall(i : int[0, N-1]) abs(x[i]) <= G && abs(y[i]) <= G
+5. E<> P0.turn_180 && abs(x[0]) != G && abs(y[0]) != G
+6. E<> P0.turn_180 && (abs(x[0]) == G || abs(y[0]) == G)
+7. E<> C > 0 && P0.turn_random
+8. E<> P0.forward && k[0] <= last_k[0] && last_k[0] != 0
+9. E<> forall(i : int[0, N-1]) C > T_MAX && k[i] == 0 && last_k[i] == 0
+\end{lstlisting}    
+\end{figure}
+
+\noindent
+Explanation of properties:\\
+1. There is no state of the system where there are no available transitions.\\
+2. After initialisation, all robots have set direction.\\
+3. It is not possible for any robot to reach the corner of the grid.\\
+4. All robots will always stay inside the grid boundaries.\\
+5. There exists a path for the system where a robot will do a 180 degree turn without reaching the boundary of the grid. This means that transition from location \texttt{if} to \texttt{turn\_180} is taken.\\
+6. There exists a path for the system where a robot will do a 180 degree turn as a consequence of reaching the boundary of the grid. This means that transition from location \texttt{grid} to \texttt{turn\_180} is taken.\\
+7. There exists a path for the system where a robot will reach the \texttt{turn\_random} location after initialisation.\\
+8. There exists a path for the system where a robot will make the transition from location \texttt{else\_if} to \texttt{forward}.\\
+9. There exists a path for the system where all robots get disconnected after having moved forward for more than two steps each.\\
+
+
+
+
+
+
 
 \subsection{Verifying the algorithm}

@@ -2,8 +2,8 @@
 <!DOCTYPE nta PUBLIC '-//Uppaal Team//DTD Flat System 1.6//EN' 'http://www.it.uu.se/research/group/darts/uppaal/flat-1_6.dtd'>
 <nta>
 	<declaration>// System specification
-const int N = 4;        // Number of robots
-const int R = 3;        // Signal radius
+const int N = 3;        // Number of robots
+const int R = 1;        // Signal radius
 const int STEP = 1;     // Step size
 const int BETA = 2;     // Beta parameter
 const int G = 3;        // Grid boundary =&gt; Grid : 2G x 2G
@@ -291,12 +291,13 @@ t = 0</label>
 P0 = Robot(0);
 P1 = Robot(1);
 P2 = Robot(2);
-P3 = Robot(3);
+//P3 = Robot(3);
 //P4 = Robot(4);
  
 
 // List one or more processes to be composed into a system.
-system P0, P1, P2, P3;
+system P0, P1, P2;
+// P3;
 //P4;
 </system>
 	<queries>
@@ -348,10 +349,10 @@ system P0, P1, P2, P3;
 			</result>
 		</query>
 		<query>
-			<formula>E&lt;&gt; P0.forward &amp;&amp; k[0] &lt;= last_k[0]</formula>
+			<formula>E&lt;&gt; P0.forward &amp;&amp; k[0] &lt;= last_k[0] &amp;&amp; last_k[0] != 0</formula>
 			<comment/>
-			<result outcome="success" type="quality" timestamp="2024-08-24 20:38:15 +0200">
-				<option key="--diagnostic" value="1"/>
+			<result outcome="success" type="quality" timestamp="2024-08-28 11:29:31 +0200">
+				<option key="--diagnostic" value="0"/>
 			</result>
 		</query>
 		<query>
@@ -369,10 +370,24 @@ system P0, P1, P2, P3;
 			</result>
 		</query>
 		<query>
+			<formula>E&lt;&gt; P0.turn_random</formula>
+			<comment/>
+			<result outcome="success" type="quality" timestamp="2024-08-28 10:53:36 +0200">
+				<option key="--diagnostic" value="0"/>
+			</result>
+		</query>
+		<query>
 			<formula>E&lt;&gt; forall(i : int[0, N-1]) x[i] == G &amp;&amp; y[i] == G</formula>
 			<comment/>
-			<result outcome="failure" type="quality" timestamp="2024-08-24 20:13:36 +0200">
-				<option key="--diagnostic" value="2"/>
+			<result outcome="failure" type="quality" timestamp="2024-08-28 10:40:11 +0200">
+				<option key="--diagnostic" value="0"/>
+			</result>
+		</query>
+		<query>
+			<formula>A[] exists(i : int[0, N-1]) x[i] != G || y[i] != G</formula>
+			<comment/>
+			<result outcome="success" type="quality" timestamp="2024-08-28 10:40:33 +0200">
+				<option key="--diagnostic" value="0"/>
 			</result>
 		</query>
 		<query>
@@ -385,8 +400,15 @@ system P0, P1, P2, P3;
 		<query>
 			<formula>E&lt;&gt; forall(i : int[0, N-1]) C &gt; T_MAX &amp;&amp; k[i] == 0 &amp;&amp; last_k[i] == 0</formula>
 			<comment/>
-			<result outcome="success" type="quality" timestamp="2024-08-24 20:25:31 +0200">
-				<option key="--diagnostic" value="2"/>
+			<result outcome="success" type="quality" timestamp="2024-08-28 14:42:25 +0200">
+				<option key="--diagnostic" value="0"/>
+			</result>
+		</query>
+		<query>
+			<formula>E&lt;&gt; P0.turn_180 &amp;&amp; abs(x[0]) != G &amp;&amp; abs(y[0]) != G</formula>
+			<comment/>
+			<result outcome="success" type="quality" timestamp="2024-08-28 10:58:38 +0200">
+				<option key="--diagnostic" value="0"/>
 			</result>
 		</query>
 		<query>
@@ -484,6 +506,71 @@ system P0, P1, P2, P3;
 			<result outcome="success" type="quality" timestamp="2024-08-25 20:40:40 +0200">
 				<option key="--diagnostic" value="0"/>
 			</result>
+		</query>
+		<query>
+			<formula>P0.turn_180 --&gt; k[0] != 0</formula>
+			<comment/>
+			<result outcome="failure" type="quality" timestamp="2024-08-28 12:54:11 +0200">
+				<option key="--diagnostic" value="0"/>
+			</result>
+		</query>
+		<query>
+			<formula>E&lt;&gt; forall(i : int[0, N-1]) k[i] != 0</formula>
+			<comment/>
+		</query>
+		<query>
+			<formula>A&lt;&gt; forall(i : int[0, N-1]) k[i] != 0</formula>
+			<comment/>
+		</query>
+		<query>
+			<formula>A&lt;&gt; forall(i : int[0, N-1]) k[i] != 0</formula>
+			<comment/>
+			<result outcome="failure" type="quality" timestamp="2024-08-28 13:39:24 +0200">
+				<option key="--diagnostic" value="0"/>
+			</result>
+		</query>
+		<query>
+			<formula>E&lt;&gt; C &gt; T_MAX &amp;&amp; k[0] != 0</formula>
+			<comment/>
+		</query>
+		<query>
+			<formula>(C &gt; T_MAX &amp;&amp; k[0] == 0) --&gt; k[0] != 0</formula>
+			<comment/>
+			<result outcome="failure" type="quality" timestamp="2024-08-28 13:46:41 +0200">
+				<option key="--diagnostic" value="0"/>
+			</result>
+		</query>
+		<query>
+			<formula>E&lt;&gt; forall(i : int[0, N-1]) k[i] == N-1 &amp;&amp; C &gt; T_MAX</formula>
+			<comment/>
+			<result outcome="success" type="quality" timestamp="2024-08-28 15:04:43 +0200">
+				<option key="--diagnostic" value="0"/>
+			</result>
+		</query>
+		<query>
+			<formula>E&lt;&gt; forall(i : int[0, N-1]) k[i] == 0 &amp;&amp; last_k[i] == N-1 &amp;&amp; C &gt; T_MAX</formula>
+			<comment/>
+			<result outcome="success" type="quality" timestamp="2024-08-28 15:07:18 +0200">
+				<option key="--diagnostic" value="0"/>
+			</result>
+		</query>
+		<query>
+			<formula>forall(i : int[0, N-1]) last_k[i] == N-1 &amp;&amp; C &gt; T_MAX &amp;&amp; (x[i] != 0 || y[i] != 0) --&gt; exists(i : int[0, N-1]) k[i] == 0</formula>
+			<comment/>
+			<result outcome="failure" type="quality" timestamp="2024-08-28 15:14:26 +0200">
+				<option key="--diagnostic" value="0"/>
+			</result>
+		</query>
+		<query>
+			<formula>E&lt;&gt; forall(i : int[0, N-1]) k[i] == N-1 &amp;&amp; last_k[i] == N-1 &amp;&amp; C &gt; T_MAX</formula>
+			<comment/>
+			<result outcome="success" type="quality" timestamp="2024-08-28 15:16:35 +0200">
+				<option key="--diagnostic" value="0"/>
+			</result>
+		</query>
+		<query>
+			<formula>forall(i : int[0, N-1]) k[i] == N-1 &amp;&amp; C &gt; T_MAX --&gt; k[0] + k[1] + k[2] &gt; 0</formula>
+			<comment/>
 		</query>
 	</queries>
 </nta>

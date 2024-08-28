@@ -8,12 +8,15 @@
 \newtheorem{definition}{Definition}[section] 
 \usepackage{url}        % Command \url in @misc reference 
 \usepackage{lipsum}     % Lorem ipsum
+\usepackage{xcolor}     % Text color
 
 % Style for pseudo-code
 \lstdefinestyle{code}{
   basicstyle=\ttfamily\small,         % Code font size and style
   tabsize=4,                          % Tab space
   frame=single,                       % Frame around the code
+  breaklines=true,
+  postbreak=\mbox{\textcolor{red}{$\hookrightarrow$}\space},
 }
 
 % title, author, date

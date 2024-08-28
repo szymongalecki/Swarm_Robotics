@@ -87,7 +87,7 @@ For all the paths, all robots stay within grid boundaries
 `E<> C > 0 && P0.turn_random` - TRUE
 There exists a path for robot P0 to reach location turn_random after initialisation.
 
-`E<> forall(i : int[0, N-1]) C > 0 && k[i] == 0 && last_k[i] == 0` - TRUE
+`E<> forall(i : int[0, N-1]) C > T_MAX && k[i] == 0 && last_k[i] == 0` - TRUE
 Two robots can get disconnected after initialisation for more than two steps each.
 
 `E<> P0.turn_180 && abs(x[0]) != G && abs(y[0]) != G` - TRUE
@@ -104,4 +104,22 @@ There is no path which results in deadlock
 
 `A[] forall(i : int[0, N-1]) C > 0 imply x_dir[i] != 0 or y_dir[i] != 0` - TRUE
 All robots have set direction after initialisation
+
+
+### Properties for the algorithm
+
+1. Three robots after initialisation can be disconnected for at least two steps each.
+```
+const int N = 3;        // Number of robots
+const int R = 2;        // Signal radius
+const int STEP = 1;     // Step size
+const int BETA = 2;     // Beta parameter
+const int G = 3;        // Grid boundary => Grid : 2G x 2G
+const int T_MAX = 1;    // Time threshold on invariant
+```
+
+```
+E<> forall(i : int[0, N-1]) C > T_MAX && k[i] == 0 && last_k[i] == 0
+```
+
 
