@@ -61,6 +61,9 @@ req2=0;
 \end{tabular}
 \end{figure}
 
+\noindent
+Peterson's solution of the mutual exclusion algorithm consists of two symmetrical processes. Each process requests access to the critical section and then sets a flag indicating the other process's turn to access. A process will continuously wait to access the critical section until its turn or until the other process no longer requests access. After accessing the critical section and completing the associated work, the process will indicate that it no longer requests access. This solution guarantees fairness as no process will be indefinitely denied access to the critical section.
+
 
 % Mutex implementation in UPPAAL
 \begin{figure}[H]
@@ -69,6 +72,8 @@ req2=0;
 \label{fig:mutex_uppaal}
 \end{figure}
 
+\noindent
+To model Peterson's solution of the mutual exclusion algorithm we will represent two processes as separate automata. The automaton on the left in Figure \ref{fig:mutex_uppaal} will represent \texttt{Process 1} from Figure \ref{fig:mutex_code} and the right automaton will represent \texttt{Process 2}. Both automata have the same set of locations, namely, \texttt{idle}, \texttt{want}, \texttt{wait}, and \texttt{CS}. Location \texttt{idle} represents the state of the process in which it does not request access to the critical section. Location \texttt{want} represents the state of the process after requesting access to the critical section. Location \texttt{wait} indicates that the process set the turn to access the critical section to the other process. Automaton will remain in location \texttt{wait} until one of the guard conditions gets satisfied and enables the transition to location \texttt{CS}. Location \texttt{CS} is a critical section of the process. Upon transition from location \texttt{CS} to \texttt{idle} a process will no longer request access to the critical section. 
 
 
 \subsection{Verifying properties in UPPAAL}
