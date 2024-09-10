@@ -77,6 +77,7 @@ To model Peterson's solution of the mutual exclusion algorithm we will represent
 
 
 \subsection{Verifying properties in UPPAAL}
+A subset of timed computation tree logic is used to express properties of the system that are verified by UPPAAL's model checking engine \cite{Bengtsson2004}. The system of timed automata is unfolded into a tree with states and transitions. Paths of such a tree are traversed by the model checking engine to determine whether defined system properties are true. System properties must be specified using logical quantifiers presented in Definition \ref{def:quantifiers}. Letters \texttt{A} and \texttt{E} are used to quantify over paths while symbols \texttt{[]} and \texttt{<>} are used to quantify over states within a path. Letter \texttt{A} is used to express property that has to hold for all paths and letter \texttt{E} is used for property that holds for at least one path. Analogically, symbol \texttt{[]} is used to express that all states within a path must satisfy the property, and symbol \texttt{<>} is used to express that there is at least one state within the path that satisfies the property.
 
 % Logical quantifiers in UPPAAL
 \begin{definition}[Logical quantifiers in UPPAAL \cite{Bengtsson2004}]
@@ -90,6 +91,8 @@ where $\phi, \psi$ are local properties that can be checked locally on a state, 
 \label{def:quantifiers}
 \end{definition}
 
+\noindent
+To present the verification process in UPPAAL we specified and successfully verified properties of Mutex implementation in Figure \ref{fig:mutex_verification}. The first property states that for all paths and all states of those paths, there is never a situation where both automata are accessing the critical section at the same time. This is a safety property that verifies whether mutual exclusion, the main objective of the algorithm, is achieved. The second and third properties are liveness properties. They state that there exists a path with a state which enables a process to access a critical section. Successful verification of all three properties means that the solution guarantees mutual exclusion and fairness. Fairness in this context means that there exists a path through the system which results in a process accessing the critical section.
 
 % Successfully verified properties for mutex
 \begin{figure}[H]
