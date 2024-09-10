@@ -3,10 +3,20 @@
 
 
 \subsection{Aggregation}
+We will use Manuele Brambilla's \cite{Brambilla2013} taxonomy of collective swarm behaviors, in Figure \ref{fig:taxonomy}, to show the context for the modeled aggregation behavior. Behaviors categorized as spatially-organizing distribute robots and objects in space. These behaviors serve as fundamental building blocks for more advanced swarm behaviors, as they enable robots to connect, communicate, and interact with one another. Aggregation, the simplest of collective behaviors, groups all robots of a swarm in a region of the environment. If we assume that the robots' environment is unbounded we will have two design choices. The aggregation algorithm will either have to allow a robot to reconnect with the group or never let it disconnect from it. The first approach involves access to external information about the position of the swarm e.g. robot coordinates. The second approach relies on robots being initially connected.
+
+% Taxonomy
+\begin{figure}[H]
+\caption{Taxonomy of collective swarm behaviours \cite{Brambilla2013}}
+\includegraphics[width=\textwidth]{images/taxonomy.png}
+\label{fig:taxonomy}
+\end{figure}
 
 
 
 \subsection{Beta Algorithm}
+
+% Pseudo-code for Beta algorithm
 \begin{figure}[H]
 \caption{Pseudo-code for Beta algorithm \cite{Nembrini2002}}
 \begin{lstlisting}[style=code]
@@ -65,6 +75,8 @@ loop forever {
 
 
 \subsection{Automaton}
+
+% Automaton
 \begin{figure}[H]
 \caption{Timed automaton for the Beta algorithm}
 \includegraphics[width=\textwidth]{images/beta.png}
