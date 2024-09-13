@@ -13,8 +13,10 @@ We will use Manuele Brambilla's \cite{Brambilla2013} taxonomy of collective swar
 \end{figure}
 
 
-
+\newpage
 \subsection{Beta Algorithm}
+The Beta algorithm is a robot swarm aggregation algorithm introduced by Julien Nembrini. It is his next iteration of the aggregation algorithm that relies on situated communication. Robots do not have information on their environment and the exact location of other robots. They are connected if they are within communication distance of the physical signal they are using. In the previous approach of the Alpha algorithm, robot movement was determined by the number of connections to other robots. In the Beta algorithm robot uses information about its connections as well as about connections of its connections. Robot when losing a connection will consider how many of its neighbors, are connected to the disconnected robot. If the number of neighbors that are connected to that robot is equal to or lower than the beta parameter, the robot will turn back in an attempt to reconnect. This aims at preventing a previously observed situation where a single robot would disconnect from the swarm without triggering its reaction as the remaining robots would have a satisfactory number of connections. In the event of high swarm congestion, a robot will choose a random direction. 
+TBC
 
 % Pseudo-code for Beta algorithm
 \begin{figure}[H]
