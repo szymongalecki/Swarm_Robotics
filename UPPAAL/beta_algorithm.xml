@@ -22,8 +22,12 @@ int lost_neighbours[N][N];   // List of lost neighbours : last_neighbours - neig
 int shared_neighbours[N][N]; // List of shared neighbours with the lost neighbours
 int shared[N];               // Count of shared neighbours with the lost neighbours
 int distances[N][N];         // Integer part of mutual distances between robots (not used for connections)
-int k[N];                    // Number of connections for each robot
+int k[N] = {N-1, N-1, N-1};   // Number of connections for each robot
 int last_k[N];               // Number of last connections for each robot
+
+
+
+
 
 
 // Function specifying the desired system state which can be used for verification
@@ -571,6 +575,13 @@ system P0, P1, P2;
 		<query>
 			<formula>forall(i : int[0, N-1]) k[i] == N-1 &amp;&amp; C &gt; T_MAX --&gt; k[0] + k[1] + k[2] &gt; 0</formula>
 			<comment/>
+		</query>
+		<query>
+			<formula>E&lt;&gt; C &gt; 3 * T_MAX and forall(i : int[0, N-1]) k[i] == 0 and last_k[i] == 0</formula>
+			<comment/>
+			<result outcome="success" type="quality" timestamp="2024-09-16 16:56:02 +0200">
+				<option key="--diagnostic" value="0"/>
+			</result>
 		</query>
 	</queries>
 </nta>
