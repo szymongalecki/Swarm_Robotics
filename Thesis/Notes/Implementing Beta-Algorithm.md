@@ -123,3 +123,36 @@ E<> forall(i : int[0, N-1]) C > T_MAX && k[i] == 0 && last_k[i] == 0
 ```
 
 
+"The $\beta$-algorithm also prevents the formation of cutvertices as long as $\beta$ is greater or equal to 2. Indeed in the situation depicted in figure 4.14 a cutvertex is about to be formed. But the presence of a cutvertex implies that there can only be one shared neighbour. Hence a reaction to prevent a cutvertex providing $\beta \geq 2$."
+
+
+#### 3 robots
+```
+const int N = 3;        // Number of robots
+const int R = 1;        // Signal radius
+const int STEP = 1;     // Step size
+const int BETA = 2;     // Beta parameter
+const int G = 3;        // Grid boundary => Grid : 2G x 2G
+const int T_MAX = 1;    // Time threshold on invariant
+clock C;                // Global clock 
+```
+
+Successfully verified properties for `C > {T_MAX, 2*T_MAX, 3*T_MAX, 4*T_MAX}`
+
+`E<> C > T_MAX and forall(i : int[0, N-1]) k[i] == 0 and last_k[i] == 0`
+`E<> C > 2 * T_MAX and forall(i : int[0, N-1]) k[i] == 0 and last_k[i] == 0`
+`E<> C > 3 * T_MAX and forall(i : int[0, N-1]) k[i] == 0 and last_k[i] == 0`
+`E<> C > 4 * T_MAX and forall(i : int[0, N-1]) k[i] == 0 and last_k[i] == 0`
+
+#### 4 robots
+```
+const int N = 4;        // Number of robots
+const int R = 1;        // Signal radius
+const int STEP = 1;     // Step size
+const int BETA = 2;     // Beta parameter
+const int G = 3;        // Grid boundary => Grid : 2G x 2G
+const int T_MAX = 1;    // Time threshold on invariant
+clock C;                // Global clock
+```
+
+Successfully verified properties for 
