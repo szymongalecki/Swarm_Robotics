@@ -15,7 +15,7 @@ We will use Manuele Brambilla's \cite{Brambilla2013} taxonomy of collective swar
 
 \newpage
 \subsection{Beta Algorithm}
-The Beta algorithm is a robot swarm aggregation algorithm introduced by Julien Nembrini. It is his next iteration of the aggregation algorithm that relies on situated communication. Robots do not have information on their environment and the exact location of other robots. They are connected if they are within communication distance of the physical signal they are using. In the previous approach of the Alpha algorithm, robot movement was determined by the number of connections to other robots. In the Beta algorithm, a robot uses information about its connections as well as about connections of its connections. We will call robots that are directly connected neighbors. When losing a connection, robot will consider how many of its neighbors, are connected to the disconnected robot. If the number of neighbors that are connected to that robot is equal to or lower than the beta parameter, the robot will turn back in an attempt to reconnect. This prevents a situation previously observed in the Alpha algorithm where a single robot could disconnect from the swarm without triggering its reaction as the remaining robots would have a satisfactory number of connections. In the event of high swarm congestion, a robot will choose a random direction. Each robot keeps a list of currently and previously connected robots. Every robot can access its neighbors` current list of connections. The underlying assumption is that connected robots can exchange information. Additionally, a robot does not need to be aware of its direction. As long as it can perform a 180-degree turn and a random turn, it can move. Although the robots are unaware of their positions and environment, the algorithm will prevent them from disconnecting.
+The Beta algorithm is a robot swarm aggregation algorithm introduced by Julien Nembrini \cite{Nembrini2002}. It is his next iteration of the aggregation algorithm that relies on situated communication. Robots do not have information on their environment and the exact location of other robots. They are connected if they are within communication distance of the physical signal they are using. In the previous approach of the Alpha algorithm, robot movement was determined by the number of connections to other robots. In the Beta algorithm, a robot uses information about its connections as well as about connections of its connections. We will call robots that are directly connected neighbors. When losing a connection, robot will consider how many of its neighbors, are connected to the disconnected robot. If the number of neighbors that are connected to that robot is equal to or lower than the beta parameter, the robot will turn back in an attempt to reconnect. This prevents a situation previously observed in the Alpha algorithm where a single robot could disconnect from the swarm without triggering its reaction as the remaining robots would have a satisfactory number of connections. In the event of high swarm congestion, a robot will choose a random direction. Each robot keeps a list of currently and previously connected robots. Every robot can access its neighbors` current list of connections. The underlying assumption is that connected robots can exchange information. Additionally, a robot does not need to be aware of its direction. As long as it can perform a 180-degree turn and a random turn, it can move. Although the robots are unaware of their positions and environment, the algorithm will prevent them from disconnecting.
 
 % Pseudo-code for Beta algorithm
 \begin{figure}
@@ -85,6 +85,35 @@ To describe a robot swarm implementing the Beta algorithm we must define the min
 
 
 \subsection{Automaton}
+In this subsection, we will present how the pseudo-code for the Beta algorithm in Figure \ref{fig:pseudocode} was transformed into a timed automaton in Figure \ref{fig:automaton}. The resulting automaton does not consider limitations imposed on the robots' environment but is an accurate mapping of the original algorithm. Variables and states of the automaton will be introduced, along with their connection to the algorithm's source.
+\\\\
+Pseudocode variables that represent the state of a robot:\\
+\texttt{i} - loop iterator;\\
+\texttt{cadence} - parameter that controls the frequency of robot operation;\\
+\texttt{k} - number of robot neighbors;\\
+\texttt{LastK} - previous number of robot neighbors;\\
+\texttt{Nlist} - list of neighbor ID's;\\
+\texttt{OldList} - previous list of neighbor IDs;\\
+\texttt{LostList} - list of IDs that are in \texttt{OldList} but not in \texttt{Nlist};\\
+\texttt{nShared} - number of shared neighbors for each robot in \texttt{LostList};\\
+\texttt{beta} - threshold parameter on the \texttt{nShared} value;\\
+\texttt{Back} - boolean value indicating whether the robot should turn 180 degrees;\\
+\\\\
+We will use a smaller set of variables to represent the state of the timed automaton implementing the Beta algorithm.\\
+\texttt{k} - number of robot neighbors;\\
+\texttt{last\_k} - previous number of robot neighbors;\\
+\texttt{lost} - boolean indicator if the robot lost any of its neighbors;\\
+\texttt{shared} - the smallest number of shared neighbors for each lost robot;\\
+\texttt{t} - clock of the robot;\\
+\texttt{T} - time threshold;
+\\\\
+States of the resulting automaton:\\
+RANDOM TURN - where the robot chooses one of four directions at random, it is also the initial state for the robot;\\
+FORWARD - where the robot moves forward in previously set direction;\\
+180 TURN - where the robot changes direction by turning 180 degrees;\\
+IF - where the robot checks if it should turn 180 degrees; \\
+ELSE IF - where the robot checks if it should make a random turn or continue moving in previously set direction;\\
+
 
 % Automaton
 \begin{figure}[H]
