@@ -104,15 +104,22 @@ We will use a smaller set of variables to represent the state of the timed autom
 \texttt{last\_k} - previous number of robot neighbors;\\
 \texttt{lost} - boolean indicator if the robot lost any of its neighbors;\\
 \texttt{shared} - the smallest number of shared neighbors for each lost robot;\\
+\texttt{beta} - threshold parameter on the \texttt{shared} value;\\
 \texttt{t} - clock of the robot;\\
 \texttt{T} - time threshold;
 \\\\
 States of the resulting automaton:\\
 RANDOM TURN - where the robot chooses one of four directions at random, it is also the initial state for the robot;\\
-FORWARD - where the robot moves forward in previously set direction;\\
+FORWARD - where the robot moves forward in the previously set direction;\\
 180 TURN - where the robot changes direction by turning 180 degrees;\\
 IF - where the robot checks if it should turn 180 degrees; \\
-ELSE IF - where the robot checks if it should make a random turn or continue moving in previously set direction;\\
+ELSE IF - where the robot checks if it should make a random turn or continue moving in the previously set direction;
+\\\\
+Apart from the states and variables of the automaton it also has an invariant on the FORWARD state. Invariant is a condition on the robot's clock. The robot has to transition from the state with a defined invariant before reaching the time threshold \texttt{T}. After transitioning it resets its clock. The FORWARD state is the only state where time is allowed to pass. Transitions between the remaining states take no time and cannot be interleaved by another robot. If a robot is not in the FORWARD state, all remaining robots must be in that state. This means that robots operate asynchronously, take time to move forward, but react to the change in connectivity instantaneously. The asynchronous operation of a robot is limited by a time threshold, which does not guarantee uniform frequency across the swarm's activities. With slight modifications to the automaton, we can achieve different modes of concurrency. Asynchronous operation is one of the algorithm assumptions but we will also verify the algorithm under strict and ordered synchronization.
+\\\\
+RANDOM TURN is the initial state of the automaton as we want the robots initialized with a direction. As that state is of the type committed, there is no time progress and a robot immediately transitions to the FORWARD state. A robot can remain in the FORWARD state as long as its internal clock does not exceed the time threshold. Upon transitioning to the IF state it resets its clock. If a robot has at least one lost neighbor with fewer connections to the other neighbors than beta, it will transition to the 180 TURN state and change its direction by 180 degrees. Otherwise, it will transition to the ELSE IF state to determine whether it has more neighbors than before. If a robot has more connections than previously it will transition to the RANDOM TURN state to possibly change direction and avoid congestion. If a robot has the same number of connections or fewer it will transition directly to the FORWARD state to maintain its current direction.
+\\\\
+It can be seen that states RANDOM TURN, FORWARD, and 180\degree TURN are related to the actions of the robot while states IF and ELSE IF are related to the logical conditions defined in the pseudocode. There are always two transitions coming out of IF and ELSE IF states. One of the transition guards will be an original condition from the pseudocode while the other will be a negation of the original condition. This approach guarantees that there will be always one and only one transition available which eliminates nondeterminism of where a robot will transition and prevents deadlock.
 
 
 % Automaton
