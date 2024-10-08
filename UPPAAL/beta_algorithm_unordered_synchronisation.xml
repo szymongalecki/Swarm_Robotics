@@ -1,0 +1,603 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE nta PUBLIC '-//Uppaal Team//DTD Flat System 1.6//EN' 'http://www.it.uu.se/research/group/darts/uppaal/flat-1_6.dtd'>
+<nta>
+	<declaration>// System specification
+const int N = 4;        // Number of robots
+const int R = 1;        // Signal radius
+const int STEP = 1;     // Step size
+const int BETA = 2;     // Beta parameter
+const int G = 3;        // Grid boundary =&gt; Grid : 2G x 2G
+const int T_MAX = 1;    // Time threshold on invariant
+clock C;                // Global clock 
+broadcast chan step;    // Clock tells robots to transition from forward state
+chan done;              // Robots tell clock that it reached forward state
+
+
+// Data structures for implementation
+int x[N];                    // List of x-axis coordinates for each robot
+int y[N];                    // List of y-axis coordinates for each robot
+int x_dir[N];                // List of x-axis directions for each robot
+int y_dir[N];                // List of y-axis directions for each robot
+// int neighbours[N][N];        // List of neighbours for each robot
+int neighbours[N][N] = { {0, 1, 1, 1}, {1, 0, 1, 1}, {1, 1, 0, 1}, {1, 1, 1, 0}};
+int last_neighbours[N][N];   // List of previous neighbours for each robot 
+int lost_neighbours[N][N];   // List of lost neighbours : last_neighbours - neighbours
+int shared_neighbours[N][N]; // List of shared neighbours with the lost neighbours
+int shared[N];               // Count of shared neighbours with the lost neighbours
+int distances[N][N];         // Integer part of mutual distances between robots (not used for connections)
+int k[N] = {N-1, N-1, N-1, N-1};   // Number of connections for each robot
+int last_k[N];               // Number of last connections for each robot
+
+
+// Maps one of four directions into x-axis and y-axis directions
+// Updates: x_dir, y_dir
+void mapDirection(int id, int dir){
+    if (dir == 0){
+		// up
+        x_dir[id] = 0;
+        y_dir[id] = 1;
+    }
+    if (dir == 1){
+		// right
+        x_dir[id] = 1;
+        y_dir[id] = 0;
+    }
+    if (dir == 2){
+		// down
+        x_dir[id] = 0;
+        y_dir[id] = -1;
+    }
+    if (dir == 3){
+		// left
+        x_dir[id] = -1;
+        y_dir[id] = 0;
+    }
+}
+
+// Reverses current direction of the robot
+// Updates: x_dir, y_dir
+void reverseDirection(int id){
+	x_dir[id] *= -1;
+	y_dir[id] *= -1;
+}
+
+// Moves robot forward in its current direction
+// Updates: x, y
+void moveForward(int id){
+	x[id] += x_dir[id] * STEP;
+	y[id] += y_dir[id] * STEP;
+}
+
+// Checks if robot is on the boundary of the grid
+bool gridBoundary(int id){
+    return abs(x[id]) == G || abs(y[id]) == G;
+}
+
+// 
+void updateConnections(int id){
+   int i;
+   int n;
+   last_k[id] = k[id];
+   for (i = 0; i &lt; N; i++){
+       if (neighbours[id][i] == 1){
+           n++;
+       }
+   }
+   k[id] = n;
+}
+
+// Decide if robot should make a random turn
+bool turnRandom(int id){
+    return k[id] &gt; last_k[id];
+}
+
+// Check if there are neighbours that were lost for a given robot
+bool noLostNeighbours(int id){
+    int i;
+    for (i = 0; i &lt; N; i++){
+        if(lost_neighbours[id][i] != 0){
+            return false;
+        }
+    }
+    return true;
+}
+
+// Decide if robot should turn around
+bool turn180(int id){
+    if (noLostNeighbours(id)){
+        return false;
+    }
+    return shared[id] &lt;= BETA;
+}
+
+// Calculates Euclidean distance between robots
+double distance(int x1, int y1, int x2, int y2){
+    return sqrt(pow(abs(x1 - x2), 2) + pow(abs(y1 - y2), 2));
+}
+
+// Checks if distance between robots is within a signal threshold
+bool connected(double distance, double threshold){
+    return distance &lt;= threshold;
+}
+
+// Calculcates the distances between robots and saves the approximation
+// Updates: distances
+void updateDistances(){
+    int i;
+    int j;
+    for (i = 0; i &lt; N; i++){
+        for (j = 0; j &lt; N; j++){
+            distances[i][j] = fint(distance(x[i], y[i], x[j], y[j]));
+        }
+    }
+}
+
+// Creates the list of lost neighbours
+// Updates: lost_neighbours
+void lostNeighbours(int id){
+    int i;
+    for (i = 0; i &lt; N; i++){
+        if (last_neighbours[id][i] == 1 &amp;&amp; neighbours[id][i] == 0){
+            lost_neighbours[id][i] = 1;
+        } else {
+            lost_neighbours[id][i] = 0;
+        }
+    }
+}
+
+// Finds and counts shared neighbours between id holder and robots from lost_neighbours
+// Updates: shared_neighbours, shared
+void sharedNeighbours(int id){
+    int i;
+    int j;
+    int s;
+    // If there are no lost neighbours there are no shared neighbours
+    if (noLostNeighbours(id)){
+        shared[id] = 0;
+        for (j = 0; j &lt; N; j++){
+            shared_neighbours[id][j] = 0;
+        }
+        return;
+    }
+    // If there are lost neighbours, count shared neighbours
+    for (i = 0; i &lt; N; i++){
+        if (lost_neighbours[id][i] == 1){
+            for (j = 0; j &lt; N; j++){
+                if (neighbours[id][j] == 1 &amp;&amp; neighbours[i][j] == 1){
+                    shared_neighbours[id][j] = 1;
+                } else {
+                    shared_neighbours[id][j] = 0;
+                }
+            }
+        }
+    }
+    // Count shared neighburs
+    for (j = 0; j &lt; N; j++){
+        if(shared_neighbours[id][j] == 1){
+            s++;
+        }
+    }
+    shared[id] = s;
+}
+
+// Updates all connection based data structures
+// Updates: last_neighbours, neighbours, lost_neighbours, shared_neighbours, shared
+void updateNeighbours(int id){
+    int i;
+    last_neighbours[id] = neighbours[id];
+    for (i = 0; i &lt; N; i++){
+            if (connected(distance(x[id], y[id], x[i], y[i]), R) &amp;&amp; id != i){
+                neighbours[id][i] = 1;
+            } else {
+                neighbours[id][i] = 0;
+            }
+    }
+    lostNeighbours(id);
+    sharedNeighbours(id);
+}</declaration>
+	<template>
+		<name x="5" y="5">Robot</name>
+		<parameter>int id</parameter>
+		<location id="id0" x="-323" y="-340">
+			<name x="-333" y="-374">turn_random</name>
+			<committed/>
+		</location>
+		<location id="id1" x="-323" y="161">
+			<name x="-297" y="135">turn_180</name>
+			<committed/>
+		</location>
+		<location id="id2" x="-323" y="-110">
+			<name x="-399" y="-135">forward</name>
+		</location>
+		<location id="id3" x="289" y="-110">
+			<name x="297" y="-144">if</name>
+			<committed/>
+		</location>
+		<location id="id4" x="0" y="-340">
+			<name x="-10" y="-374">else_if</name>
+			<committed/>
+		</location>
+		<location id="id5" x="8" y="-110">
+			<name x="-2" y="-144">grid</name>
+		</location>
+		<init ref="id0"/>
+		<transition id="id6">
+			<source ref="id3"/>
+			<target ref="id1"/>
+			<label kind="guard" x="187" y="127">turn180(id)</label>
+			<nail x="289" y="161"/>
+		</transition>
+		<transition id="id7">
+			<source ref="id1"/>
+			<target ref="id2"/>
+			<label kind="synchronisation" x="-518" y="0">done!</label>
+			<label kind="assignment" x="-518" y="-17">reverseDirection(id)</label>
+		</transition>
+		<transition id="id8">
+			<source ref="id5"/>
+			<target ref="id1"/>
+			<label kind="guard" x="-178" y="34">gridBoundary(id)</label>
+			<nail x="8" y="68"/>
+			<nail x="-212" y="68"/>
+		</transition>
+		<transition id="id9">
+			<source ref="id5"/>
+			<target ref="id3"/>
+			<label kind="guard" x="76" y="-144">!gridBoundary(id)</label>
+		</transition>
+		<transition id="id10">
+			<source ref="id2"/>
+			<target ref="id5"/>
+			<label kind="synchronisation" x="-246" y="-136">step?</label>
+			<label kind="assignment" x="-238" y="-102">moveForward(id),
+updateNeighbours(id),
+updateConnections(id),
+updateDistances()</label>
+		</transition>
+		<transition id="id11">
+			<source ref="id4"/>
+			<target ref="id2"/>
+			<label kind="guard" x="-195" y="-255">!turnRandom(id)</label>
+			<label kind="synchronisation" x="-195" y="-280">done!</label>
+			<nail x="-1" y="-221"/>
+			<nail x="-222" y="-221"/>
+		</transition>
+		<transition id="id12">
+			<source ref="id4"/>
+			<target ref="id0"/>
+			<label kind="guard" x="-187" y="-374">turnRandom(id)</label>
+		</transition>
+		<transition id="id13">
+			<source ref="id3"/>
+			<target ref="id4"/>
+			<label kind="guard" x="187" y="-374">!turn180(id)</label>
+			<nail x="289" y="-341"/>
+		</transition>
+		<transition id="id14">
+			<source ref="id0"/>
+			<target ref="id2"/>
+			<label kind="select" x="-518" y="-238">dir : int[0,3]</label>
+			<label kind="synchronisation" x="-518" y="-204">done!</label>
+			<label kind="assignment" x="-518" y="-221">mapDirection(id, dir)</label>
+		</transition>
+	</template>
+	<template>
+		<name>Clock</name>
+		<declaration>int n = N;</declaration>
+		<location id="id15" x="-212" y="-93">
+			<name x="-263" y="-85">Clock</name>
+		</location>
+		<init ref="id15"/>
+		<transition id="id16">
+			<source ref="id15"/>
+			<target ref="id15"/>
+			<label kind="synchronisation" x="-391" y="-93">done?</label>
+			<label kind="assignment" x="-391" y="-68">n -= 1</label>
+			<nail x="-408" y="-93"/>
+			<nail x="-408" y="-238"/>
+		</transition>
+		<transition id="id17">
+			<source ref="id15"/>
+			<target ref="id15"/>
+			<label kind="guard" x="-136" y="-170">n == 0</label>
+			<label kind="synchronisation" x="-136" y="-145">step!</label>
+			<label kind="assignment" x="-136" y="-119">n = N</label>
+			<nail x="-42" y="-93"/>
+			<nail x="-42" y="59"/>
+		</transition>
+	</template>
+	<system>// Place template instantiations here.
+P0 = Robot(0);
+P1 = Robot(1);
+P2 = Robot(2);
+C0 = Clock();
+//P3 = Robot(3);
+//P4 = Robot(4);
+ 
+
+// List one or more processes to be composed into a system.
+system P0, P1, P2, C0;
+// P3;
+//P4;
+</system>
+	<queries>
+		<option key="--diagnostic" value="0"/>
+		<query>
+			<formula>A[] not deadlock</formula>
+			<comment/>
+			<result outcome="success" type="quality" timestamp="2024-08-25 16:19:00 +0200">
+				<option key="--diagnostic" value="1"/>
+			</result>
+		</query>
+		<query>
+			<formula>E&lt;&gt; shared[0] == 2</formula>
+			<comment/>
+			<result outcome="success" type="quality" timestamp="2024-08-25 19:48:56 +0200">
+				<option key="--diagnostic" value="0"/>
+			</result>
+		</query>
+		<query>
+			<formula>A[] P0.turn_random imply n_shared_neighbours[0] &lt;= BETA </formula>
+			<comment/>
+		</query>
+		<query>
+			<formula>E&lt;&gt; n_shared_neighbours[0] != 0</formula>
+			<comment/>
+			<result outcome="success" type="quality" timestamp="2024-08-23 19:45:31 +0200">
+				<option key="--diagnostic" value="2"/>
+			</result>
+		</query>
+		<query>
+			<formula>E&lt;&gt; P0.turn_random</formula>
+			<comment/>
+			<result outcome="success" type="quality" timestamp="2024-08-24 20:22:47 +0200">
+				<option key="--diagnostic" value="2"/>
+			</result>
+		</query>
+		<query>
+			<formula>E&lt;&gt; P0.turn_random &amp;&amp; k[0] &gt; last_k[0]</formula>
+			<comment>There exists a path for robot P0 where it performs random turn bot only after initial state</comment>
+			<result outcome="success" type="quality" timestamp="2024-08-24 20:09:52 +0200">
+				<option key="--diagnostic" value="2"/>
+			</result>
+		</query>
+		<query>
+			<formula>E&lt;&gt; P0.turn_180 &amp;&amp; (abs(x[0]) == G || abs(y[0]) == G)</formula>
+			<comment/>
+			<result outcome="success" type="quality" timestamp="2024-08-25 14:42:21 +0200">
+				<option key="--diagnostic" value="1"/>
+			</result>
+		</query>
+		<query>
+			<formula>E&lt;&gt; P0.forward &amp;&amp; k[0] &lt;= last_k[0] &amp;&amp; last_k[0] != 0</formula>
+			<comment/>
+			<result outcome="success" type="quality" timestamp="2024-08-28 11:29:31 +0200">
+				<option key="--diagnostic" value="0"/>
+			</result>
+		</query>
+		<query>
+			<formula>E&lt;&gt; P0.else_if</formula>
+			<comment/>
+			<result outcome="success" type="quality" timestamp="2024-08-24 20:10:00 +0200">
+				<option key="--diagnostic" value="2"/>
+			</result>
+		</query>
+		<query>
+			<formula>E&lt;&gt; P0.grid</formula>
+			<comment/>
+			<result outcome="success" type="quality" timestamp="2024-08-24 20:12:02 +0200">
+				<option key="--diagnostic" value="2"/>
+			</result>
+		</query>
+		<query>
+			<formula>E&lt;&gt; P0.turn_random</formula>
+			<comment/>
+			<result outcome="success" type="quality" timestamp="2024-08-28 10:53:36 +0200">
+				<option key="--diagnostic" value="0"/>
+			</result>
+		</query>
+		<query>
+			<formula>E&lt;&gt; forall(i : int[0, N-1]) x[i] == G &amp;&amp; y[i] == G</formula>
+			<comment/>
+			<result outcome="failure" type="quality" timestamp="2024-08-28 10:40:11 +0200">
+				<option key="--diagnostic" value="0"/>
+			</result>
+		</query>
+		<query>
+			<formula>A[] exists(i : int[0, N-1]) x[i] != G || y[i] != G</formula>
+			<comment/>
+			<result outcome="success" type="quality" timestamp="2024-08-28 10:40:33 +0200">
+				<option key="--diagnostic" value="0"/>
+			</result>
+		</query>
+		<query>
+			<formula>E&lt;&gt; x[0] == G &amp;&amp; y[0] == G</formula>
+			<comment/>
+			<result outcome="failure" type="quality" timestamp="2024-08-24 20:22:40 +0200">
+				<option key="--diagnostic" value="2"/>
+			</result>
+		</query>
+		<query>
+			<formula>E&lt;&gt; forall(i : int[0, N-1]) C &gt; T_MAX &amp;&amp; k[i] == 0 &amp;&amp; last_k[i] == 0</formula>
+			<comment/>
+			<result outcome="success" type="quality" timestamp="2024-08-28 14:42:25 +0200">
+				<option key="--diagnostic" value="0"/>
+			</result>
+		</query>
+		<query>
+			<formula>E&lt;&gt; P0.turn_180 &amp;&amp; abs(x[0]) != G &amp;&amp; abs(y[0]) != G</formula>
+			<comment/>
+			<result outcome="success" type="quality" timestamp="2024-08-28 10:58:38 +0200">
+				<option key="--diagnostic" value="0"/>
+			</result>
+		</query>
+		<query>
+			<formula>E&lt;&gt; P0.turn_random &amp;&amp; (x[0] != 0 || y[0] != 0)</formula>
+			<comment/>
+			<result outcome="success" type="quality" timestamp="2024-08-24 20:11:22 +0200">
+				<option key="--diagnostic" value="2"/>
+			</result>
+		</query>
+		<query>
+			<formula>E&lt;&gt; C &gt; T_MAX &amp;&amp; P0.turn_random</formula>
+			<comment/>
+			<result outcome="success" type="quality" timestamp="2024-08-24 20:40:22 +0200">
+				<option key="--diagnostic" value="1"/>
+			</result>
+		</query>
+		<query>
+			<formula>E&lt;&gt; special_case(0)</formula>
+			<comment/>
+			<result outcome="success" type="quality" timestamp="2024-08-25 21:24:46 +0200">
+				<option key="--diagnostic" value="0"/>
+			</result>
+		</query>
+		<query>
+			<formula>A[] P0.turn_random imply P1.forward or P1.initial</formula>
+			<comment/>
+		</query>
+		<query>
+			<formula>A[] C &gt; T_MAX imply not P0.initial</formula>
+			<comment/>
+		</query>
+		<query>
+			<formula>A[] P0.initial imply C &lt;= 5</formula>
+			<comment/>
+		</query>
+		<query>
+			<formula>A[] forall(i : int[0, N-1]) C &gt; T_MAX imply x_dir[i] != 0 or y_dir[i] != 0</formula>
+			<comment>All robots have </comment>
+			<result outcome="success" type="quality" timestamp="2024-08-24 20:42:15 +0200">
+				<option key="--diagnostic" value="1"/>
+			</result>
+		</query>
+		<query>
+			<formula>A[] forall(i : int[0, N-1]) (C &gt; T_MAX &amp;&amp; C &lt;= 2*T_MAX) imply (k[i] != 0 || last_k[i] != 0)</formula>
+			<comment/>
+			<result outcome="failure" type="quality" timestamp="2024-08-24 20:42:18 +0200">
+				<option key="--diagnostic" value="1"/>
+			</result>
+		</query>
+		<query>
+			<formula>A[] forall(i : int[0, N-1]) (x[i] != 0 || y[i] != 0) imply (k[i] != 0 or last_k[i] != 0)</formula>
+			<comment/>
+			<result outcome="failure" type="quality" timestamp="2024-08-24 20:42:24 +0200">
+				<option key="--diagnostic" value="1"/>
+			</result>
+		</query>
+		<query>
+			<formula>A[] forall(i : int[0, N-1]) C &gt; T_MAX imply k[i] &gt;= BETA or last_k[i] &gt;= BETA</formula>
+			<comment/>
+			<result outcome="failure" type="quality" timestamp="2024-08-24 20:42:25 +0200">
+				<option key="--diagnostic" value="1"/>
+			</result>
+		</query>
+		<query>
+			<formula>A[] forall(i : int[0, N-1]) last_k[i] == 0 and C &gt; T_MAX imply k[i] != 0</formula>
+			<comment/>
+			<result outcome="failure" type="quality" timestamp="2024-08-24 20:42:26 +0200">
+				<option key="--diagnostic" value="1"/>
+			</result>
+		</query>
+		<query>
+			<formula>A[] forall(i : int[0, N-1]) k[i] != 0 || last_k[i] != 0</formula>
+			<comment/>
+			<result outcome="failure" type="quality" timestamp="2024-08-24 20:42:26 +0200">
+				<option key="--diagnostic" value="1"/>
+			</result>
+		</query>
+		<query>
+			<formula>A[] forall(i : int[0, N-1]) abs(x[i]) &lt;= G &amp;&amp; abs(y[i]) &lt;= G</formula>
+			<comment/>
+			<result outcome="success" type="quality" timestamp="2024-08-24 20:43:17 +0200">
+				<option key="--diagnostic" value="1"/>
+			</result>
+		</query>
+		<query>
+			<formula>A[] forall(i : int[0, N-1]) abs(x[i]) &lt;= STEP and abs(y[i]) &lt;= STEP</formula>
+			<comment/>
+			<result outcome="failure" type="quality" timestamp="2024-08-24 20:42:31 +0200">
+				<option key="--diagnostic" value="1"/>
+			</result>
+		</query>
+		<query>
+			<formula>E&lt;&gt; C &gt; 0 &amp;&amp; P0.turn_random</formula>
+			<comment/>
+			<result outcome="success" type="quality" timestamp="2024-08-25 20:40:40 +0200">
+				<option key="--diagnostic" value="0"/>
+			</result>
+		</query>
+		<query>
+			<formula>P0.turn_180 --&gt; k[0] != 0</formula>
+			<comment/>
+			<result outcome="failure" type="quality" timestamp="2024-08-28 12:54:11 +0200">
+				<option key="--diagnostic" value="0"/>
+			</result>
+		</query>
+		<query>
+			<formula>E&lt;&gt; forall(i : int[0, N-1]) k[i] != 0</formula>
+			<comment/>
+		</query>
+		<query>
+			<formula>A&lt;&gt; forall(i : int[0, N-1]) k[i] != 0</formula>
+			<comment/>
+		</query>
+		<query>
+			<formula>A&lt;&gt; forall(i : int[0, N-1]) k[i] != 0</formula>
+			<comment/>
+			<result outcome="failure" type="quality" timestamp="2024-08-28 13:39:24 +0200">
+				<option key="--diagnostic" value="0"/>
+			</result>
+		</query>
+		<query>
+			<formula>E&lt;&gt; C &gt; T_MAX &amp;&amp; k[0] != 0</formula>
+			<comment/>
+		</query>
+		<query>
+			<formula>(C &gt; T_MAX &amp;&amp; k[0] == 0) --&gt; k[0] != 0</formula>
+			<comment/>
+			<result outcome="failure" type="quality" timestamp="2024-08-28 13:46:41 +0200">
+				<option key="--diagnostic" value="0"/>
+			</result>
+		</query>
+		<query>
+			<formula>E&lt;&gt; forall(i : int[0, N-1]) k[i] == N-1 &amp;&amp; C &gt; T_MAX</formula>
+			<comment/>
+			<result outcome="success" type="quality" timestamp="2024-08-28 15:04:43 +0200">
+				<option key="--diagnostic" value="0"/>
+			</result>
+		</query>
+		<query>
+			<formula>E&lt;&gt; forall(i : int[0, N-1]) k[i] == 0 &amp;&amp; last_k[i] == N-1 &amp;&amp; C &gt; T_MAX</formula>
+			<comment/>
+			<result outcome="success" type="quality" timestamp="2024-08-28 15:07:18 +0200">
+				<option key="--diagnostic" value="0"/>
+			</result>
+		</query>
+		<query>
+			<formula>forall(i : int[0, N-1]) last_k[i] == N-1 &amp;&amp; C &gt; T_MAX &amp;&amp; (x[i] != 0 || y[i] != 0) --&gt; exists(i : int[0, N-1]) k[i] == 0</formula>
+			<comment/>
+			<result outcome="failure" type="quality" timestamp="2024-08-28 15:14:26 +0200">
+				<option key="--diagnostic" value="0"/>
+			</result>
+		</query>
+		<query>
+			<formula>E&lt;&gt; forall(i : int[0, N-1]) k[i] == N-1 &amp;&amp; last_k[i] == N-1 &amp;&amp; C &gt; T_MAX</formula>
+			<comment/>
+			<result outcome="success" type="quality" timestamp="2024-08-28 15:16:35 +0200">
+				<option key="--diagnostic" value="0"/>
+			</result>
+		</query>
+		<query>
+			<formula>forall(i : int[0, N-1]) k[i] == N-1 &amp;&amp; C &gt; T_MAX --&gt; k[0] + k[1] + k[2] &gt; 0</formula>
+			<comment/>
+		</query>
+		<query>
+			<formula>E&lt;&gt; forall(i : int[0, N-1]) k[i] == 0 and last_k[i] == 0</formula>
+			<comment/>
+			<result outcome="success" type="quality" timestamp="2024-10-08 15:10:49 +0200">
+				<option key="--diagnostic" value="0"/>
+			</result>
+		</query>
+	</queries>
+</nta>
