@@ -60,3 +60,12 @@ Click on the **Verifier** tab, click on the Insert button, click in the **Query*
 - `E<> P1.CS` - There exist a combination where process **P1** reaches the critical section of the system.
 
 If a property fails in the verifier, choose **Options** $\rightarrow$ **Diagnostic Trace** and go back to the **Symbolic Simulator**. In the **Simulation Trace** section you will be able to replay scenario that broke the property defined in the **Verifier**.
+
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [["$", "$"], ["\\(", "\\)"]]
+  }
+};
+</script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>

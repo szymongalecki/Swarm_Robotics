@@ -27,4 +27,13 @@ Custom types are defined with the C-like `typedef` construct. You can define any
 ### User functions
 User functions are defined either globally or locally to templates. Template parameters are accessible from local functions. The syntax is similar to C except that there is no pointer. C++ syntax for references is supported for the arguments only.
 
-[Timed automaton](Timed%20automaton.md)
+[Timed automaton](Timed%20automaton.html)
+
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [["$", "$"], ["\\(", "\\)"]]
+  }
+};
+</script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
