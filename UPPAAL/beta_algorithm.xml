@@ -16,7 +16,7 @@ int x[N];                    // List of x-axis coordinates for each robot
 int y[N];                    // List of y-axis coordinates for each robot
 int x_dir[N];                // List of x-axis directions for each robot
 int y_dir[N];                // List of y-axis directions for each robot
-int neighbours[N][N];        // List of neighbours for each robot
+int neighbours[N][N] = {{0, 1, 1}, {1, 0, 1}, {1, 1, 0}}; // List of neighbours for each robot
 int last_neighbours[N][N];   // List of previous neighbours for each robot 
 int lost_neighbours[N][N];   // List of lost neighbours : last_neighbours - neighbours
 int shared_neighbours[N][N]; // List of shared neighbours with the lost neighbours
@@ -579,9 +579,6 @@ system P0, P1, P2;
 		<query>
 			<formula>E&lt;&gt; C &gt; 3 * T_MAX and forall(i : int[0, N-1]) k[i] == 0 and last_k[i] == 0</formula>
 			<comment/>
-			<result outcome="success" type="quality" timestamp="2024-09-16 16:56:02 +0200">
-				<option key="--diagnostic" value="0"/>
-			</result>
 		</query>
 	</queries>
 </nta>

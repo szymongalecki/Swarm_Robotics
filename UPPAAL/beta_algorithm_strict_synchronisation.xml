@@ -7,8 +7,6 @@ const int R = 1;        // Signal radius
 const int STEP = 1;     // Step size
 const int BETA = 2;     // Beta parameter
 const int G = 3;        // Grid boundary =&gt; Grid : 2G x 2G
-const int T_MAX = 1;    // Time threshold on invariant
-clock C;                // Global clock 
 broadcast chan step;    // Clock tells robots to transition from forward state
 chan done;              // Robots tell clock that it reached forward state
 
@@ -17,9 +15,8 @@ chan done;              // Robots tell clock that it reached forward state
 int x[N];                    // List of x-axis coordinates for each robot
 int y[N];                    // List of y-axis coordinates for each robot
 int x_dir[N];                // List of x-axis directions for each robot
-int y_dir[N];                // List of y-axis directions for each robot
-// int neighbours[N][N];        // List of neighbours for each robot
-int neighbours[N][N] = { {0, 1, 1, 1}, {1, 0, 1, 1}, {1, 1, 0, 1}, {1, 1, 1, 0}};
+int y_dir[N];                // List of y-axis directions for each robot        
+int neighbours[N][N] = { {0, 1, 1, 1}, {1, 0, 1, 1}, {1, 1, 0, 1}, {1, 1, 1, 0}}; // List of neighbours for each robot
 int last_neighbours[N][N];   // List of previous neighbours for each robot 
 int lost_neighbours[N][N];   // List of lost neighbours : last_neighbours - neighbours
 int shared_neighbours[N][N]; // List of shared neighbours with the lost neighbours
@@ -310,15 +307,12 @@ updateDistances()</label>
 P0 = Robot(0);
 P1 = Robot(1);
 P2 = Robot(2);
+P3 = Robot(3);
 C0 = Clock();
-//P3 = Robot(3);
-//P4 = Robot(4);
- 
+
 
 // List one or more processes to be composed into a system.
-system P0, P1, P2, C0;
-// P3;
-//P4;
+system P0, P1, P2, P3, C0;
 </system>
 	<queries>
 		<option key="--diagnostic" value="0"/>
@@ -595,9 +589,6 @@ system P0, P1, P2, C0;
 		<query>
 			<formula>E&lt;&gt; forall(i : int[0, N-1]) k[i] == 0 and last_k[i] == 0</formula>
 			<comment/>
-			<result outcome="success" type="quality" timestamp="2024-10-08 15:10:49 +0200">
-				<option key="--diagnostic" value="0"/>
-			</result>
 		</query>
 	</queries>
 </nta>

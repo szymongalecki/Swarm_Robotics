@@ -155,4 +155,16 @@ const int T_MAX = 1;    // Time threshold on invariant
 clock C;                // Global clock
 ```
 
-Successfully verified properties for 
+Successfully verified properties for....
+
+
+### 3 robots synchronous
+```
+const int N = 3;        // Number of robots
+const int R = 1/2/3;    // Signal radius
+const int STEP = 1;     // Step size
+const int BETA = 2;     // Beta parameter
+const int G = 3;        // Grid boundary => Grid : 2G x 2G
+```
+
+`E<> forall(i : int[0, N-1]) k[i] == 0 and last_k[i] == 0` - Robots can become fully disconnected for at least two steps.
