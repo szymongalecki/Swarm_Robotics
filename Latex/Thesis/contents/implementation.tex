@@ -12,7 +12,7 @@ Implementation of the timed automaton, shown in Figure \ref{fig:implementation},
 \end{figure}
 
 \noindent
-Implementation presented in Figure \ref{fig:implementation} is asynchronous. Robots can move at different pace and time, independent of each other. We also implemented a synchronised version of the Beta algorithm to investigate the influence of the mode of concurrency on verification results. The synchronised implementation is presented in Figure \ref{fig:implementation_synchronised}, and its synchronisation mechanism in Figure \ref{fig:implementation_synchronised_barrier},
+The implementation of the Beta algorithm presented in Figure \ref{fig:implementation} is asynchronous as stated by the author of the algorithm. Robots can move at different pace and time, independent of each other. We also implemented a synchronized version of the Beta algorithm to investigate the influence of the concurrency mode on verification results. The synchronized implementation is presented in Figure \ref{fig:implementation_synchronised}, and its synchronization mechanism in Figure \ref{fig:implementation_synchronised_barrier}. The synchronized version enforces that all robots move at the same time. The synchronization mechanism, which we will call barrier, has a variable \texttt{n} initialized to the number of robots in the swarm. Each time a robot transitions to the \texttt{forward} state it will use a synchronization channel \texttt{done} to notify the barrier. The barrier will decrement its variable \texttt{n} upon receiving a signal from a robot. When the value of \texttt{n} reaches 0, all robots will be blocked in the \texttt{forward} state. The barrier then will send a signal using synchronization channel \texttt{step} and reset the value of the variable \texttt{n} to the number of robots in the swarm. Robots waiting in the \texttt{forward} state will receive this signal from the \texttt{step} channel and transition to \texttt{grid} state at the same time. They will then progress to the \texttt{forward} state in the random order, possibly changing its direction. The order in which they reach the \texttt{forward} state does not influence swarm behavior. A robot decides whether to change direction based on the state of the swarm. The state of the swarm, most importantly robot positions, will not change until the next collective step forward. In other words, the direction of the robot is not a variable that influences the behavior of another robot, unlike its position. 
 
 \begin{figure}[H]
 \caption{Synchronised implementation of the Beta algorithm}
@@ -22,7 +22,8 @@ Implementation presented in Figure \ref{fig:implementation} is asynchronous. Rob
 
 \begin{figure}[H]
 \caption{Synchronisation mechanism}
-\includegraphics[width=\textwidth]{images/implementation_synchronised_barrier.png}
+\centering
+\includegraphics[width=0.5\textwidth]{images/implementation_synchronised_barrier.png}
 \label{fig:implementation_synchronised_barrier}
 \end{figure}
 
