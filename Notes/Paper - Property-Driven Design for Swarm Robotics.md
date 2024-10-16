@@ -30,3 +30,12 @@ P=? [F<=1000 (a=N_total)|(b=N_total)]
 
 ### Videos of simulation and hardware test
 [videos](https://iridia.ulb.ac.be/supp/IridiaSupp2011-018/)
+
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [["$", "$"], ["\\(", "\\)"]]
+  }
+};
+</script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>

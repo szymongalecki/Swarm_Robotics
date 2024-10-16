@@ -1,5 +1,5 @@
 ## Recreating basic algorithm in UPPAAL pt.1
-Inspired by [Paper - Towards Temporal Verification of Emergent Behaviours in Swarm Robotic Systems](Paper%20-%20Towards%20Temporal%20Verification%20of%20Emergent%20Behaviours%20in%20Swarm%20Robotic%20Systems.md)  
+Inspired by [Paper - Towards Temporal Verification of Emergent Behaviours in Swarm Robotic Systems](Paper%20-%20Towards%20Temporal%20Verification%20of%20Emergent%20Behaviours%20in%20Swarm%20Robotic%20Systems.html)  
 Algorithms adapted from Julien's Membrini [Minimalist Coherent Swarming of Wireless Networked Autonomous Mobile Robots](../Relevant%20Papers/Minimalist%20Coherent%20Swarming%20of%20Wireless%20Networked%20Autonomous%20Mobile%20Robots.pdf)
 
 ### Basic algorithm
@@ -75,3 +75,11 @@ It is not satisfied but the corresponding diagnostic trace is unavailable.
 - Array `X` stores the x coordinates of the robots
 - Array `Y` stores the y coordinates of the robots
 - If the distance between two robots between their distance is bigger than `threshold`, it means that they are disconnected
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [["$", "$"], ["\\(", "\\)"]]
+  }
+};
+</script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>

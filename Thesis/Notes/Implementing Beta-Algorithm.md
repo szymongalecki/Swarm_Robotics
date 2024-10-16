@@ -168,3 +168,11 @@ const int G = 3;        // Grid boundary => Grid : 2G x 2G
 ```
 
 `E<> forall(i : int[0, N-1]) k[i] == 0 and last_k[i] == 0` - Robots can become fully disconnected for at least two steps.
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [["$", "$"], ["\\(", "\\)"]]
+  }
+};
+</script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
