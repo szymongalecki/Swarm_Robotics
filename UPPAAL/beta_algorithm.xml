@@ -77,9 +77,9 @@ void moveForward(int id){
 	y[id] += y_dir[id] * STEP;
 }
 
-// Checks if robot is on the boundary of the grid
+// Checks if robot reached or passed the grid boundary
 bool gridBoundary(int id){
-    return abs(x[id]) == G || abs(y[id]) == G;
+    return abs(x[id]) &gt;= G || abs(y[id]) &gt;= G;
 }
 
 // 

@@ -34,9 +34,11 @@ Before explaining the functions that control the movement and direction of the r
 \texttt{y[N]} - list of y-axis coordinates for each robot;\\
 \texttt{x\_dir[N]} - list of x-axis directions for each robot;\\
 \texttt{y\_dir[N]} - list of y-axis directions for each robot;\\
+\texttt{G} - grid boundary, resulting area of the grid is 2\texttt{G} x 2\texttt{G};\\
 \texttt{STEP} - step size, uniform for all robots;\\\\
 \noindent
-Three global functions govern the movement of the robot, namely, \texttt{mapDirection}, \texttt{reverseDirection}, \texttt{moveForward}. The \texttt{mapDirection} function is triggered upon transition from state \texttt{turn\_random} to state \texttt{forward} and provided with \texttt{id} of the robot and randomly drawn integer \texttt{dir} that will be mapped to one of four directions. The \texttt{reverseDirection} function is triggered upon transition from state \texttt{turn\_180} to state \texttt{forward} and provided with \texttt{id} of the robot whose direction is to be reversed. The \texttt{moveForward} function is triggered upon transition from state \texttt{forward} to state \texttt{grid} and provided with \texttt{id} of the robot that is to be moved forward. The implementation of those functions is shown in Figure \ref{fig:movement_implementation}.
+Four global functions govern the movement of the robot, namely, \texttt{mapDirection}, \texttt{reverseDirection}, \texttt{moveForward}, \texttt{gridBoundary}. The \texttt{mapDirection} function is triggered upon transition from state \texttt{turn\_random} to state \texttt{forward} and provided with \texttt{id} of the robot and randomly drawn integer \texttt{dir} that will be mapped to one of four directions. The \texttt{reverseDirection} function is triggered upon transition from state \texttt{turn\_180} to state \texttt{forward} and provided with \texttt{id} of the robot whose direction is to be reversed. The \texttt{moveForward} function is triggered upon transition from state \texttt{forward} to state \texttt{grid} and provided with \texttt{id} of the robot that is to be moved forward. The \texttt{gridBoundary} function is used as a transition guard for states \texttt{if} and \texttt{turn\_180}. It takes \texttt{id} of the robot as a parameter. If a robot reaches or crosses the grid boundary it will transition from state \texttt{grid} to state \texttt{turn\_180} and turn 180 degrees to stay within the grid boundary. If a robot has not reached the grid boundary it will transition to the \texttt{if} state and move according to the original specification of the algorithm. The implementation of those functions is shown in Figure \ref{fig:movement_implementation}.
+
 
 \begin{figure}
 \caption{Implementation of functions controlling robot movement}
@@ -72,6 +74,10 @@ void reverseDirection(int id){
 void moveForward(int id){
 	x[id] += x_dir[id] * STEP;
 	y[id] += y_dir[id] * STEP;
+}
+
+bool gridBoundary(int id){
+    return abs(x[id]) >= G || abs(y[id]) >= G;
 }
 \end{lstlisting}
 \label{fig:movement_implementation}
