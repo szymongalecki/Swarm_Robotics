@@ -248,8 +248,7 @@ void updateNeighbours(int id){
 			<label kind="synchronisation" x="-246" y="-136">step?</label>
 			<label kind="assignment" x="-238" y="-102">moveForward(id),
 updateNeighbours(id),
-updateConnections(id),
-updateDistances()</label>
+updateConnections(id)</label>
 		</transition>
 		<transition id="id11">
 			<source ref="id4"/>

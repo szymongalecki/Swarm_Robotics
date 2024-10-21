@@ -263,7 +263,6 @@ clock t;</declaration>
 			<label kind="assignment" x="-238" y="-102">moveForward(id),
 updateNeighbours(id),
 updateConnections(id),
-updateDistances(),
 t = 0</label>
 		</transition>
 		<transition id="id11">
