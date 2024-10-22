@@ -102,6 +102,11 @@ bool gridBoundary(int id){
 \newpage
 
 \subsection{Connection}
-
-
-
+The connection part of the implementation focuses on two key tasks: simulating the physical signal real robots would use to detect their neighbors and providing the functionality and data structures needed for the robots to act on this connection information. A robot will detect its neighbor if the Euclidean distance between them is smaller than signal radius \texttt{R}. Data structures crucial for both of those tasks are listed below. Two-dimensional lists are adjacency matrices where an entry 1 indicates a connection between two robots and 0 indicates the absence of one. \\\\
+\texttt{neighbours[N][N]} - list of neighbours for each robot;\\
+\texttt{last\_neighbours[N][N]} - list of previous neighbours for each robot;\\ 
+\texttt{lost\_neighbours[N][N]} - list of lost neighbours for each robot;\\
+\texttt{shared\_neighbours[N][N]} - list of shared neighbours with the lost neighbours;\\
+\texttt{shared[N]} - number of shared neighbours with the lost neighbours;\\
+\texttt{k[N]} - number of connections for each robot;\\
+\texttt{last\_k[N]} - number of last connections for each robot;\\
