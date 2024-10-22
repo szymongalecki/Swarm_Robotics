@@ -18,3 +18,12 @@ An invariant is an expression that satisfies the following conditions: it is sid
 reference and `e` evaluates to an integer. An invariant may call a side-effect free
 function that returns a bool, although clock constraints are not supported
 in such functions.
+
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [["$", "$"], ["\\(", "\\)"]]
+  }
+};
+</script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>

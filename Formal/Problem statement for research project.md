@@ -5,3 +5,12 @@ Estimating all the possible desired and undesired behaviors of the swarm as a sy
 
 I propose conducting a review of recent research in the field of swarm robotics to analyse approaches to defining swarm behaviours. Additionally, I suggest modelling the described swarm behaviours in an integrated environment for modelling - $\bigcup_{PPAAL}$, to understand the implications of mutual interactions of unit robots on the behaviour of the whole system.
 
+
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [["$", "$"], ["\\(", "\\)"]]
+  }
+};
+</script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>

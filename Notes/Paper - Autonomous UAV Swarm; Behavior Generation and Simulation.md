@@ -9,3 +9,11 @@ This paper presents a software framework to produce and simulate autonomous beha
 - **Fuel policy**: Fuel must be sufficient to return.
 - **Spread-out search policy**: avoid the area if there is another agent that is closer, until under direct command.
 - **Joint tracking policy**: if there is a nearby agent in tracking mode, join as a new tracking member.
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [["$", "$"], ["\\(", "\\)"]]
+  }
+};
+</script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>

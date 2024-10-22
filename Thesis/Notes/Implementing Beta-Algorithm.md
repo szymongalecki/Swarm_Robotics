@@ -208,3 +208,12 @@ chan done;              // Robots tell clock that it reached forward state
 
 Verified as true:
 `A[] forall(i : int[0, N-1]) k[i] != 0 or last_k[i] != 0`
+
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [["$", "$"], ["\\(", "\\)"]]
+  }
+};
+</script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
