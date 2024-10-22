@@ -168,3 +168,43 @@ const int G = 3;        // Grid boundary => Grid : 2G x 2G
 ```
 
 `E<> forall(i : int[0, N-1]) k[i] == 0 and last_k[i] == 0` - Robots can become fully disconnected for at least two steps.
+
+### Error in the synchronised implementation
+After the collective move forward of all four robots, there are inconsistencies in the connection state of the robot.
+
+- First robot is connected to all of three other robots.
+- Second robot is connected to all three other robots.
+- Third robot is connected only to the fourth robot.
+- Fourth robot is connected only to the third robot. 
+
+First of all, the connections should be mutual, so if a robot A is connected to robot B then robot B is also connected to robot A. Which is not the case in this situation.
+
+Second of all, the radius of the signal is equal to 1 which means that first and second robot should only be connected to each other and no other robot as the distance to the third and fourth robot is bigger than radius of their signal. 
+
+The issue is probably the race condition caused by multiple robots calling the same three functions upon transitioning from the **forward** state to the grid state.
+
+Functions causing the race condition:
+`moveForward(id)`
+`updateNeighbours(id)`
+`updateConnections(id)`
+
+![](../../error.png)
+
+Solution:
+Functions `updateNeighbours` and `updateConnections` were removed from transition **forward** $\rightarrow$ **grid** and added to two subsequent transitions. In this way they will be called on the system of robots with fixed positions. Order of robots calling them has no influence on the state of connections. Race condition was eliminated.
+![](../Images/implementation_synchronised.png)
+
+### Verification on the synchronised version of the implementation
+```
+// System specification
+const int N = 4;        // Number of robots
+const int R = 1;        // Signal radius
+const int STEP = 1;     // Step size
+const int BETA = 2;     // Beta parameter
+const int G = 3;        // Grid boundary => Grid : 2G x 2G
+broadcast chan step;    // Clock tells robots to transition from forward state
+chan done;              // Robots tell clock that it reached forward state
+```
+
+Verified as true:
+`A[] forall(i : int[0, N-1]) k[i] != 0 or last_k[i] != 0`

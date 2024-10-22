@@ -3,7 +3,7 @@
 <nta>
 	<declaration>// System specification
 const int N = 4;        // Number of robots
-const int R = 1;        // Signal radius
+const int R = 2;        // Signal radius
 const int STEP = 1;     // Step size
 const int BETA = 2;     // Beta parameter
 const int G = 3;        // Grid boundary =&gt; Grid : 2G x 2G
@@ -234,6 +234,8 @@ void updateNeighbours(int id){
 			<source ref="id5"/>
 			<target ref="id1"/>
 			<label kind="guard" x="-178" y="34">gridBoundary(id)</label>
+			<label kind="assignment" x="-194" y="68">updateNeighbours(id),
+updateConnections(id)</label>
 			<nail x="8" y="68"/>
 			<nail x="-212" y="68"/>
 		</transition>
@@ -241,14 +243,14 @@ void updateNeighbours(int id){
 			<source ref="id5"/>
 			<target ref="id3"/>
 			<label kind="guard" x="76" y="-144">!gridBoundary(id)</label>
+			<label kind="assignment" x="26" y="-110">updateNeighbours(id),
+updateConnections(id)</label>
 		</transition>
 		<transition id="id10">
 			<source ref="id2"/>
 			<target ref="id5"/>
 			<label kind="synchronisation" x="-246" y="-136">step?</label>
-			<label kind="assignment" x="-238" y="-102">moveForward(id),
-updateNeighbours(id),
-updateConnections(id)</label>
+			<label kind="assignment" x="-238" y="-102">moveForward(id)</label>
 		</transition>
 		<transition id="id11">
 			<source ref="id4"/>
@@ -587,6 +589,13 @@ system P0, P1, P2, P3, C0;
 		</query>
 		<query>
 			<formula>E&lt;&gt; forall(i : int[0, N-1]) k[i] == 0 and last_k[i] == 0</formula>
+			<comment/>
+			<result outcome="failure" type="quality" timestamp="2024-10-22 16:09:51 +0200">
+				<option key="--diagnostic" value="0"/>
+			</result>
+		</query>
+		<query>
+			<formula>A[] forall(i : int[0, N-1]) k[i] != 0 or last_k[i] != 0</formula>
 			<comment/>
 		</query>
 	</queries>
