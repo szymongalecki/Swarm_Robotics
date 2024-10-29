@@ -232,3 +232,49 @@ for (i = 0; i < N; i++){
         }
     }
 ```
+
+
+**Fixed**
+Data structures should be cleared for all scenarios.
+```C++
+// Clear entries for this robot
+for (i = 0; i < N; i++){
+	shared_neighbours[id][i] = 0;
+	shared[id] = 0;
+}
+```
+
+Connection information of the lost robot are no longer accessed.
+Additionally, shared neighbours are counted correctly.
+```C++
+for (i = 0; i < N; i++){
+	if (lost_neighbours[id][i] == 1){
+		for (j = 0; j < N; j++){
+			if (
+				neighbours[id][j] == 1 
+				&& neighbours[j][i] == 1
+			){
+				shared_neighbours[id][i] += 1;
+			}
+		}
+	}
+}
+```
+
+We want to come up with nShared value that will satisfy this condition without modifying the robots behaviour.
+```
+if (nShared <= beta) {
+	Set reaction indicator Back to TRUE
+}
+```
+
+This is achieved by the following code and can be phrased in this way -> determine the maximum number of neighbours that are still connected to any of the lost connections.
+```C++
+    // Maximum number of shared neighbours for any lost robot i
+    for (i = 0; i < N; i++){
+        if(shared_neighbours[id][i] > shared[id]){
+            shared[id] = shared_neighbours[id][i];
+        }
+    }
+}
+```
