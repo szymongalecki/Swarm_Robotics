@@ -208,3 +208,27 @@ chan done;              // Robots tell clock that it reached forward state
 
 Verified as true:
 `A[] forall(i : int[0, N-1]) k[i] != 0 or last_k[i] != 0`
+
+
+### Check the implementation of counting shared neighbours as this is a crucial element of the algorithm!
+
+This part of `sharedNeighbours` seems wrong because.
+Robot `id` has lost robot `i` and then we are accessing the neighbours list of robot `i` which should not be possible as we are no longer connected to it: `neighbours[i][j]`.
+
+```c++
+for (i = 0; i < N; i++){
+        if (lost_neighbours[id][i] == 1){
+            for (j = 0; j < N; j++){
+                if (
+		                neighbours[id][j] == 1 
+		                && neighbours[i][j] == 1
+	                )
+	            {
+                    shared_neighbours[id][j] = 1;
+                } else {
+                    shared_neighbours[id][j] = 0;
+                }
+            }
+        }
+    }
+```

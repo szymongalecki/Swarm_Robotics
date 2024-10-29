@@ -110,3 +110,5 @@ The connection part of the implementation focuses on two key tasks: simulating t
 \texttt{shared[N]} - number of shared neighbours with the lost neighbours;\\
 \texttt{k[N]} - number of connections for each robot;\\
 \texttt{last\_k[N]} - number of last connections for each robot;\\
+\\
+The \texttt{update} function updates all of the above data structures for a given robot when provided with its \texttt{id}. It utilizes the following functions to split the process into logical steps: \texttt{updateNeighbours}, \texttt{lostNeighbours}, \texttt{sharedNeighbours}, \texttt{updateConnections}. It determines the neighbors of the robot based on their positions and signal radius. It checks whether the robot has lost any of the neighbors and if yes it determines how many neighbors are still connected to the lost robot. Finally the function updates current and previous number of connections.

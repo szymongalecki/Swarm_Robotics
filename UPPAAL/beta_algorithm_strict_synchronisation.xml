@@ -70,7 +70,7 @@ bool gridBoundary(int id){
     return abs(x[id]) &gt;= G || abs(y[id]) &gt;= G;
 }
 
-// 
+// Updates: k, last_k
 void updateConnections(int id){
    int i;
    int n;
@@ -177,8 +177,8 @@ void sharedNeighbours(int id){
     shared[id] = s;
 }
 
-// Updates all connection based data structures
-// Updates: last_neighbours, neighbours, lost_neighbours, shared_neighbours, shared
+
+// Updates: last_neighbours, neighbours 
 void updateNeighbours(int id){
     int i;
     last_neighbours[id] = neighbours[id];
@@ -189,8 +189,15 @@ void updateNeighbours(int id){
                 neighbours[id][i] = 0;
             }
     }
+}
+
+// Updates all data structures related to connectivity
+// Updates: last_neighbours, neighbours, lost_neighbours, shared_neighbours, shared, k, last_k
+void update(int id){
+    updateNeighbours(id);
     lostNeighbours(id);
     sharedNeighbours(id);
+    updateConnections(id);
 }</declaration>
 	<template>
 		<name x="5" y="5">Robot</name>
@@ -234,23 +241,21 @@ void updateNeighbours(int id){
 			<source ref="id5"/>
 			<target ref="id1"/>
 			<label kind="guard" x="-178" y="34">gridBoundary(id)</label>
-			<label kind="assignment" x="-194" y="68">updateNeighbours(id),
-updateConnections(id)</label>
+			<label kind="assignment" x="-178" y="76">update(id)</label>
 			<nail x="8" y="68"/>
 			<nail x="-212" y="68"/>
 		</transition>
 		<transition id="id9">
 			<source ref="id5"/>
 			<target ref="id3"/>
-			<label kind="guard" x="76" y="-144">!gridBoundary(id)</label>
-			<label kind="assignment" x="26" y="-110">updateNeighbours(id),
-updateConnections(id)</label>
+			<label kind="guard" x="68" y="-144">!gridBoundary(id)</label>
+			<label kind="assignment" x="76" y="-102">update(id)</label>
 		</transition>
 		<transition id="id10">
 			<source ref="id2"/>
 			<target ref="id5"/>
 			<label kind="synchronisation" x="-246" y="-136">step?</label>
-			<label kind="assignment" x="-238" y="-102">moveForward(id)</label>
+			<label kind="assignment" x="-246" y="-102">moveForward(id)</label>
 		</transition>
 		<transition id="id11">
 			<source ref="id4"/>
