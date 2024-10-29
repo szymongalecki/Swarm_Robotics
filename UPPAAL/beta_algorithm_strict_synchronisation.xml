@@ -10,7 +10,6 @@ const int G = 3;        // Grid boundary =&gt; Grid : 2G x 2G
 broadcast chan step;    // Clock tells robots to transition from forward state
 chan done;              // Robots tell clock that it reached forward state
 
-
 // Data structures for implementation
 int x[N];                    // List of x-axis coordinates for each robot
 int y[N];                    // List of y-axis coordinates for each robot
@@ -24,7 +23,6 @@ int shared[N];               // Count of shared neighbours with the lost neighbo
 int distances[N][N];         // Integer part of mutual distances between robots (not used for connections)
 int k[N] = {N-1, N-1, N-1, N-1};   // Number of connections for each robot
 int last_k[N];               // Number of last connections for each robot
-
 
 // Maps one of four directions into x-axis and y-axis directions
 // Updates: x_dir, y_dir
@@ -145,38 +143,39 @@ void lostNeighbours(int id){
 // Finds and counts shared neighbours between id holder and robots from lost_neighbours
 // Updates: shared_neighbours, shared
 void sharedNeighbours(int id){
-    int i;
-    int j;
-    int s;
-    // If there are no lost neighbours there are no shared neighbours
-    if (noLostNeighbours(id)){
+    int i; // lost robot - i
+    int j; // neighbour of this robot - j
+    
+    // Clear entries for this robot
+    for (i = 0; i &lt; N; i++){
+        shared_neighbours[id][i] = 0;
         shared[id] = 0;
-        for (j = 0; j &lt; N; j++){
-            shared_neighbours[id][j] = 0;
-        }
+    }
+    // If there are no lost neighbours, return
+    if (noLostNeighbours(id)){
         return;
     }
-    // If there are lost neighbours, count shared neighbours
+    // Otherwise, count how many neighbours are connected to each lost robot i
     for (i = 0; i &lt; N; i++){
+        // This robot got disconnected from robot i
         if (lost_neighbours[id][i] == 1){
             for (j = 0; j &lt; N; j++){
-                if (neighbours[id][j] == 1 &amp;&amp; neighbours[i][j] == 1){
-                    shared_neighbours[id][j] = 1;
-                } else {
-                    shared_neighbours[id][j] = 0;
+                // This robot is connected to robot j -&gt; neighbours[id][j] == 1 
+                // Robot j is connected to lost robot i -&gt; neighbours[j][i] == 1
+                if (neighbours[id][j] == 1 &amp;&amp; neighbours[j][i] == 1){
+                    // This robot is connected to robot j that is connected to lost robot i
+                    shared_neighbours[id][i] += 1;
                 }
             }
         }
     }
-    // Count shared neighburs
-    for (j = 0; j &lt; N; j++){
-        if(shared_neighbours[id][j] == 1){
-            s++;
+    // Maximum number of shared neighbours for any lost robot i
+    for (i = 0; i &lt; N; i++){
+        if(shared_neighbours[id][i] &gt; shared[id]){
+            shared[id] = shared_neighbours[id][i];
         }
     }
-    shared[id] = s;
 }
-
 
 // Updates: last_neighbours, neighbours 
 void updateNeighbours(int id){
