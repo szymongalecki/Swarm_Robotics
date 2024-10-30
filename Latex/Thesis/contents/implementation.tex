@@ -56,7 +56,7 @@ Four global functions govern the movement of the robot, namely, \texttt{mapDirec
 
 \begin{figure}[H]
 \caption{Implementation of functions controlling robot movement}
-\begin{lstlisting}[style=code]
+\begin{lstlisting}[style=C++]
 void mapDirection(int id, int dir){
     if (dir == 0){
 		// up
@@ -103,12 +103,125 @@ bool gridBoundary(int id){
 
 \subsection{Connection}
 The connection part of the implementation focuses on two key tasks: simulating the physical signal real robots would use to detect their neighbors and providing the functionality and data structures needed for the robots to act on this connection information. A robot will detect its neighbor if the Euclidean distance between them is smaller than signal radius \texttt{R}. Data structures crucial for both of those tasks are listed below. Two-dimensional lists are adjacency matrices where an entry 1 indicates a connection between two robots and 0 indicates the absence of one. \\\\
-\texttt{neighbours[N][N]} - list of neighbours for each robot;\\
-\texttt{last\_neighbours[N][N]} - list of previous neighbours for each robot;\\ 
-\texttt{lost\_neighbours[N][N]} - list of lost neighbours for each robot;\\
-\texttt{shared\_neighbours[N][N]} - list of shared neighbours with the lost neighbours;\\
-\texttt{shared[N]} - number of shared neighbours with the lost neighbours;\\
-\texttt{k[N]} - number of connections for each robot;\\
-\texttt{last\_k[N]} - number of last connections for each robot;\\
+\texttt{neighbours[N][N]} - is a matrix where each entry is 1 if a robot is currently connected to another robot in the system and 0 if not.;\\
+\texttt{last\_neighbours[N][N]} - is a matrix where each entry is 1 if a robot was previously connected to another robot in the system and 0 if not;\\ 
+\texttt{lost\_neighbours[N][N]} - is a matrix where each entry is 1 if a robot is currently considered lost as a neighbor of another robot in the system and 0 if not;\\
+\texttt{shared\_neighbours[N][N]} - is matrix where each element represents the count of mutual neighbors between each pair of robots in the system;\\
+\texttt{shared[N]} - is a list where each element indicates the maximum number of neighbors connected to any one of the lost robots for each robot in the system;\\
+\texttt{k[N]} - is a list where each element represents the current number of connections for each robot in the system;\\
+\texttt{last\_k[N]} - is a list where each element represents the number of previous connections for each robot in the system;\\
 \\
-The \texttt{update} function updates all of the above data structures for a given robot when provided with its \texttt{id}. It utilizes the following functions to split the process into logical steps: \texttt{updateNeighbours}, \texttt{lostNeighbours}, \texttt{sharedNeighbours}, \texttt{updateConnections}. It determines the neighbors of the robot based on their positions and signal radius. It checks whether the robot has lost any of the neighbors and if yes it determines how many neighbors are still connected to the lost robot. Finally the function updates current and previous number of connections.
+The \texttt{update} function, presented in Figure \ref{fig:update}, updates all of the above data structures for a given robot when provided with its \texttt{id}. It utilizes the following functions to split the process into logical steps: \texttt{updateNeighbours}, \texttt{lostNeighbours}, \texttt{sharedNeighbours}, \texttt{updateConnections}. Implementation of those steps is presented in Figures \ref{fig:update_3} and \ref{fig:update_1}. It determines the neighbors of the robot based on their positions and signal radius. It checks whether the robot has lost any of the neighbors and if yes it determines how many neighbors are still connected to the lost robot. Finally the function updates current and previous number of connections.
+
+\begin{figure}[H]
+\caption{Implementation of \texttt{update} function}
+\begin{lstlisting}[style=C++]
+void update(int id){
+    updateNeighbours(id);
+    lostNeighbours(id);
+    sharedNeighbours(id);
+    updateConnections(id);
+}
+\end{lstlisting}
+\label{fig:update}
+\end{figure}
+
+
+\begin{figure}[H]
+\caption{Implementation of functions: \texttt{updateNeighbours}, \texttt{lostNeighbours}, \texttt{updateConnections}}
+\begin{lstlisting}[style=C++]
+void updateNeighbours(int id){
+    // Updates: neighbours, last_neighbours
+    int i;
+    last_neighbours[id] = neighbours[id];
+    for (i = 0; i < N; i++){
+        // Check if robots are within signal radius
+        if (connected(distance(x[id], y[id], x[i], y[i]), R) 
+            && id != i
+        ){
+            // Connected to i
+            neighbours[id][i] = 1;  
+        } else {
+            // Not connected to i
+            neighbours[id][i] = 0;  
+        }
+    }
+}
+
+
+void lostNeighbours(int id){
+    // Updates: lost_neighbours
+    int i;
+    for (i = 0; i < N; i++){
+        // Check if robot lost connection
+        if (last_neighbours[id][i] == 1 
+            && neighbours[id][i] == 0
+        ){
+            // Lost connection to i
+            lost_neighbours[id][i] = 1;
+        } else {
+            // Did not loose connection to i
+            lost_neighbours[id][i] = 0; 
+        }
+    }
+}
+
+
+void updateConnections(int id){
+    // Updates k, last_k
+    int i;
+    int n;
+    last_k[id] = k[id];
+    // Count robot connections
+    for (i = 0; i < N; i++){
+        if (neighbours[id][i] == 1){
+               n++;
+        }
+    }
+    k[id] = n;
+}
+\end{lstlisting}
+\label{fig:update_3}
+\end{figure}
+
+\begin{figure}[H]
+\caption{Implementation of \texttt{sharedNeighbours} function}
+\begin{lstlisting}[style=C++]
+void sharedNeighbours(int id){
+    // Updates: shared_neighbours, shared
+    int i;
+    int j; 
+    // Clear entries for the robot
+    for (i = 0; i < N; i++){
+        shared_neighbours[id][i] = 0;
+        shared[id] = 0;
+    }
+    // Check if robot lost any neighbours
+    if (noLostNeighbours(id)){
+        return;
+    }
+    // Count neighbours connected to each lost robot 
+    for (i = 0; i < N; i++){
+        // Check if neighbour 'i' was lost
+        if (lost_neighbours[id][i] == 1){
+            // Check if robot 'i' is connected to any neighbours
+            for (j = 0; j < N; j++){
+                if (neighbours[id][j] == 1 
+                    && neighbours[j][i] == 1
+                ){
+                    // Neighbour connected to lost robot 'i'
+                    shared_neighbours[id][i] += 1;
+                }
+            }
+        }
+    }
+    // Find the maximum count of shared neighbours for each lost robot 'i'.
+    for (i = 0; i < N; i++){
+        if(shared_neighbours[id][i] > shared[id]){
+            shared[id] = shared_neighbours[id][i];
+        }
+    }
+}
+\end{lstlisting}
+\label{fig:update_1}
+\end{figure}

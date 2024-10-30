@@ -16,9 +16,24 @@
   basicstyle=\ttfamily\small,         % Code font size and style
   tabsize=4,                          % Tab space
   frame=single,                       % Frame around the code
-  breaklines=true,
-  postbreak=\mbox{\textcolor{red}{$\hookrightarrow$}\space},
+  breaklines=true,                    % Automatic line breaking
+  postbreak=\mbox{\textcolor{red}{$\hookrightarrow$}\space},    
 }
+
+% Style for C++
+% Define a custom style for code
+\lstdefinestyle{C++}{
+    language=C++,                    % Set the language to C++
+    basicstyle=\ttfamily\small,      % Code font size and style
+    keywordstyle=\color{blue},       % Keywords in blue
+    commentstyle=\color{green!50!black}, % Comments in green
+    stringstyle=\color{red},         % Strings in red
+    tabsize=4,                       % Tab space
+    frame=single,                    % Frame around the code
+    breaklines=true,                 % Automatic line breaking
+    postbreak=\mbox{\textcolor{red}{$\hookrightarrow$}\space},
+}
+
 
 % title, author, date
 \title{Implementation and Verification of the Beta Algorithm for Robot Swarm Using Timed Automata and UPPAAL}
