@@ -111,7 +111,7 @@ The connection part of the implementation focuses on two key tasks: simulating t
 \texttt{k[N]} - is a list where each element represents the current number of connections for each robot in the system;\\
 \texttt{last\_k[N]} - is a list where each element represents the number of previous connections for each robot in the system;\\
 \\
-The \texttt{update} function, presented in Figure \ref{fig:update}, updates all of the above data structures for a given robot when provided with its \texttt{id}. It utilizes the following functions to split the process into logical steps: \texttt{updateNeighbours}, \texttt{lostNeighbours}, \texttt{sharedNeighbours}, \texttt{updateConnections}. Implementation of those steps is presented in Figures \ref{fig:update_3} and \ref{fig:update_1}. It determines the neighbors of the robot based on their positions and signal radius. It checks whether the robot has lost any of the neighbors and if yes it determines how many neighbors are still connected to the lost robot. Finally the function updates current and previous number of connections.
+Both of the mentioned tasks are achieved by the \texttt{update} function which controls the state of introduced data structures. Its implementation is presented in Figure \ref{fig:update}. The function updates connection information for only a single robot, the one identified by \texttt{id}. It utilizes the following functions to split the process into logical steps: \texttt{updateNeighbours}, \texttt{lostNeighbours}, \texttt{sharedNeighbours}, \texttt{updateConnections}. Implementation of those steps is presented in Figures \ref{fig:update_3} and \ref{fig:update_1}. It determines the neighbors of the robot based on their positions and signal radius. It checks whether the robot has lost any of the neighbors and if yes it determines how many neighbors are still connected to the lost robot. Finally the function updates current and previous number of connections.
 
 \begin{figure}[H]
 \caption{Implementation of \texttt{update} function}
@@ -224,4 +224,21 @@ void sharedNeighbours(int id){
 }
 \end{lstlisting}
 \label{fig:update_1}
+\end{figure}
+\noindent
+The function \texttt{updateNeighbours} uses information about robot positions and the radius of the mimicked signal to determine the connectivity of the robot identified by \texttt{id}. It uses \texttt{distance} function to determine the Euclidean distance between two robots and \texttt{connected} function to determine if that distance is smaller or equal to signal radius \texttt{R}. Implementation of functions \texttt{distance} and \texttt{connected} is presented in Figure \ref{fig:update_2}. The function \texttt{lostNeighbours} compares the current and previous state of connectivity of the robot identified by \texttt{id} to determine if the robot has lost any of its connections. The function \texttt{updateConnections} uses data structures updated by the function \texttt{updateNeighbours} to count the number of connections for a robot identified by \texttt{id}. The function \texttt{sharedNeighbours} uses connectivity information of neighbors of the robot identified by \texttt{id} to determine the number of neighbors connected to its lost connections. The algorithm assumption is that a robot can access its neighbors' connectivity information. In other words, the robot is aware of its neighbors' neighbours. The most important information determined by this function is the maximum count of shared neighbors out of all lost connections. This value is compared with \texttt{BETA} parameter to decide whether the robot should turn 180 degrees in an attempt to reconnect with one or more lost robots. The idea behind the implementation of connection was to partition the algorithm into explainable functions and data structures. Even though the functions are global, access to data structures stays at the individual level of the robot, where it is possible. In the case of modeling the physical signal, access to other robot positions was unavoidable.
+
+\begin{figure}[H]
+\caption{Implementation of functions: \texttt{distance}, \texttt{connected}}
+\begin{lstlisting}[style=C++]
+double distance(int x1, int y1, int x2, int y2){
+    return sqrt(pow(abs(x1-x2),2) + pow(abs(y1-y2),2));
+}
+
+
+bool connected(double distance, double threshold){
+    return distance <= threshold;
+}
+\end{lstlisting}
+\label{fig:update_2}
 \end{figure}
