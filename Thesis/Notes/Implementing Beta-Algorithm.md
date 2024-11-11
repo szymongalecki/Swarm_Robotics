@@ -278,3 +278,83 @@ This is achieved by the following code and can be phrased in this way -> determi
     }
 }
 ```
+
+### Results
+```
+// System specification
+const int N = 2;        // Number of robots
+const int R = 1;        // Signal radius
+const int STEP = 1;     // Step size
+const int BETA = 1;     // Beta parameter
+const int G = 3;        // Grid boundary => Grid : 2G x 2G
+const int T_MAX = 1;    // Time threshold on invariant
+clock C;                // Global clock 
+```
+
+**Verification of implementation** 
+1. `A[] forall(i : int[0, N-1]) x[i] != G or y[i] != G` 
+	1. TRUE 
+	2. For all the paths, all robots will never have their x coordinate and y coordinate equal to grid boundary at the same time.
+	3. There is no path for any robot that leads to the corner of the grid.
+2. `A[] forall(i : int[0, N-1]) abs(x[i]) <= G && abs(y[i]) <= G` 
+	1. TRUE 
+	2. For all the paths, all robots stay within grid boundaries
+3. `E<> C > 0 && P0.turn_random` 
+	1. TRUE
+	2. There exists a path for robot P0 to reach location turn_random after initialisation.
+	3. Reachable locations: 
+		1. forward
+		2. grid 
+		3. if
+		4. else_if
+	4. Reachable transitions:
+		1. turn_random -> forward
+		2. forward -> grid
+		3. grid -> if
+		4. if -> else_if
+		5. else_if -> turn_random
+4. `E<> C > 0 && P0.turn_180` 
+	1. TRUE
+	2. There exists a path for robot P0 to reach location turn_180 after initialisation.
+5. `A[] P0.forward imply P0.t <= T_MAX`
+	1. TRUE
+	2. For all the paths, robot P0 will obey the invariant on location forward.
+6. `E<> P0.turn_180 && abs(x[0]) != G && abs(y[0]) != G` 
+	1. TRUE
+	2. There exist a path for robot P0 to reach location turn_180 without reaching the boundary of the grid.
+	3. Reachable transition:
+		1. if -> turn_180
+7. `E<> P0.turn_180 && (abs(x[0]) == G || abs(y[0]) == G)`
+	1. TRUE
+	2. There exists a path for robot P0 to reach location turn_180 as a result of reaching the boundary of the grid.
+	3. Reachable transition:
+		1. grid -> turn_180
+8. `E<> P0.forward && k[0] <= last_k[0]`
+	1. TRUE
+	2. There exist a path for robot P0 where it moves forward without changing direction.
+	3. Reachable transition:
+		1. else_if -> forward
+9. `A[] P0.t != 0 imply P0.forward`
+	1. TRUE
+	2. For all the paths, robot P0 will have its clock value different than zero only in the forward location.
+	3. For the robot, time is only allowed to pass in the forward state.
+10. `A[] (P0.turn_random or P0.turn_180 or P0.grid or P0.grid or P0.if or P0.else_if) imply P0.t == 0`
+	1. TRUE
+	2. For all the paths, robot P0 will have its clock value equal to zero in the listed locations.
+	3. For the robot, time will not pass in any other location than forward.
+11. `A[] forall(i : int[0, N-1]) shared_neighbours[i][0] == 0 and shared_neighbours[i][1] == 0`
+	1. TRUE
+	2. For all the paths, all robots have no shared neighbours.
+	3. Two robots cannot have a neighbour in common.
+12. `A[] forall(i : int[0, N-1]) C < 0 imply k[i] == N-1`
+	1. TRUE
+	2. For all paths, all robots are fully connected prior to system initialisation.
+13. `A[] forall(i : int[0, N-1]) C > 0 imply x_dir[i] != 0 or y_dir[i] != 0`
+	1. TRUE
+	2. For all paths, all robots have set direction after system initialisation.
+14. `A[] not deadlock`
+	1. TRUE
+	2. There is no path which results in deadlock
+
+
+
