@@ -405,3 +405,41 @@ chan done;              // Robots tell clock that it reached forward state
 	2. This ensures that initialisation is correctly set up, swarm must be fully connected in the beginning.
 14. `A[] not deadlock`
 	1. There is no path which results in deadlock.
+
+**Asynchronous system**
+```
+// System specification
+const int N = 3;        // Number of robots
+const int R = 1;        // Signal radius
+const int STEP = 1;     // Step size
+const int BETA = 1;     // Beta parameter
+const int G = 3;        // Grid boundary => Grid : 2G x 2G
+const int T_MAX = 1;    // Time threshold on invariant
+clock C;                // Global clock 
+```
+
+**Verification of algorithm**
+1. `E<> exists(i : int[0, N-1]) k[i] == 0 and last_k[i] == 0`
+	1. There exists a path for a robot of the system where it becomes disconnected for at least two steps.
+2. `E<> forall(i : int[0, N-1]) k[i] == 0 and last_k[i] == 0`
+	1. There exists a path where all robots of the system become disconnected for at least two steps.
+
+**Synchronised system**
+```
+// System specification
+const int N = 3;        // Number of robots
+const int R = 2;        // Signal radius
+const int STEP = 1;     // Step size
+const int BETA = 2;     // Beta parameter
+const int G = 3;        // Grid boundary => Grid : 2G x 2G
+broadcast chan step;    // Clock tells robots to transition from forward state
+chan done;              // Robots tell clock that it reached forward state
+```
+
+**Verification of algorithm**
+1. `E<> exists(i : int[0, N-1]) k[i] == 0 and last_k[i] == 0` ❌
+	1. There exists a path for a robot of the system where it becomes disconnected for at least two steps.
+	2. Falsified by UPPAAL
+2. `E<> forall(i : int[0, N-1]) k[i] == 0 and last_k[i] == 0` ❌
+	1. There exists a path where all robots of the system become disconnected for at least two steps.
+	2. Falsified by induction 

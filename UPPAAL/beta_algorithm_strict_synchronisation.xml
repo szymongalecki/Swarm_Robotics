@@ -2,7 +2,7 @@
 <!DOCTYPE nta PUBLIC '-//Uppaal Team//DTD Flat System 1.6//EN' 'http://www.it.uu.se/research/group/darts/uppaal/flat-1_6.dtd'>
 <nta>
 	<declaration>// System specification
-const int N = 2;        // Number of robots
+const int N = 3;        // Number of robots
 const int R = 2;        // Signal radius
 const int STEP = 1;     // Step size
 const int BETA = 2;     // Beta parameter
@@ -15,7 +15,8 @@ int x[N];                    // List of x-axis coordinates for each robot
 int y[N];                    // List of y-axis coordinates for each robot
 int x_dir[N];                // List of x-axis directions for each robot
 int y_dir[N];                // List of y-axis directions for each robot        
-int neighbours[N][N] = {{0, 1}, {1, 0}}; // List of neighbours for each robot
+// int neighbours[N][N] = {{0, 1}, {1, 0}}; // List of neighbours for each robot
+int neighbours[N][N] = {{0, 1, 1}, {1, 0, 1}, {1, 1, 0}}; // List of neighbours for each robot
 // int neighbours[N][N] = { {0, 1, 1, 1}, {1, 0, 1, 1}, {1, 1, 0, 1}, {1, 1, 1, 0}}; // List of neighbours for each robot
 int last_neighbours[N][N];   // List of previous neighbours for each robot 
 int lost_neighbours[N][N];   // List of lost neighbours : last_neighbours - neighbours
@@ -23,7 +24,8 @@ int shared_neighbours[N][N]; // List of shared neighbours with the lost neighbou
 int shared[N];               // Count of shared neighbours with the lost neighbours
 int distances[N][N];         // Integer part of mutual distances between robots (not used for connections)
 // int k[N] = {N-1, N-1, N-1, N-1};   // Number of connections for each robot
-int k[N] = {N-1, N-1};   // Number of connections for each robot
+int k[N] = {N-1, N-1, N-1};
+//int k[N] = {N-1, N-1};   // Number of connections for each robot
 int last_k[N];               // Number of last connections for each robot
 
 // Maps one of four directions into x-axis and y-axis directions
@@ -313,14 +315,14 @@ void update(int id){
 	<system>// Place template instantiations here.
 P0 = Robot(0);
 P1 = Robot(1);
-// P2 = Robot(2);
+P2 = Robot(2);
 // P3 = Robot(3);
 C0 = Clock();
 
 
 // List one or more processes to be composed into a system.
-system P0, P1, C0;
-// P2, P3,</system>
+system P0, P1, P2, C0;
+// P3,</system>
 	<queries>
 		<option key="--diagnostic" value="0"/>
 		<query>
@@ -420,6 +422,21 @@ system P0, P1, C0;
 			<result outcome="success" type="quality" timestamp="2024-11-12 12:10:27 +0100">
 				<option key="--diagnostic" value="0"/>
 			</result>
+		</query>
+		<query>
+			<formula/>
+			<comment/>
+		</query>
+		<query>
+			<formula>E&lt;&gt; exists(i : int[0, N-1]) k[i] == 0 and last_k[i] == 0</formula>
+			<comment/>
+			<result outcome="failure" type="quality" timestamp="2024-11-12 12:36:23 +0100">
+				<option key="--diagnostic" value="0"/>
+			</result>
+		</query>
+		<query>
+			<formula>E&lt;&gt; forall(i : int[0, N-1]) k[i] == 0 and last_k[i] == 0</formula>
+			<comment/>
 		</query>
 	</queries>
 </nta>
