@@ -2,7 +2,7 @@
 <!DOCTYPE nta PUBLIC '-//Uppaal Team//DTD Flat System 1.6//EN' 'http://www.it.uu.se/research/group/darts/uppaal/flat-1_6.dtd'>
 <nta>
 	<declaration>// System specification
-const int N = 4;        // Number of robots
+const int N = 2;        // Number of robots
 const int R = 2;        // Signal radius
 const int STEP = 1;     // Step size
 const int BETA = 2;     // Beta parameter
@@ -15,13 +15,15 @@ int x[N];                    // List of x-axis coordinates for each robot
 int y[N];                    // List of y-axis coordinates for each robot
 int x_dir[N];                // List of x-axis directions for each robot
 int y_dir[N];                // List of y-axis directions for each robot        
-int neighbours[N][N] = { {0, 1, 1, 1}, {1, 0, 1, 1}, {1, 1, 0, 1}, {1, 1, 1, 0}}; // List of neighbours for each robot
+int neighbours[N][N] = {{0, 1}, {1, 0}}; // List of neighbours for each robot
+// int neighbours[N][N] = { {0, 1, 1, 1}, {1, 0, 1, 1}, {1, 1, 0, 1}, {1, 1, 1, 0}}; // List of neighbours for each robot
 int last_neighbours[N][N];   // List of previous neighbours for each robot 
 int lost_neighbours[N][N];   // List of lost neighbours : last_neighbours - neighbours
 int shared_neighbours[N][N]; // List of shared neighbours with the lost neighbours
 int shared[N];               // Count of shared neighbours with the lost neighbours
 int distances[N][N];         // Integer part of mutual distances between robots (not used for connections)
-int k[N] = {N-1, N-1, N-1, N-1};   // Number of connections for each robot
+// int k[N] = {N-1, N-1, N-1, N-1};   // Number of connections for each robot
+int k[N] = {N-1, N-1};   // Number of connections for each robot
 int last_k[N];               // Number of last connections for each robot
 
 // Maps one of four directions into x-axis and y-axis directions
@@ -311,296 +313,113 @@ void update(int id){
 	<system>// Place template instantiations here.
 P0 = Robot(0);
 P1 = Robot(1);
-P2 = Robot(2);
-P3 = Robot(3);
+// P2 = Robot(2);
+// P3 = Robot(3);
 C0 = Clock();
 
 
 // List one or more processes to be composed into a system.
-system P0, P1, P2, P3, C0;
-</system>
+system P0, P1, C0;
+// P2, P3,</system>
 	<queries>
 		<option key="--diagnostic" value="0"/>
 		<query>
-			<formula>A[] not deadlock</formula>
-			<comment/>
-			<result outcome="success" type="quality" timestamp="2024-08-25 16:19:00 +0200">
-				<option key="--diagnostic" value="1"/>
-			</result>
-		</query>
-		<query>
-			<formula>E&lt;&gt; shared[0] == 2</formula>
-			<comment/>
-			<result outcome="success" type="quality" timestamp="2024-08-25 19:48:56 +0200">
+			<formula>A[] forall(i : int[0, N-1]) x[i] != G or y[i] != G</formula>
+			<comment>For all the paths, all robots will never have their x coordinate and y coordinate equal to grid boundary at the same time.</comment>
+			<result outcome="success" type="quality" timestamp="2024-11-12 12:10:20 +0100">
 				<option key="--diagnostic" value="0"/>
 			</result>
 		</query>
 		<query>
-			<formula>A[] P0.turn_random imply n_shared_neighbours[0] &lt;= BETA </formula>
-			<comment/>
-		</query>
-		<query>
-			<formula>E&lt;&gt; n_shared_neighbours[0] != 0</formula>
-			<comment/>
-			<result outcome="success" type="quality" timestamp="2024-08-23 19:45:31 +0200">
-				<option key="--diagnostic" value="2"/>
-			</result>
-		</query>
-		<query>
-			<formula>E&lt;&gt; P0.turn_random</formula>
-			<comment/>
-			<result outcome="success" type="quality" timestamp="2024-08-24 20:22:47 +0200">
-				<option key="--diagnostic" value="2"/>
-			</result>
-		</query>
-		<query>
-			<formula>E&lt;&gt; P0.turn_random &amp;&amp; k[0] &gt; last_k[0]</formula>
-			<comment>There exists a path for robot P0 where it performs random turn bot only after initial state</comment>
-			<result outcome="success" type="quality" timestamp="2024-08-24 20:09:52 +0200">
-				<option key="--diagnostic" value="2"/>
-			</result>
-		</query>
-		<query>
-			<formula>E&lt;&gt; P0.turn_180 &amp;&amp; (abs(x[0]) == G || abs(y[0]) == G)</formula>
-			<comment/>
-			<result outcome="success" type="quality" timestamp="2024-08-25 14:42:21 +0200">
-				<option key="--diagnostic" value="1"/>
-			</result>
-		</query>
-		<query>
-			<formula>E&lt;&gt; P0.forward &amp;&amp; k[0] &lt;= last_k[0] &amp;&amp; last_k[0] != 0</formula>
-			<comment/>
-			<result outcome="success" type="quality" timestamp="2024-08-28 11:29:31 +0200">
+			<formula>A[] forall(i : int[0, N-1]) abs(x[i]) &lt;= G &amp;&amp; abs(y[i]) &lt;= G</formula>
+			<comment>For all the paths, all robots stay within grid boundaries.</comment>
+			<result outcome="success" type="quality" timestamp="2024-11-12 12:10:20 +0100">
 				<option key="--diagnostic" value="0"/>
 			</result>
 		</query>
 		<query>
-			<formula>E&lt;&gt; P0.else_if</formula>
-			<comment/>
-			<result outcome="success" type="quality" timestamp="2024-08-24 20:10:00 +0200">
-				<option key="--diagnostic" value="2"/>
-			</result>
-		</query>
-		<query>
-			<formula>E&lt;&gt; P0.grid</formula>
-			<comment/>
-			<result outcome="success" type="quality" timestamp="2024-08-24 20:12:02 +0200">
-				<option key="--diagnostic" value="2"/>
-			</result>
-		</query>
-		<query>
-			<formula>E&lt;&gt; P0.turn_random</formula>
-			<comment/>
-			<result outcome="success" type="quality" timestamp="2024-08-28 10:53:36 +0200">
+			<formula>E&lt;&gt; (x[0] != 0 or y[0] != 0) and P0.turn_random</formula>
+			<comment>There exists a path for robot P0 to reach location turn_random after robot starts moving.</comment>
+			<result outcome="success" type="quality" timestamp="2024-11-12 12:10:22 +0100">
 				<option key="--diagnostic" value="0"/>
 			</result>
 		</query>
 		<query>
-			<formula>E&lt;&gt; forall(i : int[0, N-1]) x[i] == G &amp;&amp; y[i] == G</formula>
-			<comment/>
-			<result outcome="failure" type="quality" timestamp="2024-08-28 10:40:11 +0200">
+			<formula>E&lt;&gt; (x[0] != 0 or y[0] != 0) &amp;&amp; P0.turn_180</formula>
+			<comment>There exists a path for robot P0 to reach location turn_180 after initialisation.</comment>
+			<result outcome="success" type="quality" timestamp="2024-11-12 12:10:23 +0100">
 				<option key="--diagnostic" value="0"/>
 			</result>
 		</query>
 		<query>
-			<formula>A[] exists(i : int[0, N-1]) x[i] != G || y[i] != G</formula>
-			<comment/>
-			<result outcome="success" type="quality" timestamp="2024-08-28 10:40:33 +0200">
+			<formula>A[] (P0.forward and P1.forward) imply C0.n == 0</formula>
+			<comment>For all the paths, if robots P0 and P1 are in the forward locations, then the value of the synchronisation mechanism should be equal to 0.</comment>
+			<result outcome="success" type="quality" timestamp="2024-11-12 12:10:23 +0100">
 				<option key="--diagnostic" value="0"/>
 			</result>
 		</query>
 		<query>
-			<formula>E&lt;&gt; x[0] == G &amp;&amp; y[0] == G</formula>
-			<comment/>
-			<result outcome="failure" type="quality" timestamp="2024-08-24 20:22:40 +0200">
-				<option key="--diagnostic" value="2"/>
+			<formula>A[] C0.n == 1 imply (P0.forward or P1.forward)</formula>
+			<comment>For all the paths, if value of synchronisation mechanism is equal to 1, then one of the robots must be in the forward location.</comment>
+			<result outcome="success" type="quality" timestamp="2024-11-12 12:10:23 +0100">
+				<option key="--diagnostic" value="0"/>
 			</result>
 		</query>
 		<query>
-			<formula>E&lt;&gt; forall(i : int[0, N-1]) C &gt; T_MAX &amp;&amp; k[i] == 0 &amp;&amp; last_k[i] == 0</formula>
-			<comment/>
-			<result outcome="success" type="quality" timestamp="2024-08-28 14:42:25 +0200">
+			<formula>A[] C0.n == N imply not (P0.forward or P1.forward)</formula>
+			<comment>For all the paths, if value of synchronisation mechanism is equal to the number of robots, there can't be any robot in the forward location.</comment>
+			<result outcome="success" type="quality" timestamp="2024-11-12 12:10:24 +0100">
 				<option key="--diagnostic" value="0"/>
 			</result>
 		</query>
 		<query>
 			<formula>E&lt;&gt; P0.turn_180 &amp;&amp; abs(x[0]) != G &amp;&amp; abs(y[0]) != G</formula>
-			<comment/>
-			<result outcome="success" type="quality" timestamp="2024-08-28 10:58:38 +0200">
+			<comment>There exist a path for robot P0 to reach location turn_180 without reaching the boundary of the grid.</comment>
+			<result outcome="success" type="quality" timestamp="2024-11-12 12:10:24 +0100">
 				<option key="--diagnostic" value="0"/>
 			</result>
 		</query>
 		<query>
-			<formula>E&lt;&gt; P0.turn_random &amp;&amp; (x[0] != 0 || y[0] != 0)</formula>
-			<comment/>
-			<result outcome="success" type="quality" timestamp="2024-08-24 20:11:22 +0200">
-				<option key="--diagnostic" value="2"/>
-			</result>
-		</query>
-		<query>
-			<formula>E&lt;&gt; C &gt; T_MAX &amp;&amp; P0.turn_random</formula>
-			<comment/>
-			<result outcome="success" type="quality" timestamp="2024-08-24 20:40:22 +0200">
-				<option key="--diagnostic" value="1"/>
-			</result>
-		</query>
-		<query>
-			<formula>E&lt;&gt; special_case(0)</formula>
-			<comment/>
-			<result outcome="success" type="quality" timestamp="2024-08-25 21:24:46 +0200">
+			<formula>E&lt;&gt; P0.turn_180 &amp;&amp; (abs(x[0]) == G || abs(y[0]) == G)</formula>
+			<comment>There exists a path for robot P0 to reach location turn_180 as a result of reaching the boundary of the grid.</comment>
+			<result outcome="success" type="quality" timestamp="2024-11-12 12:10:25 +0100">
 				<option key="--diagnostic" value="0"/>
 			</result>
 		</query>
 		<query>
-			<formula>A[] P0.turn_random imply P1.forward or P1.initial</formula>
-			<comment/>
-		</query>
-		<query>
-			<formula>A[] C &gt; T_MAX imply not P0.initial</formula>
-			<comment/>
-		</query>
-		<query>
-			<formula>A[] P0.initial imply C &lt;= 5</formula>
-			<comment/>
-		</query>
-		<query>
-			<formula>A[] forall(i : int[0, N-1]) C &gt; T_MAX imply x_dir[i] != 0 or y_dir[i] != 0</formula>
-			<comment>All robots have </comment>
-			<result outcome="success" type="quality" timestamp="2024-08-24 20:42:15 +0200">
-				<option key="--diagnostic" value="1"/>
-			</result>
-		</query>
-		<query>
-			<formula>A[] forall(i : int[0, N-1]) (C &gt; T_MAX &amp;&amp; C &lt;= 2*T_MAX) imply (k[i] != 0 || last_k[i] != 0)</formula>
-			<comment/>
-			<result outcome="failure" type="quality" timestamp="2024-08-24 20:42:18 +0200">
-				<option key="--diagnostic" value="1"/>
-			</result>
-		</query>
-		<query>
-			<formula>A[] forall(i : int[0, N-1]) (x[i] != 0 || y[i] != 0) imply (k[i] != 0 or last_k[i] != 0)</formula>
-			<comment/>
-			<result outcome="failure" type="quality" timestamp="2024-08-24 20:42:24 +0200">
-				<option key="--diagnostic" value="1"/>
-			</result>
-		</query>
-		<query>
-			<formula>A[] forall(i : int[0, N-1]) C &gt; T_MAX imply k[i] &gt;= BETA or last_k[i] &gt;= BETA</formula>
-			<comment/>
-			<result outcome="failure" type="quality" timestamp="2024-08-24 20:42:25 +0200">
-				<option key="--diagnostic" value="1"/>
-			</result>
-		</query>
-		<query>
-			<formula>A[] forall(i : int[0, N-1]) last_k[i] == 0 and C &gt; T_MAX imply k[i] != 0</formula>
-			<comment/>
-			<result outcome="failure" type="quality" timestamp="2024-08-24 20:42:26 +0200">
-				<option key="--diagnostic" value="1"/>
-			</result>
-		</query>
-		<query>
-			<formula>A[] forall(i : int[0, N-1]) k[i] != 0 || last_k[i] != 0</formula>
-			<comment/>
-			<result outcome="failure" type="quality" timestamp="2024-08-24 20:42:26 +0200">
-				<option key="--diagnostic" value="1"/>
-			</result>
-		</query>
-		<query>
-			<formula>A[] forall(i : int[0, N-1]) abs(x[i]) &lt;= G &amp;&amp; abs(y[i]) &lt;= G</formula>
-			<comment/>
-			<result outcome="success" type="quality" timestamp="2024-08-24 20:43:17 +0200">
-				<option key="--diagnostic" value="1"/>
-			</result>
-		</query>
-		<query>
-			<formula>A[] forall(i : int[0, N-1]) abs(x[i]) &lt;= STEP and abs(y[i]) &lt;= STEP</formula>
-			<comment/>
-			<result outcome="failure" type="quality" timestamp="2024-08-24 20:42:31 +0200">
-				<option key="--diagnostic" value="1"/>
-			</result>
-		</query>
-		<query>
-			<formula>E&lt;&gt; C &gt; 0 &amp;&amp; P0.turn_random</formula>
-			<comment/>
-			<result outcome="success" type="quality" timestamp="2024-08-25 20:40:40 +0200">
+			<formula>E&lt;&gt; P0.forward &amp;&amp; k[0] &lt;= last_k[0]</formula>
+			<comment>There exist a path for robot P0 where it moves forward without changing direction.</comment>
+			<result outcome="success" type="quality" timestamp="2024-11-12 12:10:26 +0100">
 				<option key="--diagnostic" value="0"/>
 			</result>
 		</query>
 		<query>
-			<formula>P0.turn_180 --&gt; k[0] != 0</formula>
-			<comment/>
-			<result outcome="failure" type="quality" timestamp="2024-08-28 12:54:11 +0200">
+			<formula>A[] P0.turn_180 imply (P1.forward or P1.grid)</formula>
+			<comment>For all the paths, if robot P0 is in the turn_180 location, then robot P1 must be in either forward or grid location.</comment>
+			<result outcome="success" type="quality" timestamp="2024-11-12 12:10:26 +0100">
 				<option key="--diagnostic" value="0"/>
 			</result>
 		</query>
 		<query>
-			<formula>E&lt;&gt; forall(i : int[0, N-1]) k[i] != 0</formula>
-			<comment/>
-		</query>
-		<query>
-			<formula>A&lt;&gt; forall(i : int[0, N-1]) k[i] != 0</formula>
-			<comment/>
-		</query>
-		<query>
-			<formula>A&lt;&gt; forall(i : int[0, N-1]) k[i] != 0</formula>
-			<comment/>
-			<result outcome="failure" type="quality" timestamp="2024-08-28 13:39:24 +0200">
+			<formula>A[] forall(i : int[0, N-1]) shared_neighbours[i][0] == 0 and shared_neighbours[i][1] == 0</formula>
+			<comment>For all the paths, all robots have no shared neighbours.</comment>
+			<result outcome="success" type="quality" timestamp="2024-11-12 12:10:26 +0100">
 				<option key="--diagnostic" value="0"/>
 			</result>
 		</query>
 		<query>
-			<formula>E&lt;&gt; C &gt; T_MAX &amp;&amp; k[0] != 0</formula>
-			<comment/>
-		</query>
-		<query>
-			<formula>(C &gt; T_MAX &amp;&amp; k[0] == 0) --&gt; k[0] != 0</formula>
-			<comment/>
-			<result outcome="failure" type="quality" timestamp="2024-08-28 13:46:41 +0200">
+			<formula>A[] forall(i : int[0, N-1]) (x_dir[i] == 0 and y_dir[i] == 0) imply k[i] == N-1</formula>
+			<comment>For all paths, if all robots have no set direction, then they must be fully connected.</comment>
+			<result outcome="success" type="quality" timestamp="2024-11-12 12:10:27 +0100">
 				<option key="--diagnostic" value="0"/>
 			</result>
 		</query>
 		<query>
-			<formula>E&lt;&gt; forall(i : int[0, N-1]) k[i] == N-1 &amp;&amp; C &gt; T_MAX</formula>
-			<comment/>
-			<result outcome="success" type="quality" timestamp="2024-08-28 15:04:43 +0200">
+			<formula>A[] not deadlock</formula>
+			<comment>There is no path which results in deadlock.</comment>
+			<result outcome="success" type="quality" timestamp="2024-11-12 12:10:27 +0100">
 				<option key="--diagnostic" value="0"/>
 			</result>
-		</query>
-		<query>
-			<formula>E&lt;&gt; forall(i : int[0, N-1]) k[i] == 0 &amp;&amp; last_k[i] == N-1 &amp;&amp; C &gt; T_MAX</formula>
-			<comment/>
-			<result outcome="success" type="quality" timestamp="2024-08-28 15:07:18 +0200">
-				<option key="--diagnostic" value="0"/>
-			</result>
-		</query>
-		<query>
-			<formula>forall(i : int[0, N-1]) last_k[i] == N-1 &amp;&amp; C &gt; T_MAX &amp;&amp; (x[i] != 0 || y[i] != 0) --&gt; exists(i : int[0, N-1]) k[i] == 0</formula>
-			<comment/>
-			<result outcome="failure" type="quality" timestamp="2024-08-28 15:14:26 +0200">
-				<option key="--diagnostic" value="0"/>
-			</result>
-		</query>
-		<query>
-			<formula>E&lt;&gt; forall(i : int[0, N-1]) k[i] == N-1 &amp;&amp; last_k[i] == N-1 &amp;&amp; C &gt; T_MAX</formula>
-			<comment/>
-			<result outcome="success" type="quality" timestamp="2024-08-28 15:16:35 +0200">
-				<option key="--diagnostic" value="0"/>
-			</result>
-		</query>
-		<query>
-			<formula>forall(i : int[0, N-1]) k[i] == N-1 &amp;&amp; C &gt; T_MAX --&gt; k[0] + k[1] + k[2] &gt; 0</formula>
-			<comment/>
-		</query>
-		<query>
-			<formula>E&lt;&gt; forall(i : int[0, N-1]) k[i] == 0 and last_k[i] == 0</formula>
-			<comment/>
-			<result outcome="failure" type="quality" timestamp="2024-10-22 16:09:51 +0200">
-				<option key="--diagnostic" value="0"/>
-			</result>
-		</query>
-		<query>
-			<formula>A[] forall(i : int[0, N-1]) k[i] != 0 or last_k[i] != 0</formula>
-			<comment/>
 		</query>
 	</queries>
 </nta>
