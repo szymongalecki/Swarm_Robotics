@@ -1,19 +1,16 @@
 \section{Methods}
-
-
+This section explains how we model swarm behaviors. First, we introduce a taxonomy of swarm behaviors and categorize the Beta algorithm within it. Next, we present the Beta algorithm, including its basic assumptions and design motivations. We then explain the modeling of connections and movement, describing all imposed limitations. We also identify the smallest set of variables required to model the swarm implementing the Beta algorithm. Finally, we introduce a timed automaton for the Beta algorithm, describing its main variables, states, and transitions to show how the algorithm operates.
 
 \subsection{Aggregation}
 We will use Manuele Brambilla's \cite{Brambilla2013} taxonomy of collective swarm behaviors, in Figure \ref{fig:taxonomy}, to show the context for the modeled aggregation behavior. Behaviors categorized as spatially-organizing distribute robots and objects in space. These behaviors serve as fundamental building blocks for more advanced swarm behaviors, as they enable robots to connect, communicate, and interact with one another. Aggregation, the simplest of collective behaviors, groups all robots of a swarm in a region of the environment. If we assume that the robots' environment is unbounded we will have two design choices. The aggregation algorithm will either have to allow a robot to reconnect with the group or never let it disconnect from it. The first approach involves access to external information about the position of the swarm e.g. robot coordinates. The second approach relies on robots being initially connected.
 
 % Taxonomy
-\begin{figure}[H]
+\begin{figure}[]
 \caption{Taxonomy of collective swarm behaviours \cite{Brambilla2013}}
 \includegraphics[width=\textwidth]{images/taxonomy.png}
 \label{fig:taxonomy}
 \end{figure}
 
-
-\newpage
 \subsection{Beta Algorithm}
 The Beta algorithm is a robot swarm aggregation algorithm introduced by Julien Nembrini \cite{Nembrini2002}. It is his next iteration of the aggregation algorithm that relies on situated communication. Robots do not have information on their environment and the exact location of other robots. They are connected if they are within communication distance of the physical signal they are using. In the previous approach of the Alpha algorithm, robot movement was determined by the number of connections to other robots. In the Beta algorithm, a robot uses information about its connections as well as about connections of its connections. We will call robots that are directly connected neighbors. When losing a connection, robot will consider how many of its neighbors, are connected to the disconnected robot. If the number of neighbors that are connected to that robot is equal to or lower than the beta parameter, the robot will turn back in an attempt to reconnect. This prevents a situation previously observed in the Alpha algorithm where a single robot could disconnect from the swarm without triggering its reaction as the remaining robots would have a satisfactory number of connections. In the event of high swarm congestion, a robot will choose a random direction. Each robot keeps a list of currently and previously connected robots. Every robot can access its neighbors` current list of connections. The underlying assumption is that connected robots can exchange information. Additionally, a robot does not need to be aware of its direction. As long as it can perform a 180-degree turn and a random turn, it can move. Although the robots are unaware of their positions and environment, the algorithm will prevent them from disconnecting.
 
@@ -66,7 +63,7 @@ loop forever {
 
 \subsection{Movement}
 From the pseudocode and textual description of the Beta algorithm, we know that a robot must be able to move forward, turn 180 degrees, and make a random turn. We assume that a random turn is a turn by a random number of degrees. As the robots in a swarm should be uniform, we assume they move forward by a unit step. Because we will be focusing on verification there is a need to make some arbitrary decisions that limit the state space. We aim for limitations that will not fundamentally change the algorithm itself. The first thing to be limited is the choice of the direction a robot can move. We will limit the choice to four directions, namely, up, down, left, and right. To preserve the randomness of the turn, one of four directions is chosen at random. We assume that our source of randomness produces uniformly distributed results making all directions equally likely to draw. This means that after a random turn, there is a 75\% chance of changing direction and a 25\% chance of maintaining a current one. 
-
+\noindent
 The next arbitrary decision we must make to limit the state space for verification purposes is to introduce boundaries in the environment. Robots move in four directions, a unit step at a time. The environment is a grid with points that can be occupied by robots. As the chances of movement in each direction are equal, the shape of the environment should reflect that and be a square. Whether we make a robot turn around when reaching the boundary or introduce a wrap-around mechanism, we want the influence of the boundary to be reflected equally in both horizontal and vertical directions. In our case, a robot reaching the boundary of the environment will turn 180 degrees. Our approach is suitable for modeling two-dimensional environments. The wrap-around mechanism would be more suitable if the robots were to operate on the sphere. In such a case it could be expected for two robots moving away from each other to connect. This is not the expected behavior in a two-dimensional environment.
 
 The last simplification is made to prevent further algorithm modification. The algorithm assumes that robots are unaware of other robots' positions. A robot knows whether it is connected to the other robot but is not aware of its own or its neighbor's coordinates. As the robots can occupy a limited number of points in the bounded environment, there might occur a situation where two robots occupy the same space. We accept that situation for the following reasons. Implementing the collision-avoiding mechanism would lead to significant changes in the algorithm. Our goal is verification of the algorithm so we would like to introduce as few changes as possible. Additionally, it would be hard to estimate the influence of the collision-avoiding mechanism on the algorithm's effectiveness. Lastly, this simplification is acceptable if we assume that robots can be positioned very close to each other.
@@ -86,7 +83,8 @@ To describe a robot swarm implementing the Beta algorithm we must define the min
 
 \subsection{Automaton}
 In this subsection, we will present how the pseudo-code for the Beta algorithm in Figure \ref{fig:pseudocode} was transformed into a timed automaton in Figure \ref{fig:automaton}. The resulting automaton does not consider limitations imposed on the robots' environment but is an accurate mapping of the original algorithm. Variables and states of the automaton will be introduced, along with their connection to the algorithm's source.
-\\\\
+\newpage
+\noindent
 Pseudocode variables that represent the state of a robot:\\
 \texttt{i} - loop iterator;\\
 \texttt{cadence} - parameter that controls the frequency of robot operation;\\

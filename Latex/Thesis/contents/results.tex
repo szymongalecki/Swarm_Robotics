@@ -1,49 +1,59 @@
 \section{Results}
 \subsection{Verifying implementation}
+In this section we will present verification results for implementation and the Beta algorithm for two modes of concurrency. The first mode of concurrency is asynchrony which is the intended mode for the Beta algorithm. The second implementation is synchronised to verify the influence of the concurrency mode on algorithm effectiveness. In the asynchronous case, presented in Figure \ref{fig:implementation}, robots can move at different rates. Each robot is forced to move from \texttt{forward} location after \texttt{T\_MAX} amount of time but can also transition sooner. In the synchronised implementation, presented in Figures \ref{fig:implementation_synchronised} and \ref{fig:implementation_synchronised_barrier}, all robots are forced to move at the same time. By verifying algorithm specific properties we will show the influence of the mode of concurrency on algorithm effectiveness in maintaining swarm coherence.
 
 % System specification
 \begin{figure}[H]
-\caption{System specification for properties in Figure \ref{fig:properties_2_robots}}
-\label{fig:system_2_robots}
+\caption{System specification for asynchronous implementation}
+\label{fig:implementation_asynchronous_system}
 \begin{lstlisting}[style=code]
-const int N = 2;
-const int R = 2;
-const int STEP = 1;
-const int BETA = 1;
-const int G = 3;
-const int T_MAX = 1;
-\end{lstlisting}    
+N = 2;      // Number of robots
+R = 1;      // Signal radius
+STEP = 1;   // Step size
+BETA = 1;   // Beta parameter
+G = 3;      // Grid boundary
+T_MAX = 1;  // Time threshold
+\end{lstlisting}
 \end{figure}
 
+% Properties
 \begin{figure}[H]
-\caption{Succesfully verified properties}
-\label{fig:properties_2_robots}
+\caption{Successfully verified properties for synchronous implementation}
+\label{fig:implementation_asynchronous_properties}
 \begin{lstlisting}[style=code]
-1. A[] not deadlock
-2. A[] forall(i : int[0, N-1]) C > 0 imply x_dir[i] != 0 or y_dir[i] != 0
-3. A[] exists(i : int[0, N-1]) x[i] != G || y[i] != G
-4. A[] forall(i : int[0, N-1]) abs(x[i]) <= G && abs(y[i]) <= G
-5. E<> P0.turn_180 && abs(x[0]) != G && abs(y[0]) != G
-6. E<> P0.turn_180 && (abs(x[0]) == G || abs(y[0]) == G)
-7. E<> C > 0 && P0.turn_random
-8. E<> P0.forward && k[0] <= last_k[0] && last_k[0] != 0
-9. E<> forall(i : int[0, N-1]) C > T_MAX && k[i] == 0 && last_k[i] == 0
+1. A[] forall(i : int[0, N-1]) x[i] != G or y[i] != G
+2. A[] forall(i : int[0, N-1]) abs(x[i]) <= G && abs(y[i]) <= G
+3. E<> C > 0 && P0.turn_random
+4. E<> C > 0 && P0.turn_180
+5. A[] P0.forward imply P0.t <= T_MAX
+6. E<> P0.turn_180 && abs(x[0]) != G && abs(y[0]) != G 
+7. E<> P0.turn_180 && (abs(x[0]) == G || abs(y[0]) == G)
+8. E<> P0.forward && k[0] <= last_k[0]
+9. A[] P0.t != 0 imply P0.forward
+10. A[] (P0.turn_random or P0.turn_180 or P0.grid or P0.grid or P0.if or P0.else_if) imply P0.t == 0
+11. A[] forall(i : int[0, N-1]) shared_neighbours[i][0] == 0 and shared_neighbours[i][1] == 0
+12. A[] forall(i : int[0, N-1]) C < 0 imply k[i] == N-1
+13. A[] forall(i : int[0, N-1]) C > 0 imply x_dir[i] != 0 or y_dir[i] != 0
+14. A[] not deadlock
 \end{lstlisting}    
 \end{figure}
 
 \noindent
-Explanation of properties:\\
-1. There is no state of the system where there are no available transitions.\\
-2. After initialisation, all robots have set direction.\\
-3. It is not possible for any robot to reach the corner of the grid.\\
-4. All robots will always stay inside the grid boundaries.\\
-5. There exists a path for the system where a robot will do a 180 degree turn without reaching the boundary of the grid. This means that transition from location \texttt{if} to \texttt{turn\_180} is taken.\\
-6. There exists a path for the system where a robot will do a 180 degree turn as a consequence of reaching the boundary of the grid. This means that transition from location \texttt{grid} to \texttt{turn\_180} is taken.\\
-7. There exists a path for the system where a robot will reach the \texttt{turn\_random} location after initialisation.\\
-8. There exists a path for the system where a robot will make the transition from location \texttt{else\_if} to \texttt{forward}.\\
-9. There exists a path for the system where all robots get disconnected after having moved forward for more than two steps each.\\
-
-
+Explanation of properties from Figure \ref{fig:implementation_asynchronous_properties}:\\
+1. For all the paths through the system, no robot can have their x and y coordinate equal to the grid boundary at the same time. No robot will ever reach the corner of the grid.\\
+2. For all the paths through the system, all robots will stay within grid boundaries.\\
+3. There exists a path through the system, for a robot to reach location \texttt{turn\_random} after initialization. This means that following locations are reachable: \texttt{forward}, \texttt{grid}, \texttt{if}, \texttt{else\_if}. It also means that following transitions are reachable: \texttt{turn\_random} $\rightarrow$ \texttt{forward}, \texttt{forward}n $\rightarrow$ \texttt{grid}, \texttt{grid} $\rightarrow$ \texttt{if}, \texttt{if} $\rightarrow$ \texttt{else\_if}, \texttt{else\_if} $\rightarrow$ \texttt{turn\_random}.\\ 
+4. There exists a path through the system, for a robot to reach location \texttt{turn\_180} after initialization.\\
+5. For all the paths through the system, a robot will obey the invariant on location \texttt{forward}.\\
+6. There exist a path through the system, for a robot to reach location \texttt{turn\_180} without reaching the boundary of the grid. This means that transition from \texttt{if} to \texttt{turn\_180} is reachable.\\
+7. There exist a path through the system, for a robot to reach location \texttt{turn\_180} as a result of reaching the boundary of the grid. This means that transition from \texttt{grid} to \texttt{turn\_180} is reachable.\\
+8. THIS PROPERTY MIGHT NOT BE STRONG ENOUGH.\\
+9. For all the paths through the system, robot's clock value different than zero implies it being in the \texttt{forward} location. This means that time perceived by the robot is only allowed to pass in the \texttt{forward} location.\\
+10. For all the paths through the system, a robot presence in the listed location imply that its clock value is equal to zero. For the robot, time will not pass in any other location than forward.\\
+11. For all the paths thorugh the system, two robots will not share a neighbor. This is a consequence of a fact that in the system consisting of two robots, they cannot have a neighbor in common.\\
+12. For all paths through the system, all robots are fully connected as part of system initialization.\\
+13. For all paths through the system, all robots have their directions set after system initialization.\\
+14. There is no path through the system, which will results in deadlock.\\
 
 
 

@@ -415,14 +415,21 @@ system P0, P1, P2;
 		<query>
 			<formula>E&lt;&gt; exists(i : int[0, N-1]) k[i] == 0 and last_k[i] == 0</formula>
 			<comment>There exists a path for robot P0 where it gets disconnected for at least two steps.</comment>
-			<result outcome="success" type="quality" timestamp="2024-11-12 12:29:45 +0100">
+			<result outcome="success" type="quality" timestamp="2024-11-17 20:45:04 +0100">
 				<option key="--diagnostic" value="1"/>
 			</result>
 		</query>
 		<query>
 			<formula>E&lt;&gt; forall(i : int[0, N-1]) k[i] == 0 and last_k[i] == 0</formula>
 			<comment>There exists a path where all robots in the system get dcisonnected for at least two steps.</comment>
-			<result outcome="success" type="quality" timestamp="2024-11-12 12:24:40 +0100">
+			<result outcome="success" type="quality" timestamp="2024-11-17 21:46:38 +0100">
+				<option key="--diagnostic" value="1"/>
+			</result>
+		</query>
+		<query>
+			<formula>A[] exists(i : int[0, N-1]) C &lt; 3 * T_MAX imply (k[i] != 0 or last_k[i] != 0)</formula>
+			<comment/>
+			<result outcome="failure" type="quality" timestamp="2024-11-17 17:08:29 +0100">
 				<option key="--diagnostic" value="1"/>
 			</result>
 		</query>
