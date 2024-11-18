@@ -2,7 +2,7 @@
 <!DOCTYPE nta PUBLIC '-//Uppaal Team//DTD Flat System 1.6//EN' 'http://www.it.uu.se/research/group/darts/uppaal/flat-1_6.dtd'>
 <nta>
 	<declaration>// System specification
-const int N = 3;        // Number of robots
+const int N = 2;        // Number of robots
 const int R = 1;        // Signal radius
 const int STEP = 1;     // Step size
 const int BETA = 1;     // Beta parameter
@@ -15,15 +15,15 @@ int x[N];                    // List of x-axis coordinates for each robot
 int y[N];                    // List of y-axis coordinates for each robot
 int x_dir[N];                // List of x-axis directions for each robot
 int y_dir[N];                // List of y-axis directions for each robot
-int neighbours[N][N] = {{0, 1, 1}, {1, 0, 1}, {1, 1, 0}}; // List of neighbours for each robot
-// int neighbours[N][N] = {{0, 1}, {1, 0}}; // List of neighbours for each robot
+// int neighbours[N][N] = {{0, 1, 1}, {1, 0, 1}, {1, 1, 0}}; // List of neighbours for each robot
+int neighbours[N][N] = {{0, 1}, {1, 0}}; // List of neighbours for each robot
 int last_neighbours[N][N];   // List of previous neighbours for each robot 
 int lost_neighbours[N][N];   // List of lost neighbours : last_neighbours - neighbours
 int shared_neighbours[N][N]; // List of shared neighbours with the lost neighbours
 int shared[N];               // Count of shared neighbours with the lost neighbours
 int distances[N][N];         // Integer part of mutual distances between robots (not used for connections)
-int k[N] = {N-1, N-1, N-1};   // Number of connections for each robot
-// int k[N] = {N-1, N-1};   // Number of connections for each robot
+// int k[N] = {N-1, N-1, N-1};   // Number of connections for each robot
+int k[N] = {N-1, N-1};   // Number of connections for each robot
 int last_k[N];               // Number of last connections for each robot
 
 // Function specifying the desired system state which can be used for verification
@@ -297,106 +297,97 @@ t = 0</label>
 	<system>// Place template instantiations here.
 P0 = Robot(0);
 P1 = Robot(1);
-P2 = Robot(2);
+//P2 = Robot(2);
 //P3 = Robot(3);
 //P4 = Robot(4);
  
 
 // List one or more processes to be composed into a system.
-system P0, P1, P2;
-// P3;
-//P4;
+system P0, P1;
 </system>
 	<queries>
 		<option key="--diagnostic" value="1"/>
 		<query>
 			<formula>A[] forall(i : int[0, N-1]) x[i] != G or y[i] != G</formula>
 			<comment>There is no path for any robot that leads to the corner of the grid.</comment>
-			<result outcome="success" type="quality" timestamp="2024-11-11 16:20:23 +0100">
-				<option key="--diagnostic" value="0"/>
+			<result outcome="success" type="quality" timestamp="2024-11-18 12:03:43 +0100">
+				<option key="--diagnostic" value="1"/>
 			</result>
 		</query>
 		<query>
 			<formula>A[] forall(i : int[0, N-1]) abs(x[i]) &lt;= G &amp;&amp; abs(y[i]) &lt;= G</formula>
 			<comment>For all the paths, all robots stay within grid boundaries.</comment>
-			<result outcome="success" type="quality" timestamp="2024-11-11 16:23:23 +0100">
-				<option key="--diagnostic" value="0"/>
+			<result outcome="success" type="quality" timestamp="2024-11-18 12:03:46 +0100">
+				<option key="--diagnostic" value="1"/>
 			</result>
 		</query>
 		<query>
 			<formula>E&lt;&gt; C &gt; 0 and P0.turn_random</formula>
 			<comment>There exists a path for robot P0 to reach location turn_random after initialisation.</comment>
-			<result outcome="success" type="quality" timestamp="2024-11-11 16:26:24 +0100">
-				<option key="--diagnostic" value="0"/>
+			<result outcome="success" type="quality" timestamp="2024-11-18 12:03:48 +0100">
+				<option key="--diagnostic" value="1"/>
 			</result>
 		</query>
 		<query>
 			<formula>E&lt;&gt; C &gt; 0 and P0.turn_180</formula>
 			<comment>There exists a path for robot P0 to reach location turn_180 after initialisation.</comment>
-			<result outcome="success" type="quality" timestamp="2024-11-11 16:28:59 +0100">
-				<option key="--diagnostic" value="0"/>
+			<result outcome="success" type="quality" timestamp="2024-11-18 12:03:48 +0100">
+				<option key="--diagnostic" value="1"/>
 			</result>
 		</query>
 		<query>
 			<formula>A[] P0.forward imply P0.t &lt;= T_MAX</formula>
 			<comment>For all the paths, robot P0 will obey the invariant on location forward.</comment>
-			<result outcome="success" type="quality" timestamp="2024-11-11 16:35:55 +0100">
-				<option key="--diagnostic" value="0"/>
+			<result outcome="success" type="quality" timestamp="2024-11-18 12:03:51 +0100">
+				<option key="--diagnostic" value="1"/>
 			</result>
 		</query>
 		<query>
-			<formula>E&lt;&gt; P0.turn_180 &amp;&amp; abs(x[0]) != G &amp;&amp; abs(y[0]) != G</formula>
+			<formula>E&lt;&gt; P0.turn_180 &amp;&amp; not gridBoundary(0)</formula>
 			<comment>There exist a path for robot P0 to reach location turn_180 without reaching the boundary of the grid.</comment>
-			<result outcome="success" type="quality" timestamp="2024-11-11 16:42:32 +0100">
-				<option key="--diagnostic" value="0"/>
+			<result outcome="success" type="quality" timestamp="2024-11-18 12:03:51 +0100">
+				<option key="--diagnostic" value="1"/>
 			</result>
 		</query>
 		<query>
-			<formula>E&lt;&gt; P0.turn_180 &amp;&amp; (abs(x[0]) == G || abs(y[0]) == G)</formula>
+			<formula>E&lt;&gt; P0.turn_180 &amp;&amp; gridBoundary(0)</formula>
 			<comment>There exists a path for robot P0 to reach location turn_180 as a result of reaching the boundary of the grid.</comment>
-			<result outcome="success" type="quality" timestamp="2024-11-11 16:40:57 +0100">
-				<option key="--diagnostic" value="0"/>
+			<result outcome="success" type="quality" timestamp="2024-11-18 12:03:52 +0100">
+				<option key="--diagnostic" value="1"/>
 			</result>
 		</query>
 		<query>
-			<formula>E&lt;&gt; P0.forward &amp;&amp; k[0] &lt;= last_k[0]</formula>
+			<formula>E&lt;&gt; P0.forward &amp;&amp; not turnRandom(0) &amp;&amp; not turn180(0)</formula>
 			<comment>There exist a path for robot P0 where it moves forward without changing direction.</comment>
-			<result outcome="success" type="quality" timestamp="2024-11-11 16:43:19 +0100">
-				<option key="--diagnostic" value="0"/>
-			</result>
-		</query>
-		<query>
-			<formula>A[] not deadlock</formula>
-			<comment>All path of the system are free from deadlock.</comment>
-			<result outcome="success" type="quality" timestamp="2024-11-11 16:54:43 +0100">
-				<option key="--diagnostic" value="0"/>
+			<result outcome="success" type="quality" timestamp="2024-11-18 12:03:52 +0100">
+				<option key="--diagnostic" value="1"/>
 			</result>
 		</query>
 		<query>
 			<formula>A[] P0.t != 0 imply P0.forward</formula>
 			<comment>For all the paths, robot P0 will have its clock value different than zero only in the forward state.</comment>
-			<result outcome="success" type="quality" timestamp="2024-11-11 17:03:40 +0100">
-				<option key="--diagnostic" value="0"/>
+			<result outcome="success" type="quality" timestamp="2024-11-18 12:03:55 +0100">
+				<option key="--diagnostic" value="1"/>
 			</result>
 		</query>
 		<query>
 			<formula>A[] (P0.turn_random or P0.turn_180 or P0.grid or P0.grid or P0.if or P0.else_if) imply P0.t == 0</formula>
 			<comment>For all the paths, robot P0 will have its clock value equal to zero in the listed locations.</comment>
-			<result outcome="success" type="quality" timestamp="2024-11-11 17:26:23 +0100">
-				<option key="--diagnostic" value="0"/>
+			<result outcome="success" type="quality" timestamp="2024-11-18 12:03:57 +0100">
+				<option key="--diagnostic" value="1"/>
 			</result>
 		</query>
 		<query>
 			<formula>A[] forall(i : int[0, N-1]) shared_neighbours[i][0] == 0 and shared_neighbours[i][1] == 0</formula>
 			<comment>For all the paths, all robots have no shared neighbours. Two robots cannot have a neighbour in common.</comment>
-			<result outcome="success" type="quality" timestamp="2024-11-11 17:28:55 +0100">
-				<option key="--diagnostic" value="0"/>
+			<result outcome="success" type="quality" timestamp="2024-11-18 12:04:00 +0100">
+				<option key="--diagnostic" value="1"/>
 			</result>
 		</query>
 		<query>
 			<formula>A[] forall(i : int[0, N-1]) C &lt; 0 imply k[i] == N-1</formula>
 			<comment>For all paths, all robots with no set direction are fully connected as part of initialisation.</comment>
-			<result outcome="success" type="quality" timestamp="2024-11-11 17:46:22 +0100">
+			<result outcome="success" type="quality" timestamp="2024-11-18 12:04:02 +0100">
 				<option key="--diagnostic" value="1"/>
 			</result>
 		</query>
@@ -404,8 +395,15 @@ system P0, P1, P2;
 			<formula>A[] forall(i : int[0, N-1]) C &gt; 0 imply x_dir[i] != 0 or y_dir[i] != 0</formula>
 			<comment>For all paths, all robots have set direction after initialisation.
 </comment>
-			<result outcome="success" type="quality" timestamp="2024-11-11 17:35:48 +0100">
-				<option key="--diagnostic" value="0"/>
+			<result outcome="success" type="quality" timestamp="2024-11-18 12:04:05 +0100">
+				<option key="--diagnostic" value="1"/>
+			</result>
+		</query>
+		<query>
+			<formula>A[] not deadlock</formula>
+			<comment>All path of the system are free from deadlock.</comment>
+			<result outcome="success" type="quality" timestamp="2024-11-18 12:04:12 +0100">
+				<option key="--diagnostic" value="1"/>
 			</result>
 		</query>
 		<query>
@@ -430,6 +428,20 @@ system P0, P1, P2;
 			<formula>A[] exists(i : int[0, N-1]) C &lt; 3 * T_MAX imply (k[i] != 0 or last_k[i] != 0)</formula>
 			<comment/>
 			<result outcome="failure" type="quality" timestamp="2024-11-17 17:08:29 +0100">
+				<option key="--diagnostic" value="1"/>
+			</result>
+		</query>
+		<query>
+			<formula>A[] exists(i : int[0, N-1]) C &lt; 2 * T_MAX imply (k[i] != 0 or last_k[i] != 0)</formula>
+			<comment/>
+			<result outcome="failure" type="quality" timestamp="2024-11-18 11:50:18 +0100">
+				<option key="--diagnostic" value="1"/>
+			</result>
+		</query>
+		<query>
+			<formula>A[] exists(i : int[0, N-1]) C &lt; T_MAX imply (k[i] != 0 or last_k[i] != 0)</formula>
+			<comment/>
+			<result outcome="failure" type="quality" timestamp="2024-11-18 11:59:09 +0100">
 				<option key="--diagnostic" value="1"/>
 			</result>
 		</query>
