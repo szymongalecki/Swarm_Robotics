@@ -1,7 +1,9 @@
 \section{Results}
-\subsection{Verifying implementation}
-In this section we will present verification results for implementation and the Beta algorithm for two modes of concurrency. The first mode of concurrency is asynchrony which is the intended mode for the Beta algorithm. The second implementation is synchronised to verify the influence of the concurrency mode on algorithm effectiveness. In the asynchronous case, presented in Figure \ref{fig:implementation}, robots can move at different rates. Each robot is forced to move from \texttt{forward} location after \texttt{T\_MAX} amount of time but can also transition sooner. In the synchronised implementation, presented in Figures \ref{fig:implementation_synchronised} and \ref{fig:implementation_synchronised_barrier}, all robots are forced to move at the same time. By verifying algorithm specific properties we will show the influence of the mode of concurrency on algorithm effectiveness in maintaining swarm coherence.
+In this section we will present verification results for implementation and the Beta algorithm for two modes of concurrency. The first mode of concurrency is asynchrony which is the intended mode for the Beta algorithm. The second implementation is synchronized to investigate the influence of the concurrency mode on algorithm properties. In the asynchronous case, presented in Figure \ref{fig:implementation}, robots can move at different rates. Each robot is forced to move from \texttt{forward} location after \texttt{T\_MAX} amount of time but can also transition sooner. In the synchronized implementation, presented in Figures \ref{fig:implementation_synchronised} and \ref{fig:implementation_synchronised_barrier}, all robots are forced to move at the same time by the synchronization mechanism.
 
+
+
+\subsection{Verification of asynchronous implementation}
 % System specification
 \begin{figure}[H]
 \caption{System specification for asynchronous implementation}
@@ -21,15 +23,15 @@ T_MAX = 1;  // Time threshold
 \caption{Successfully verified properties for synchronous implementation}
 \label{fig:implementation_asynchronous_properties}
 \begin{lstlisting}[style=code]
-1. A[] forall(i : int[0, N-1]) x[i] != G or y[i] != G
-2. A[] forall(i : int[0, N-1]) abs(x[i]) <= G && abs(y[i]) <= G
-3. E<> C > 0 && P0.turn_random
-4. E<> C > 0 && P0.turn_180
-5. A[] P0.forward imply P0.t <= T_MAX
-6. E<> P0.turn_180 && abs(x[0]) != G && abs(y[0]) != G 
-7. E<> P0.turn_180 && (abs(x[0]) == G || abs(y[0]) == G)
-8. E<> P0.forward && k[0] <= last_k[0]
-9. A[] P0.t != 0 imply P0.forward
+1.  A[] forall(i : int[0, N-1]) x[i] != G or y[i] != G
+2.  A[] forall(i : int[0, N-1]) abs(x[i]) <= G && abs(y[i]) <= G
+3.  E<> C > 0 && P0.turn_random
+4.  E<> C > 0 && P0.turn_180
+5.  A[] P0.forward imply P0.t <= T_MAX
+6.  E<> P0.turn_180 && not gridBoundary(0)
+7.  E<> P0.turn_180 && gridBoundary(0)
+8.  E<> P0.forward && not turnRandom(0) && not turn180(0)
+9.  A[] P0.t != 0 imply P0.forward
 10. A[] (P0.turn_random or P0.turn_180 or P0.grid or P0.grid or P0.if or P0.else_if) imply P0.t == 0
 11. A[] forall(i : int[0, N-1]) shared_neighbours[i][0] == 0 and shared_neighbours[i][1] == 0
 12. A[] forall(i : int[0, N-1]) C < 0 imply k[i] == N-1
@@ -38,25 +40,103 @@ T_MAX = 1;  // Time threshold
 \end{lstlisting}    
 \end{figure}
 
+% Explanation of properties
 \noindent
 Explanation of properties from Figure \ref{fig:implementation_asynchronous_properties}:\\
 1. For all the paths through the system, no robot can have their x and y coordinate equal to the grid boundary at the same time. No robot will ever reach the corner of the grid.\\
-2. For all the paths through the system, all robots will stay within grid boundaries.\\
+2. For all the paths through the system, all robots will stay within the grid boundaries.\\
 3. There exists a path through the system, for a robot to reach location \texttt{turn\_random} after initialization. This means that following locations are reachable: \texttt{forward}, \texttt{grid}, \texttt{if}, \texttt{else\_if}. It also means that following transitions are reachable: \texttt{turn\_random} $\rightarrow$ \texttt{forward}, \texttt{forward}n $\rightarrow$ \texttt{grid}, \texttt{grid} $\rightarrow$ \texttt{if}, \texttt{if} $\rightarrow$ \texttt{else\_if}, \texttt{else\_if} $\rightarrow$ \texttt{turn\_random}.\\ 
 4. There exists a path through the system, for a robot to reach location \texttt{turn\_180} after initialization.\\
 5. For all the paths through the system, a robot will obey the invariant on location \texttt{forward}.\\
 6. There exist a path through the system, for a robot to reach location \texttt{turn\_180} without reaching the boundary of the grid. This means that transition from \texttt{if} to \texttt{turn\_180} is reachable.\\
 7. There exist a path through the system, for a robot to reach location \texttt{turn\_180} as a result of reaching the boundary of the grid. This means that transition from \texttt{grid} to \texttt{turn\_180} is reachable.\\
-8. THIS PROPERTY MIGHT NOT BE STRONG ENOUGH.\\
+8. There exists a path through the system, for a robot to reach location \texttt{forward} without changing its direction. \\
 9. For all the paths through the system, robot's clock value different than zero implies it being in the \texttt{forward} location. This means that time perceived by the robot is only allowed to pass in the \texttt{forward} location.\\
 10. For all the paths through the system, a robot presence in the listed location imply that its clock value is equal to zero. For the robot, time will not pass in any other location than forward.\\
-11. For all the paths thorugh the system, two robots will not share a neighbor. This is a consequence of a fact that in the system consisting of two robots, they cannot have a neighbor in common.\\
+11. For all the paths through the system, two robots will not share a neighbor. This is a consequence of a fact that in the system consisting of two robots, they cannot have a neighbor in common.\\
 12. For all paths through the system, all robots are fully connected as part of system initialization.\\
 13. For all paths through the system, all robots have their directions set after system initialization.\\
-14. There is no path through the system, which will results in deadlock.\\
+14. There is no path through the system, which will result in deadlock.\\
 
 
 
+\subsection{Verification of synchronized implementation}
+% System specification
+\begin{figure}[H]
+\caption{System specification for synchronized implementation}
+\label{fig:implementation_synchronised_system}
+\begin{lstlisting}[style=code]
+N = 2;      // Number of robots
+R = 2;      // Signal radius
+STEP = 1;   // Step size
+BETA = 1;   // Beta parameter
+G = 3;      // Grid boundary
+\end{lstlisting}
+\end{figure}
+
+% Properties
+\begin{figure}[H]
+\caption{Successfully verified properties for synchronized implementation}
+\label{fig:implementation_synchronised_properties}
+\begin{lstlisting}[style=code]
+1.  A[] forall(i : int[0, N-1]) x[i] != G or y[i] != G
+2.  A[] forall(i : int[0, N-1]) abs(x[i]) <= G && abs(y[i]) <= G
+3.  E<> (x[0] != 0 or y[0] != 0) and P0.turn_random
+4.  A[] (P0.forward and P1.forward) imply C0.n == 0
+5.  A[] C0.n == N imply not (P0.forward or P1.forward)
+6.  E<> P0.turn_180 && not gridBoundary(0)
+7.  E<> P0.turn_180 && gridBoundary(0)
+8.  E<> P0.forward && not turnRandom(0) && not turn180(0)
+9.  A[] P0.turn_180 imply (P1.forward or P1.grid)
+10. A[] forall(i : int[0, N-1]) shared_neighbours[i][0] == 0 and shared_neighbours[i][1] == 0
+11. A[] forall(i : int[0, N-1]) (x_dir[i] == 0 and y_dir[i] == 0) imply k[i] == N-1
+12. A[] not deadlock
+\end{lstlisting}    
+\end{figure}
+
+% Explanataion of properties
+\noindent
+Explanation of properties from Figure \ref{fig:implementation_synchronised_properties}:\\
+1. For all the paths through the system, no robot can have their x and y coordinate equal to the grid boundary at the same time. No robot will ever reach the corner of the grid.\\
+2. For all the paths through the system, all robots will stay within the grid boundaries.\\
+3. There exists a path through the system, for a robot to reach location \texttt{turn\_random} not only as a result of initialization. This means that following locations are reachable: \texttt{forward}, \texttt{grid}, \texttt{if}, \texttt{else\_if}. It also means that following transitions are reachable: \texttt{turn\_random} $\rightarrow$ \texttt{forward}, \texttt{forward} $\rightarrow$ \texttt{grid}, \texttt{grid} $\rightarrow$ \texttt{if}, \texttt{if} $\rightarrow$ \texttt{else\_if}, \texttt{else\_if} $\rightarrow$ \texttt{turn\_random}. This property is false for a system with signal radius equal to 1.\\ 
+4. For all the paths through the system, if both robots are in the \texttt{forward} location, then the value of the synchronization mechanism must be equal to 0.
+5. For all the paths through the system, if value of synchronization mechanism is equal to the number of robots in the system, none of the robots can be in the \texttt{forward} location.
+6. There exist a path through the system, for a robot to reach location \texttt{turn\_180} without reaching the boundary of the grid. This means that transition from \texttt{if} to \texttt{turn\_180} is reachable.\\
+7. There exist a path through the system, for a robot to reach location \texttt{turn\_180} as a result of reaching the boundary of the grid. This means 
+8. There exists a path through the system, for a robot to reach location \texttt{forward} without changing its direction.\\
+9. For all the paths through the system, if the first robot is in the \texttt{turn\_180} location, the other has to be in either \texttt{forward} or \texttt{grid} location. More generally, only one robot can be changing its direction at any given time.\\ 
+10. For all the paths through the system, two robots will not share a neighbor. This is a consequence of a fact that in the system consisting of two robots, they cannot have a neighbor in common.\\
+11. For all paths through the system, if none of the robots have their direction set they must be fully connected to other robots. This property aims to check the correctness of initialization. \\
+12. There is no path through the system, which will result in deadlock.\\
 
 
-\subsection{Verifying the algorithm}
+
+\subsection{Verification of Beta algorithm - asynchronous implementation}
+% System specification
+\begin{figure}[H]
+\caption{System specification for synchronized implementation}
+\label{fig:implementation_synchronised_system}
+\begin{lstlisting}[style=code]
+N = 3;      // Number of robots
+R = 1;      // Signal radius
+STEP = 1;   // Step size
+BETA = 2;   // Beta parameter
+G = 3;      // Grid boundary
+\end{lstlisting}
+\end{figure}
+
+% Properties
+\begin{figure}[H]
+\caption{Successfully verified properties for Beta algorithm}
+\label{fig:algorithm_asynchronous_properties}
+\begin{lstlisting}[style=code]
+1. E<> exists(i : int[0, N-1]) k[i] == 0 and last_k[i] == 0
+2. E<> forall(i : int[0, N-1]) k[i] == 0 and last_k[i] == 0
+3. E<> forall(i : int[0, N-1]) C < T_MAX and k[i] == 0 and last_k[i] == 0 
+\end{lstlisting}    
+\end{figure}
+
+
+
+\subsection{Verification of Beta algorithm - synchronized implementation}

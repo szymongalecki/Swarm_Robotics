@@ -2,10 +2,10 @@
 <!DOCTYPE nta PUBLIC '-//Uppaal Team//DTD Flat System 1.6//EN' 'http://www.it.uu.se/research/group/darts/uppaal/flat-1_6.dtd'>
 <nta>
 	<declaration>// System specification
-const int N = 3;        // Number of robots
+const int N = 2;        // Number of robots
 const int R = 2;        // Signal radius
 const int STEP = 1;     // Step size
-const int BETA = 2;     // Beta parameter
+const int BETA = 1;     // Beta parameter
 const int G = 3;        // Grid boundary =&gt; Grid : 2G x 2G
 broadcast chan step;    // Clock tells robots to transition from forward state
 chan done;              // Robots tell clock that it reached forward state
@@ -15,17 +15,17 @@ int x[N];                    // List of x-axis coordinates for each robot
 int y[N];                    // List of y-axis coordinates for each robot
 int x_dir[N];                // List of x-axis directions for each robot
 int y_dir[N];                // List of y-axis directions for each robot        
-// int neighbours[N][N] = {{0, 1}, {1, 0}}; // List of neighbours for each robot
-int neighbours[N][N] = {{0, 1, 1}, {1, 0, 1}, {1, 1, 0}}; // List of neighbours for each robot
+int neighbours[N][N] = {{0, 1}, {1, 0}}; // List of neighbours for each robot
+// int neighbours[N][N] = {{0, 1, 1}, {1, 0, 1}, {1, 1, 0}}; // List of neighbours for each robot
 // int neighbours[N][N] = { {0, 1, 1, 1}, {1, 0, 1, 1}, {1, 1, 0, 1}, {1, 1, 1, 0}}; // List of neighbours for each robot
 int last_neighbours[N][N];   // List of previous neighbours for each robot 
 int lost_neighbours[N][N];   // List of lost neighbours : last_neighbours - neighbours
 int shared_neighbours[N][N]; // List of shared neighbours with the lost neighbours
 int shared[N];               // Count of shared neighbours with the lost neighbours
 int distances[N][N];         // Integer part of mutual distances between robots (not used for connections)
+int k[N] = {N-1, N-1};       // Number of connections for each robot
+// int k[N] = {N-1, N-1, N-1};        // Number of connections for each 
 // int k[N] = {N-1, N-1, N-1, N-1};   // Number of connections for each robot
-int k[N] = {N-1, N-1, N-1};
-//int k[N] = {N-1, N-1};   // Number of connections for each robot
 int last_k[N];               // Number of last connections for each robot
 
 // Maps one of four directions into x-axis and y-axis directions
@@ -315,111 +315,96 @@ void update(int id){
 	<system>// Place template instantiations here.
 P0 = Robot(0);
 P1 = Robot(1);
-P2 = Robot(2);
+// P2 = Robot(2);
 // P3 = Robot(3);
 C0 = Clock();
 
 
 // List one or more processes to be composed into a system.
-system P0, P1, P2, C0;
-// P3,</system>
+system P0, P1, C0;</system>
 	<queries>
 		<option key="--diagnostic" value="0"/>
 		<query>
 			<formula>A[] forall(i : int[0, N-1]) x[i] != G or y[i] != G</formula>
 			<comment>For all the paths, all robots will never have their x coordinate and y coordinate equal to grid boundary at the same time.</comment>
-			<result outcome="success" type="quality" timestamp="2024-11-12 12:10:20 +0100">
+			<result outcome="success" type="quality" timestamp="2024-11-18 12:26:13 +0100">
 				<option key="--diagnostic" value="0"/>
 			</result>
 		</query>
 		<query>
 			<formula>A[] forall(i : int[0, N-1]) abs(x[i]) &lt;= G &amp;&amp; abs(y[i]) &lt;= G</formula>
 			<comment>For all the paths, all robots stay within grid boundaries.</comment>
-			<result outcome="success" type="quality" timestamp="2024-11-12 12:10:20 +0100">
+			<result outcome="success" type="quality" timestamp="2024-11-18 12:26:14 +0100">
 				<option key="--diagnostic" value="0"/>
 			</result>
 		</query>
 		<query>
 			<formula>E&lt;&gt; (x[0] != 0 or y[0] != 0) and P0.turn_random</formula>
 			<comment>There exists a path for robot P0 to reach location turn_random after robot starts moving.</comment>
-			<result outcome="success" type="quality" timestamp="2024-11-12 12:10:22 +0100">
-				<option key="--diagnostic" value="0"/>
-			</result>
-		</query>
-		<query>
-			<formula>E&lt;&gt; (x[0] != 0 or y[0] != 0) &amp;&amp; P0.turn_180</formula>
-			<comment>There exists a path for robot P0 to reach location turn_180 after initialisation.</comment>
-			<result outcome="success" type="quality" timestamp="2024-11-12 12:10:23 +0100">
+			<result outcome="success" type="quality" timestamp="2024-11-18 12:47:54 +0100">
 				<option key="--diagnostic" value="0"/>
 			</result>
 		</query>
 		<query>
 			<formula>A[] (P0.forward and P1.forward) imply C0.n == 0</formula>
 			<comment>For all the paths, if robots P0 and P1 are in the forward locations, then the value of the synchronisation mechanism should be equal to 0.</comment>
-			<result outcome="success" type="quality" timestamp="2024-11-12 12:10:23 +0100">
-				<option key="--diagnostic" value="0"/>
-			</result>
-		</query>
-		<query>
-			<formula>A[] C0.n == 1 imply (P0.forward or P1.forward)</formula>
-			<comment>For all the paths, if value of synchronisation mechanism is equal to 1, then one of the robots must be in the forward location.</comment>
-			<result outcome="success" type="quality" timestamp="2024-11-12 12:10:23 +0100">
+			<result outcome="success" type="quality" timestamp="2024-11-18 12:26:16 +0100">
 				<option key="--diagnostic" value="0"/>
 			</result>
 		</query>
 		<query>
 			<formula>A[] C0.n == N imply not (P0.forward or P1.forward)</formula>
 			<comment>For all the paths, if value of synchronisation mechanism is equal to the number of robots, there can't be any robot in the forward location.</comment>
-			<result outcome="success" type="quality" timestamp="2024-11-12 12:10:24 +0100">
+			<result outcome="success" type="quality" timestamp="2024-11-18 12:26:17 +0100">
 				<option key="--diagnostic" value="0"/>
 			</result>
 		</query>
 		<query>
-			<formula>E&lt;&gt; P0.turn_180 &amp;&amp; abs(x[0]) != G &amp;&amp; abs(y[0]) != G</formula>
+			<formula>E&lt;&gt; P0.turn_180 &amp;&amp; not gridBoundary(0)</formula>
 			<comment>There exist a path for robot P0 to reach location turn_180 without reaching the boundary of the grid.</comment>
-			<result outcome="success" type="quality" timestamp="2024-11-12 12:10:24 +0100">
+			<result outcome="success" type="quality" timestamp="2024-11-18 12:26:17 +0100">
 				<option key="--diagnostic" value="0"/>
 			</result>
 		</query>
 		<query>
-			<formula>E&lt;&gt; P0.turn_180 &amp;&amp; (abs(x[0]) == G || abs(y[0]) == G)</formula>
+			<formula>E&lt;&gt; P0.turn_180 &amp;&amp; gridBoundary(0)</formula>
 			<comment>There exists a path for robot P0 to reach location turn_180 as a result of reaching the boundary of the grid.</comment>
-			<result outcome="success" type="quality" timestamp="2024-11-12 12:10:25 +0100">
+			<result outcome="success" type="quality" timestamp="2024-11-18 12:26:17 +0100">
 				<option key="--diagnostic" value="0"/>
 			</result>
 		</query>
 		<query>
-			<formula>E&lt;&gt; P0.forward &amp;&amp; k[0] &lt;= last_k[0]</formula>
+			<formula>E&lt;&gt; P0.forward &amp;&amp; not turnRandom(0) &amp;&amp; not turn180(0)</formula>
 			<comment>There exist a path for robot P0 where it moves forward without changing direction.</comment>
-			<result outcome="success" type="quality" timestamp="2024-11-12 12:10:26 +0100">
+			<result outcome="success" type="quality" timestamp="2024-11-18 12:26:18 +0100">
 				<option key="--diagnostic" value="0"/>
 			</result>
 		</query>
 		<query>
 			<formula>A[] P0.turn_180 imply (P1.forward or P1.grid)</formula>
 			<comment>For all the paths, if robot P0 is in the turn_180 location, then robot P1 must be in either forward or grid location.</comment>
-			<result outcome="success" type="quality" timestamp="2024-11-12 12:10:26 +0100">
+			<result outcome="success" type="quality" timestamp="2024-11-18 12:26:18 +0100">
 				<option key="--diagnostic" value="0"/>
 			</result>
 		</query>
 		<query>
 			<formula>A[] forall(i : int[0, N-1]) shared_neighbours[i][0] == 0 and shared_neighbours[i][1] == 0</formula>
 			<comment>For all the paths, all robots have no shared neighbours.</comment>
-			<result outcome="success" type="quality" timestamp="2024-11-12 12:10:26 +0100">
+			<result outcome="success" type="quality" timestamp="2024-11-18 12:26:19 +0100">
 				<option key="--diagnostic" value="0"/>
 			</result>
 		</query>
 		<query>
 			<formula>A[] forall(i : int[0, N-1]) (x_dir[i] == 0 and y_dir[i] == 0) imply k[i] == N-1</formula>
 			<comment>For all paths, if all robots have no set direction, then they must be fully connected.</comment>
-			<result outcome="success" type="quality" timestamp="2024-11-12 12:10:27 +0100">
+			<result outcome="success" type="quality" timestamp="2024-11-18 12:26:19 +0100">
 				<option key="--diagnostic" value="0"/>
 			</result>
 		</query>
 		<query>
 			<formula>A[] not deadlock</formula>
 			<comment>There is no path which results in deadlock.</comment>
-			<result outcome="success" type="quality" timestamp="2024-11-12 12:10:27 +0100">
+			<result outcome="success" type="quality" timestamp="2024-11-18 12:26:20 +0100">
 				<option key="--diagnostic" value="0"/>
 			</result>
 		</query>
