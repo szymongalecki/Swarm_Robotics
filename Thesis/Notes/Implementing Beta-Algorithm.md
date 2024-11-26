@@ -446,3 +446,24 @@ chan done;              // Robots tell clock that it reached forward state
 2. `E<> forall(i : int[0, N-1]) k[i] == 0 and last_k[i] == 0` ❌
 	1. There exists a path where all robots of the system become disconnected for at least two steps.
 	2. Falsified by induction 
+
+
+**Asynchronous system**
+System specification:
+```
+const int N = 4;        // Number of robots
+const int R = 1;        // Signal radius
+const int STEP = 1;     // Step size
+const int BETA = 2;     // Beta parameter
+const int G = 3;        // Grid boundary => Grid : 2G x 2G
+```
+
+Property:
+```
+E<> forall(i : int[0, N-1]) k[i] == 0 and last_k[i] == 0
+```
+
+Error:
+```
+Cannot invoke "com.uppaal.engine.protocol.viewmodel.GenericResponse.getResponse()" because "res" is nul
+```

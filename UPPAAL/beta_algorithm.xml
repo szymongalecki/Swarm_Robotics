@@ -2,7 +2,7 @@
 <!DOCTYPE nta PUBLIC '-//Uppaal Team//DTD Flat System 1.6//EN' 'http://www.it.uu.se/research/group/darts/uppaal/flat-1_6.dtd'>
 <nta>
 	<declaration>// System specification
-const int N = 3;        // Number of robots
+const int N = 4;        // Number of robots
 const int R = 1;        // Signal radius
 const int STEP = 1;     // Step size
 const int BETA = 2;     // Beta parameter
@@ -16,14 +16,16 @@ int y[N];                    // List of y-axis coordinates for each robot
 int x_dir[N];                // List of x-axis directions for each robot
 int y_dir[N];                // List of y-axis directions for each robot
 // int neighbours[N][N] = {{0, 1}, {1, 0}}; // List of neighbours for each robot
-int neighbours[N][N] = {{0, 1, 1}, {1, 0, 1}, {1, 1, 0}}; // List of neighbours for each robot
+// int neighbours[N][N] = {{0, 1, 1}, {1, 0, 1}, {1, 1, 0}}; // List of neighbours for each robot
+int neighbours[N][N] = {{0, 1, 1, 1}, {1, 0, 1, 1}, {1, 1, 0, 1}, {1, 1, 1, 0}}; // List of neighbours for each robot
 int last_neighbours[N][N];   // List of previous neighbours for each robot 
 int lost_neighbours[N][N];   // List of lost neighbours : last_neighbours - neighbours
 int shared_neighbours[N][N]; // List of shared neighbours with the lost neighbours
 int shared[N];               // Count of shared neighbours with the lost neighbours
 int distances[N][N];         // Integer part of mutual distances between robots (not used for connections)
 // int k[N] = {N-1, N-1};   // Number of connections for each robot
-int k[N] = {N-1, N-1, N-1};   // Number of connections for each robot
+// int k[N] = {N-1, N-1, N-1};   // Number of connections for each robot
+int k[N] = {N-1, N-1, N-1, N-1};
 int last_k[N];               // Number of last connections for each robot
 
 // Function specifying the desired system state which can be used for verification
@@ -298,12 +300,12 @@ t = 0</label>
 P0 = Robot(0);
 P1 = Robot(1);
 P2 = Robot(2);
-//P3 = Robot(3);
+P3 = Robot(3);
 //P4 = Robot(4);
  
 
 // List one or more processes to be composed into a system.
-system P0, P1, P2;
+system P0, P1, P2, P3;
 </system>
 	<queries>
 		<option key="--diagnostic" value="1"/>
@@ -407,23 +409,21 @@ system P0, P1, P2;
 		<query>
 			<formula>E&lt;&gt; exists(i : int[0, N-1]) k[i] == 0 and last_k[i] == 0</formula>
 			<comment>There exists a path for robot P0 where it gets disconnected for at least two steps.</comment>
-			<result outcome="success" type="quality" timestamp="2024-11-18 15:32:52 +0100">
+			<result outcome="success" type="quality" timestamp="2024-11-26 20:02:55 +0100">
 				<option key="--diagnostic" value="1"/>
 			</result>
 		</query>
 		<query>
 			<formula>E&lt;&gt; forall(i : int[0, N-1]) k[i] == 0 and last_k[i] == 0</formula>
 			<comment>There exists a path where all robots in the system get dcisonnected for at least two steps.</comment>
-			<result outcome="success" type="quality" timestamp="2024-11-18 14:34:45 +0100">
-				<option key="--diagnostic" value="1"/>
-			</result>
 		</query>
 		<query>
 			<formula>E&lt;&gt; forall(i : int[0, N-1]) C &lt; T_MAX and k[i] == 0 and last_k[i] == 0 </formula>
 			<comment>There exists a path where all robots in the system get dcisonnected for at least two steps in the first T_MAX time interval.</comment>
-			<result outcome="success" type="quality" timestamp="2024-11-18 18:54:16 +0100">
-				<option key="--diagnostic" value="1"/>
-			</result>
+		</query>
+		<query>
+			<formula>A[] not (k == 0 and last_k == 0 and</formula>
+			<comment/>
 		</query>
 	</queries>
 </nta>

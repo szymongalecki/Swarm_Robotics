@@ -116,7 +116,7 @@ Explanation of properties from Figure \ref{fig:implementation_synchronised_prope
 % System specification
 \begin{figure}[H]
 \caption{System specification for synchronized implementation}
-\label{fig:implementation_synchronised_system}
+\label{fig:algorithm_asynchronous_system}
 \begin{lstlisting}[style=code]
 N = 3;      // Number of robots
 R = 1;      // Signal radius
@@ -128,7 +128,7 @@ G = 3;      // Grid boundary
 
 % Properties
 \begin{figure}[H]
-\caption{Successfully verified properties for Beta algorithm}
+\caption{Successfully verified properties for Beta algorithm, for system specification defined in Figure \ref{fig:algorithm_asynchronous_system}}
 \label{fig:algorithm_asynchronous_properties}
 \begin{lstlisting}[style=code]
 1. E<> exists(i : int[0, N-1]) k[i] == 0 and last_k[i] == 0
@@ -137,6 +137,76 @@ G = 3;      // Grid boundary
 \end{lstlisting}    
 \end{figure}
 
+% System specification
+\begin{figure}[H]
+\caption{System specification for synchronized implementation}
+\label{fig:algorithm_asynchronous_system_2}
+\begin{lstlisting}[style=code]
+N = 4;      // Number of robots
+R = 1;      // Signal radius
+STEP = 1;   // Step size
+BETA = 2;   // Beta parameter
+G = 3;      // Grid boundary
+\end{lstlisting}
+\end{figure}
+
+% Properties
+\begin{figure}[H]
+\caption{Successfully verified properties for Beta algorithm, for system specification defined in Figure \ref{fig:algorithm_asynchronous_system_2}}
+\label{fig:algorithm_asynchronous_properties_2}
+\begin{lstlisting}[style=code]
+1. E<> exists(i : int[0, N-1]) k[i] == 0 and last_k[i] == 0
+\end{lstlisting}    
+\end{figure}
+
+\noindent
+Explanation of properties for Figure \ref{fig:algorithm_asynchronous_properties} and Figure \ref{fig:algorithm_asynchronous_properties_2}:\\
+1. There exists a path through the system, for a robot to become disconnected for at least two steps.\\
+2. There exists a path through the system, where all robots become disconnected for at least two steps.\\
+3. There exists a path through the system, where all robots become disconnected for at least two steps with global time of the system not exceeding a time threshold used for invariants.\\
+
 
 
 \subsection{Verification of Beta algorithm - synchronized implementation}
+% System specification
+\begin{figure}[H]
+\caption{System specification for synchronized implementation (all combinations of N and R)}
+\label{fig:algorithm_synchronised_system}
+\begin{lstlisting}[style=code]
+N = 3, 4;   // Number of robots
+R = 1, 2;   // Signal radius
+STEP = 1;   // Step size
+BETA = 2;   // Beta parameter
+G = 3;      // Grid boundary
+\end{lstlisting}
+\end{figure}
+
+% Properties verified
+\begin{figure}[H]
+\caption{Successfully verified properties for Beta algorithm}
+\label{fig:algorithm_synchronised_properties_true}
+\begin{lstlisting}[style=code]
+1. E<> exists(i : int[0, N-1]) k[i] == 0
+2. E<> forall(i : int[0, N-1]) k[i] == 0
+\end{lstlisting}    
+\end{figure}
+
+\noindent
+Explanation of properties from Figure \ref{fig:algorithm_synchronised_properties_true}:\\
+1. There exists a path through the system, for a robot to become disconnected for a single step.\\
+2. There exists a path through the system, where all robots become disconnected for a single step.\\
+
+% Properties falsified
+\begin{figure}[H]
+\caption{Falsified properties for Beta algorithm}
+\label{fig:algorithm_synchronised_properties_false}
+\begin{lstlisting}[style=code]
+3. E<> exists(i : int[0, N-1]) k[i] == 0 and last_k[i] == 0
+4. E<> forall(i : int[0, N-1]) k[i] == 0 and last_k[i] == 0
+\end{lstlisting}    
+\end{figure}
+
+\noindent
+Explanation of falsified properties from Figure \ref{fig:algorithm_synchronised_properties_false}:\\
+3. There exists a path through the system, for a robot to become disconnected for at least two steps.\\
+4. There exists a path through the system, where all robots become disconnected for at least two steps.\\
