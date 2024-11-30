@@ -164,7 +164,22 @@ Explanation of properties for Figure \ref{fig:algorithm_asynchronous_properties}
 1. There exists a path through the system, for a robot to become disconnected for at least two steps.\\
 2. There exists a path through the system, where all robots become disconnected for at least two steps.\\
 3. There exists a path through the system, where all robots become disconnected for at least two steps with global time of the system not exceeding a time threshold used for invariants.\\
+\\
+Property defined in Figure \ref{fig:algorithm_asynchronous_properties_2} was successfully verified for the system consisting of four robots. UPPAAL generated a diagnostic trace that is a path through the system satisfying the property. It presents a scenario where a single robot gets disconnected for at least two steps. This trace will be used as a starting point to show possible scenarios. In the positive scenario, presented in Figure \ref{fig:reconnection}, a disconnected robot is reconnected with the swarm. In the negative scenario, presented in Figure \ref{fig:lost_connection}, a disconnected robot fails to reconnect with swarm and may reconnect in future only due to limited grid area. All the presented scenarios exceeding the trace where obtained using UPPAAL's symbolic simulator, therefore presented states of the system are reachable.\\
+\\
+Diagrams present robot swarm system states. State of the system is represented by robots placed on the two dimensional grid. Grid is a square with side of length equal to six. The grid center serves as the origin of the coordinate system. Robot is represented by its position on the grid marked with a dot, direction indicated by an arrow, signal radius visualized by circle. Numbers inside of the circle indicate number of robots in given location. There might be multiple system states in between those presented in the diagram, however they are not crucial. States marked with the letter T are part of the trace generated while verifying property from Figure \ref{fig:algorithm_asynchronous_properties_2}.
 
+\begin{figure}[H]
+\caption{Trace and reconnection}
+\includegraphics[width=\textwidth]{images/reconnection.png}
+\label{fig:reconnection}
+\end{figure}
+
+\begin{figure}[H]
+\caption{Trace and lost connection}
+\includegraphics[width=\textwidth]{images/lost_connection.png}
+\label{fig:lost_connection}
+\end{figure}
 
 
 \subsection{Verification of Beta algorithm - synchronized implementation}
@@ -210,3 +225,4 @@ Explanation of properties from Figure \ref{fig:algorithm_synchronised_properties
 Explanation of falsified properties from Figure \ref{fig:algorithm_synchronised_properties_false}:\\
 3. There exists a path through the system, for a robot to become disconnected for at least two steps.\\
 4. There exists a path through the system, where all robots become disconnected for at least two steps.\\
+
