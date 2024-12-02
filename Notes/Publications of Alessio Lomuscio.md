@@ -49,3 +49,12 @@
 [Verifying Emergence of Bounded Time Properties in Probabilistic Swarm Systems](../Alessio%20Lomuscio%20Papers/Verifying%20Emergence%20of%20Bounded%20Time%20Properties%20in%20Probabilistic%20Swarm%20Systems.pdf)
 - Year: 2018
 
+
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [["$", "$"], ["\\(", "\\)"]]
+  }
+};
+</script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>

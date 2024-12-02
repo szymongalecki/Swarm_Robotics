@@ -1,5 +1,5 @@
 ## Literature review
-[Problem statement for research project - corrected](../Formal/Problem%20statement%20for%20research%20project%20-%20corrected.md)
+[Problem statement for research project - corrected](../Formal/Problem%20statement%20for%20research%20project%20-%20corrected.html)
 I can start writing about the research part: 
 - How did I find the articles?
 - What exactly did I find out?
@@ -8,7 +8,7 @@ I can start writing about the research part:
 - What experiments were conducted?"
 
 ### How did I find the articles?
-[Papers - overview, w6](Papers%20-%20overview,%20w6.md)
+[Papers - overview, w6](Papers%20-%20overview,%20w6.html)
 I initially used the search term "testing swarm robotics" to find relevant articles in Google Scholar. While I managed to find multiple articles, they were not relevant to my research topic.
 
 Word "testing" in the search term resulted in many papers which indicated that testing was performed but through the use of virtual simulators or hardware. Testing in the context of those papers most of the time meant: observation of the behaviour emerging from defined algorithms. Consequently, the effect of testing was modification of the algorithm and further observation. I wanted to find papers with more rigorous definition of what exactly is being tested that is why I changed the "testing" part of the search term to "verification".
@@ -28,3 +28,12 @@ In the taxonomy of swarm behaviors depicted in [Swarm Robotic Behaviors and Curr
 
 ### What experiments were conducted?
 
+
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [["$", "$"], ["\\(", "\\)"]]
+  }
+};
+</script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>

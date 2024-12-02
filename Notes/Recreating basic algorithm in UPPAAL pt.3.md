@@ -46,3 +46,12 @@ A[] C.loop_counter > 7 imply
 
 Robots take decisions simultaneously as they are triggered by the same clock which broadcasts channel triggers. This doesn't go along with the assumption by Nembrini but I didn't think of any other mechanism that would satisfy asynchronous behaviour. "As no global time is implemented the robots should react asynchronously. However each robot has the same range of communication so both reactions should occur within a short time, depending on the periodicity of the calling messages."
 
+
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [["$", "$"], ["\\(", "\\)"]]
+  }
+};
+</script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>

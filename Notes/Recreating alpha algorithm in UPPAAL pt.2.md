@@ -45,3 +45,11 @@ Remove the array altogether to exclude an off by one error:
 - After leaving those states, the local clock gets reset `c = 0`
 - Still, out of `n` declared robots only first `n-1` clocks get updated
 - Clock `n` is empty - `{}`
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [["$", "$"], ["\\(", "\\)"]]
+  }
+};
+</script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>

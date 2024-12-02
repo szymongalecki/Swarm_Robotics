@@ -4,3 +4,11 @@ Swarm robotics is a field in robotics in which a large number of simple robots f
 Estimating all the possible desired and undesired behaviors of the swarm as a system, based solely on the behavior defined for a single robot, is challenging. Consequently, analysing the correctness and safety of the system becomes even more difficult.
 
 I propose conducting a review of recent research on application of testing techniques for swarm robotic systems. Additionally, investigate modelling and testing properties of described swarm behaviours in an integrated environment for modelling such as $\bigcup_{PPAAL}$, to understand the implications of mutual interactions of unit robots on the behaviour of the whole system. Finally, designing experiments and evaluations for a set of case studies.
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [["$", "$"], ["\\(", "\\)"]]
+  }
+};
+</script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>

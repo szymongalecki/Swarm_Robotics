@@ -93,3 +93,11 @@ P1  --  --  --  3,0
 ```
 
 `P1` will continue with downward movement and `P2` will move left indefinitely. This is due to storing the state of the connection for each of the automatons instead of using a global function to determine the connectivity.
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [["$", "$"], ["\\(", "\\)"]]
+  }
+};
+</script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>

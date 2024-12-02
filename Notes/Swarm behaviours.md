@@ -51,4 +51,13 @@ allows a swarm of robots either to create new robots or replicate the pattern cr
 ##### Human-swarm interaction
 allows humans to control the robots in the swarm or receive information from them. The interaction can happen remotely, e.g., through a computer terminal or proximal in a shared environment, e.g., through visual or acoustic clues.
 
-From [Paper - Swarm Robotic Behaviors and Current Applications](Paper%20-%20Swarm%20Robotic%20Behaviors%20and%20Current%20Applications.md)
+From [Paper - Swarm Robotic Behaviors and Current Applications](Paper%20-%20Swarm%20Robotic%20Behaviors%20and%20Current%20Applications.html)
+
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [["$", "$"], ["\\(", "\\)"]]
+  }
+};
+</script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
